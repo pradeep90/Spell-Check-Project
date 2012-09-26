@@ -26,6 +26,8 @@ class SpellChecker(object):
                       0.38, 0.48, 0.62, 0.11, 0.22, 0.44, 0.30, 0.82]
         return (suggestions, posteriors)
 
+    # def evaluate_suggestions(query, suggestions, posteriors, human_suggestions)
+
 if __name__ == '__main__':
     spell_checker = SpellChecker()
     print spell_checker.generate_suggestions('yo')
