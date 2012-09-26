@@ -1,5 +1,7 @@
 *.py[co]
 
+SpellCheck_Mod.pdf
+
 # Packages
 *.egg
 *.egg-info

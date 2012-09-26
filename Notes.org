@@ -1,0 +1,33 @@
+				Notes
+
+* [2012-09-19 Wed] Performance
+  CLOCK: [2012-09-19 Wed 21:29]--[2012-09-19 Wed 21:45] =>  0:16
+* Problem Statement
+** Word spell check - standalone words are given and you are supposed to suggest corrections.
+** Phrase spell check - words present in a phrases need to be checked for spelling
+** Sentence spell check - an entire sentence needs to be checked for spelling
+* Input
+** query1
+** query2
+** ...
+* Output
+** query{i} suggestion1 prob1 suggestion2 prob2 ...
+** prob1 = P (suggestion1 | query{i})
+* Metrics
+** EP, ER, EF1
+* Word spell-check
+** Edit distance will suffice
+** But to which distance will we consider alternative words?
+* Phrase and sentence spell-check
+** Context-sensitive spell-checking
+* Evaluation
+** We need C (q), the set of all suggestions we produced for q, and the corresponding posterior probabilities P (c | q)
+** TODO S (q) - set of human-annotated plausible spelling variations for q
+* Code - SpellChecker
+** Training
+*** Take in S (q) (?) or some training data
+** generate_suggestions (q) -> [(suggestion, posterior), ...]
+*** or C (q) and P (c | q)
+** evaluate_suggestions (q, C (q), P (c | q), S (q)) -> [EP, ER]
+** EF1 = HM (EP, ER)
+** record_performance (EF1, Q)
