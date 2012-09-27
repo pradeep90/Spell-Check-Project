@@ -23,7 +23,7 @@
 * Phrase and sentence spell-check
 ** Context-sensitive spell-checking
 * Paper 1 - A Data-driven approach for correcting search queries
-  CLOCK: [2012-09-26 Wed 16:40]
+  CLOCK: [2012-09-26 Wed 16:40]--[2012-09-26 Wed 18:00] =>  1:20
 ** Why purely data-driven?
 *** Cos large datasets available
 ** Algo
@@ -62,8 +62,13 @@
 ** SUJEET len (q)
 ** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
 ** PRADEEP generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
 *** or C (q) and P (c | q)
-** PRADEEP evaluate_suggestions (q, C (q), P (c | q), S (q)) -> [EP, ER]
-** PRADEEP EF1 = HM (EP, ER)
+** DONE evaluate_suggestions (q, C (q), P (c | q), S (q)) -> [EP, ER]
+*** DONE get_EP
+    CLOCK: [2012-09-27 Thu 12:17]--[2012-09-27 Thu 13:42] =>  1:25
+*** DONE get_ER
+    CLOCK: [2012-09-27 Thu 13:42]--[2012-09-27 Thu 13:46] =>  0:04
+** DONE EF1 = HM (EP, ER)
 ** PRADEEP record_performance (EF1, Q)
 ** PRADEEP Script to test performance on different queries
