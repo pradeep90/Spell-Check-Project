@@ -130,6 +130,29 @@ class SpellCheckerTest(unittest.TestCase):
         # self.assertEqual(spell_checker.get_corrected_run_on_queries(query_3_words),
         #                  ans_3_words)
 
+    def test_get_corrected_split_queries(self):
+        # No splits
+        query_1_word = ['fast']
+        ans_1_word = []
+        # one split, total two words
+        query_2_word = ['forw', 'ard']
+        ans_2_word = [['forward']]
+        # one split, total three words
+        query_3_word = ['forw', 'ard', 'march']
+        ans_3_word = [['forward', 'march'], ['forw', 'ardmarch']]
+        # one split, total four words
+        query_4_word = ['fast', 'forw', 'ard', 'march']
+        ans_4_word = [['fastforw', 'ard', 'march'],
+                      ['fast', 'forward', 'march'],
+                      ['fast', 'forw', 'ardmarch']]
+
+        queries = [query_1_word, query_2_word, query_3_word, query_4_word]
+        answers = [ans_1_word, ans_2_word, ans_3_word, ans_4_word]
+
+        for i in xrange(4):
+            self.assertEqual(spell_checker.get_corrected_split_queries(queries[i]),
+                             answers[i])
+
     # def test_generate_suggestions_and_posteriors(self):
     #     query = 'foo'
     #     suggestions = self.spell_checker.generate_suggestions_and_posteriors(query)

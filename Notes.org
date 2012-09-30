@@ -54,6 +54,7 @@
 ** SUJEET generate_candidate_suggestions (list of list of candidates for each term) -> list of candidate suggestions (phrases)
 *** cross-product of the lists
 ** PRADEEP get_corrected_split_phrases (query) -> list of phrases consisting of split words joined together if it results in valid terms
+   CLOCK: [2012-09-30 Sun 18:35]
 *** Assumption: max two words will be joined.
 ** DONE get_corrected_run_on_phrases (query) -> list of phrases consisting of run-on words split if it results in valid terms
    CLOCK: [2012-09-30 Sun 17:12]--[2012-09-30 Sun 18:32] =>  1:20

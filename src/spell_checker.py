@@ -65,10 +65,13 @@ def get_splits(run_on_word, num_splits):
             for index_list in valid_split_indices]
 
 def get_corrected_run_on_queries(query):
-    """Return list of phrases/sentences queries with any run-on word split.
+    """Correct run-on query by splitting run-on words.
+
+    Return list of phrase/sentence queries with any run-on word split.
 
     Assumption: max two words have been joined together.
-
+    TODO: Remove the original query from the final list. It will be
+    present cos of the cross-product.
     TODO: Not checking for valid words now.
 
     Arguments:
@@ -84,6 +87,22 @@ def get_corrected_run_on_queries(query):
                               for incomplete_suggestion in crude_suggestions_list]
     return split_suggestions_list
 
+def get_corrected_split_queries(query):
+    """Correct split query by joining words.
+
+    Return list of word/phrase/sentence queries with the split words joined.
+
+    Assumption: a word has been split only once.
+    Note: The original query is NOT part of the returned list.
+    TODO: Not filtering using valid words now.
+
+    Arguments:
+    - `query`: list of word(s)
+    """
+    joined_up_suggestion_list = [query[:i] + [query[i] + query[i + 1]] + query[i+2:]
+                                 for i in range(len(query) - 1)]
+    return joined_up_suggestion_list
+    
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
     """
