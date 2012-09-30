@@ -71,7 +71,8 @@
 ** SUJEET lev (c, q) -> edit distance with different costs for each operation
 ** SUJEET len (q)
 ** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
-** DONE generate_suggestions (q) -> [(suggestion, posterior), ...]
+** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-09-30 Sun 19:00]
    CLOCK: [2012-09-30 Sun 16:15]--[2012-09-30 Sun 16:30] =>  0:15
    CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
 *** or C (q) and P (c | q)

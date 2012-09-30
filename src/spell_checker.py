@@ -2,6 +2,7 @@
 
 import itertools
 import utils
+import word
 
 # Program to correct spelling errors.
     
@@ -14,17 +15,33 @@ class SpellChecker(object):
         """
         self.suggestion_dict = {}
 
-    def run_spell_check(self, query_list):
-        """Run spell check on queries in query_list and store the suggestions.
+    def generate_candidate_terms(self, term):
+        """Return list of candidate terms for term.
         
         Arguments:
-        - `query_list`:
+        - `term`:
         """
-        self.query_list = query_list
-        for query in self.query_list:
-            self.suggestion_dict[query] = self.generate_suggestions_and_posteriors(
-                query)
-    
+        return word.get_word_suggestions(term)
+
+    def get_word_suggestions (word):
+        """Returns :
+        - word itself if it is valid
+        - max_num_word_suggestions number of most frequent words out of
+          the valid words within an edit distance of 1.
+        - if no words within edit distance of 1, then go for 2 edit dist.
+        - word itsef if both of the above fail."""
+        return (known_words (set([word]), lexicon)
+                or
+                get_most_frequent_n_words (known_words_one_edit_away (word),
+                                           lexicon,
+                                           max_num_word_suggestions)
+                or
+                get_most_frequent_n_words (known_words_two_edits_away (word),
+                                           lexicon,
+                                           max_num_word_suggestions)
+                or
+                set([word]))
+
     # To be tested once the rest is done 
     def generate_suggestions_and_posteriors(self, query):
         """Return (suggestion, posterior) pairs for query.
@@ -57,6 +74,17 @@ class SpellChecker(object):
         # posteriors = [0.11, 0.02, 0.15, 0.04, 0.04, 0.05, 0.02, 0.06, 0.07, 
         #               0.1, 0.01, 0.03, 0.07, 0.04, 0.19]
         # return zip(suggestions, posteriors)
+
+    def run_spell_check(self, query_list):
+        """Run spell check on queries in query_list and store the suggestions.
+        
+        Arguments:
+        - `query_list`:
+        """
+        self.query_list = query_list
+        for query in self.query_list:
+            self.suggestion_dict[query] = self.generate_suggestions_and_posteriors(
+                query)
 
     def get_EF1_measure(self, human_suggestion_dict):
         """Return EF1 value for the performance as judged by human_suggestion_dict.

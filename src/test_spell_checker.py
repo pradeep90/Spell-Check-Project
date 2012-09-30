@@ -3,6 +3,10 @@
 import spell_checker
 import utils
 import test_utils
+import lexicon
+import test_lexicon
+import edit_distance_calculator
+import test_edit_distance_calculator
 import unittest
 
 class SpellCheckerTest(unittest.TestCase):
@@ -11,11 +15,18 @@ class SpellCheckerTest(unittest.TestCase):
 
     def tearDown(self):
         pass
+    
+    # def test_generate_candidate_terms(self):
+    #     word1 = 'greatz'
+    #     word2 = 'frast'
 
-    def test_foo(self):
-        self.assertEqual(3 + 4,
-                         7)
-
+    #     ans1 = ['great']
+    #     ans2 = ['yo']
+    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word1),
+    #                      ans1)
+    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word3),
+    #                      ans2)
+        
     # def test_generate_suggestions_and_posteriors(self):
     #     query = 'foo'
     #     suggestions = self.spell_checker.generate_suggestions_and_posteriors(query)
@@ -52,7 +63,10 @@ def get_suite():
 if __name__ == '__main__':
     spell_checker_suite = get_suite()
     utils_suite = test_utils.get_suite()
-    test_suites = [spell_checker_suite, utils_suite]
+    lexicon_suite = test_lexicon.get_suite()
+    edit_distance_calculator_suite = test_edit_distance_calculator.get_suite()
+    test_suites = [spell_checker_suite, utils_suite, lexicon_suite, 
+                   edit_distance_calculator_suite]
 
     all_tests = unittest.TestSuite(test_suites)
     unittest.TextTestRunner(verbosity=2).run(all_tests)
