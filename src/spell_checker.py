@@ -67,11 +67,22 @@ def get_splits(run_on_word, num_splits):
 def get_corrected_run_on_queries(query):
     """Return list of phrases/sentences queries with any run-on word split.
 
-    Assumption: max three words have been joined together.
+    Assumption: max two words have been joined together.
+
+    TODO: Not checking for valid words now.
+
     Arguments:
     - `query`: list of word(s)
     """
-    pass
+    term_suggestions_list = [get_splits(word, 1) + [[word]] for word in query]
+    crude_suggestions_list = itertools.product(*term_suggestions_list)
+    # Note: crude_suggestions_list for [foobar, yoboyz] will contain 
+    # ([foo bar], [yo boyz],)
+    # whereas we want 
+    # [foo bar yo boyz]
+    split_suggestions_list = [list(itertools.chain(*incomplete_suggestion)) 
+                              for incomplete_suggestion in crude_suggestions_list]
+    return split_suggestions_list
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.

@@ -66,47 +66,69 @@ class SpellCheckerTest(unittest.TestCase):
         
     def test_get_splits(self):
         run_on_word = 'giantkick'
-        ans = ['giant', 'kick']
-        ans = [['g', 'i', 'antkick'],
-               ['g', 'ia', 'ntkick'],
-               ['g', 'ian', 'tkick'],
-               ['g', 'iant', 'kick'],
-               ['g', 'iantk', 'ick'],
-               ['g', 'iantki', 'ck'],
-               ['g', 'iantkic', 'k'],
-               ['gi', 'a', 'ntkick'],
-               ['gi', 'an', 'tkick'],
-               ['gi', 'ant', 'kick'],
-               ['gi', 'antk', 'ick'],
-               ['gi', 'antki', 'ck'],
-               ['gi', 'antkic', 'k'],
-               ['gia', 'n', 'tkick'],
-               ['gia', 'nt', 'kick'],
-               ['gia', 'ntk', 'ick'],
-               ['gia', 'ntki', 'ck'],
-               ['gia', 'ntkic', 'k'],
-               ['gian', 't', 'kick'],
-               ['gian', 'tk', 'ick'],
-               ['gian', 'tki', 'ck'],
-               ['gian', 'tkic', 'k'],
-               ['giant', 'k', 'ick'],
-               ['giant', 'ki', 'ck'],
-               ['giant', 'kic', 'k'],
-               ['giantk', 'i', 'ck'],
-               ['giantk', 'ic', 'k'],
-               ['giantki', 'c', 'k']]
+        ans_1_splits = [['g', 'iantkick'],
+                        ['gi', 'antkick'],
+                        ['gia', 'ntkick'],
+                        ['gian', 'tkick'],
+                        ['giant', 'kick'],
+                        ['giantk', 'ick'],
+                        ['giantki', 'ck'],
+                        ['giantkic', 'k']]
+        ans_2_splits = [['g', 'i', 'antkick'],
+                        ['g', 'ia', 'ntkick'],
+                        ['g', 'ian', 'tkick'],
+                        ['g', 'iant', 'kick'],
+                        ['g', 'iantk', 'ick'],
+                        ['g', 'iantki', 'ck'],
+                        ['g', 'iantkic', 'k'],
+                        ['gi', 'a', 'ntkick'],
+                        ['gi', 'an', 'tkick'],
+                        ['gi', 'ant', 'kick'],
+                        ['gi', 'antk', 'ick'],
+                        ['gi', 'antki', 'ck'],
+                        ['gi', 'antkic', 'k'],
+                        ['gia', 'n', 'tkick'],
+                        ['gia', 'nt', 'kick'],
+                        ['gia', 'ntk', 'ick'],
+                        ['gia', 'ntki', 'ck'],
+                        ['gia', 'ntkic', 'k'],
+                        ['gian', 't', 'kick'],
+                        ['gian', 'tk', 'ick'],
+                        ['gian', 'tki', 'ck'],
+                        ['gian', 'tkic', 'k'],
+                        ['giant', 'k', 'ick'],
+                        ['giant', 'ki', 'ck'],
+                        ['giant', 'kic', 'k'],
+                        ['giantk', 'i', 'ck'],
+                        ['giantk', 'ic', 'k'],
+                        ['giantki', 'c', 'k']]
+        self.assertEqual(spell_checker.get_splits(run_on_word, 1),
+                         ans_1_splits)
         self.assertEqual(spell_checker.get_splits(run_on_word, 2),
-                         ans)
+                         ans_2_splits)
 
-    # def test_get_corrected_run_on_queries(self):
-    #     query_3_words = 'footballhalloffame'
-    #     ans_3_words = 'football hall of fame'
-    #     query_2_words = 'giantcell'
-    #     ans_2_words = 'giant cell'
-    #     self.assertEqual(spell_checker.get_corrected_run_on_queries(query_3_words),
-    #                      ans_3_words)
-    #     self.assertEqual(spell_checker.get_corrected_run_on_queries(query_2_words),
-    #                      ans_2_words)
+    def test_get_corrected_run_on_queries(self):
+        query_3_words = ['footballhalloffame']
+        ans_3_words = ['football', 'hall', 'of', 'fame']
+
+        query_2_words = ['giantcell', 'M']
+
+        ans_2_words = [['g', 'iantcell', 'M'],
+                       ['gi', 'antcell', 'M'],
+                       ['gia', 'ntcell', 'M'],
+                       ['gian', 'tcell', 'M'],
+                       ['giant', 'cell', 'M'],
+                       ['giantc', 'ell', 'M'],
+                       ['giantce', 'll', 'M'],
+                       ['giantcel', 'l', 'M'],
+                       ['giantcell', 'M']]
+        self.assertEqual(spell_checker.get_corrected_run_on_queries(query_2_words),
+                         ans_2_words)
+
+        # Skipping this for now, cos we aren't doing valid words
+        # check.
+        # self.assertEqual(spell_checker.get_corrected_run_on_queries(query_3_words),
+        #                  ans_3_words)
 
     # def test_generate_suggestions_and_posteriors(self):
     #     query = 'foo'
