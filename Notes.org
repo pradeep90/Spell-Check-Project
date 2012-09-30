@@ -46,9 +46,9 @@
   CLOCK: [2012-09-26 Wed 13:10]--[2012-09-26 Wed 13:51] =>  0:41
 ** Training
 *** Take in S (q) (?) or some training data
-** SUJEET filter_valid_words (list of words) -> list of valid words OR is_in_dict (term) -> true or false
+** DONE filter_valid_words (list of words) -> list of valid words OR is_in_dict (term) -> true or false
 *** Store a list of dictionary words.
-** SUJEET generate_candidate_terms (term) -> list of N_t candidate terms + the original term
+** DONE generate_candidate_terms (term) -> list of N_t candidate terms + the original term
 *** Make sure it returns only valid terms.
 *** Maybe do set intersection with the dictionary.
 ** SUJEET generate_candidate_suggestions (list of list of candidates for each term) -> list of candidate suggestions (phrases)
