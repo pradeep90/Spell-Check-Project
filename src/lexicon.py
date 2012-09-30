@@ -5,8 +5,6 @@
 import re
 import collections
 
-max_num_word_suggestions = 10
-
 class Lexicon(object):
     """Class containing valid English words and their frequency.
     """
@@ -37,7 +35,24 @@ class Lexicon(object):
     def known_words (self, given_word_list):
         """Return the set of valid words in given_word_list."""
         return [word for word in given_word_list 
-                if word in self.word_list]
+                if self.is_known_word(word)]
 
+    def is_known_word(self, word):
+        """Return True iff word is in the lexicon.
+        
+        Arguments:
+        - `word`:
+        """
+        return word in self.word_list
+
+    def get_top_words(self, word_list, num_words_required):
+        """Return top num_words_required words from word_list.
+
+        Assumption: The words are all already valid words.
+        """
+        word_list.sort()
+        return word_list[:num_words_required]
+
+        
 if __name__ == "__main__" :
     print get_word_suggestions ("greatz")

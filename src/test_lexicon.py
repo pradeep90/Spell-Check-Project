@@ -5,15 +5,31 @@ import unittest
 
 class LexiconTest(unittest.TestCase):
     def setUp(self):
-        self.lexicon = lexicon.Lexicon()
+        self.lexicon = lexicon.Lexicon(word_list = ['yo', 'boyz'])
     
     def tearDown(self):
         pass
 
     def test_known_words(self): 
-        word_list = ['are', 'yo', 'test']
+        word_list = ['foo', 'yo', 'bar']
         self.assertEqual(self.lexicon.known_words(word_list),
-                         ['are', 'test'])
+                         ['yo'])
+
+    def test_is_known_word(self): 
+        word1 = 'foo'
+        word2 = 'boyz'
+        self.assertFalse(self.lexicon.is_known_word(word1))
+        self.assertTrue(self.lexicon.is_known_word(word2))
+
+    def test_get_top_words(self): 
+        word_list = ['yo', 'boyz']
+        ans1 = ['boyz']
+        ans2 = ['boyz', 'yo']
+
+        self.assertEqual(self.lexicon.get_top_words(word_list, 1),
+                         ans1)
+        self.assertEqual(self.lexicon.get_top_words(word_list, 2),
+                         ans2)
     
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(LexiconTest)
