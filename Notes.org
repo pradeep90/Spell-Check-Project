@@ -56,12 +56,22 @@
 ** PRADEEP get_corrected_split_phrases (query) -> list of phrases consisting of split words joined together if it results in valid terms
 *** Assumption: max two words will be joined.
 ** PRADEEP get_corrected_run_on_phrases (query) -> list of phrases consisting of run-on words split if it results in valid terms
+   CLOCK: [2012-09-30 Sun 17:12]
+   CLOCK: [2012-09-30 Sun 16:30]--[2012-09-30 Sun 17:11] =>  0:41
 *** Assumption: max three words have been joined together.
+*** Could have used this but went with the inefficient yet more Pythonic version
+#+begin_src python
+  def parts(list_, indices):
+      # http://stackoverflow.com/questions/1198512/split-a-list-into-parts-based-on-a-set-of-indexes-in-python
+      indices = [0]+indices+[len(list_)]
+      return [list_[v:indices[k+1]] for k, v in enumerate(indices[:-1])]
+#+end_src
 ** SUJEET get_prior (n-gram) -> prior probability for the n-gram
 ** SUJEET lev (c, q) -> edit distance with different costs for each operation
 ** SUJEET len (q)
 ** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
-** PRADEEP generate_suggestions (q) -> [(suggestion, posterior), ...]
+** DONE generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-09-30 Sun 16:15]--[2012-09-30 Sun 16:30] =>  0:15
    CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
 *** or C (q) and P (c | q)
 ** DONE evaluate_suggestions (q, C (q), P (c | q), S (q)) -> [EP, ER]
