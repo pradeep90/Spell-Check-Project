@@ -1,11 +1,14 @@
 #!/usr/bin/python
 
+# Program to correct spelling errors.
+
 import itertools
 import utils
-import word
+import lexicon
+import edit_distance_calculator
 
-# Program to correct spelling errors.
-    
+max_num_word_suggestions = 10
+
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
     """
@@ -14,33 +17,29 @@ class SpellChecker(object):
         """Initialize all the dicts for suggestions, etc.
         """
         self.suggestion_dict = {}
+        self.lexicon = lexicon.Lexicon()
+        self.edit_dist_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
 
-    def generate_candidate_terms(self, term):
-        """Return list of candidate terms for term.
-        
-        Arguments:
-        - `term`:
-        """
-        return word.get_word_suggestions(term)
+        # TODO: Check with the full lexicon instead of dummy lexicon.
+    # def generate_candidate_terms(self, term):
+    #     """Return list of candidate terms for term.
 
-    def get_word_suggestions (word):
-        """Returns :
-        - word itself if it is valid
-        - max_num_word_suggestions number of most frequent words out of
-          the valid words within an edit distance of 1.
-        - if no words within edit distance of 1, then go for 2 edit dist.
-        - word itsef if both of the above fail."""
-        return (known_words (set([word]), lexicon)
-                or
-                get_most_frequent_n_words (known_words_one_edit_away (word),
-                                           lexicon,
-                                           max_num_word_suggestions)
-                or
-                get_most_frequent_n_words (known_words_two_edits_away (word),
-                                           lexicon,
-                                           max_num_word_suggestions)
-                or
-                set([word]))
+    #     Return:
+    #     - list of the term alone, if it is valid.
+    #     - list of words one edit away, if possible.
+    #     - list of words two edits away, if no valid one-edit words
+    #       exist.
+    #     """
+    #     if self.lexicon.is_known_word(term):
+    #         return [term]
+
+    #     candidate_terms = self.edit_dist_calculator.known_words_one_edit_away (term) 
+    #     # or self.edit_dist_calculator.known_words_two_edits_away (term)
+
+    #     candidate_terms = self.lexicon.get_top_words(candidate_terms, 
+    #                                                  max_num_word_suggestions)
+    #     return candidate_terms
+    #     pass
 
     # To be tested once the rest is done 
     def generate_suggestions_and_posteriors(self, query):

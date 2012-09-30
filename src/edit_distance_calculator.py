@@ -30,8 +30,9 @@ class EditDistanceCalculator(object):
         Note: the strings returned need not be valid words.
         """
         return list(set(e2 for e1 in
-                        self.words_one_edit_away (word) for e2 in
-                        self.words_one_edit_away (e1)))
+                        self.words_one_edit_away (word) 
+                        for e2 in self.words_one_edit_away (e1) 
+                        if self.lexicon.is_known_word(e2)))
 
     def known_words_one_edit_away (self, word):
         return self.lexicon.known_words (self.words_one_edit_away (word))

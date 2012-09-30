@@ -24,7 +24,7 @@ class SpellCheckerTest(unittest.TestCase):
     #     ans2 = ['yo']
     #     self.assertEqual(self.spell_checker.generate_candidate_terms(word1),
     #                      ans1)
-    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word3),
+    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word2),
     #                      ans2)
         
     # def test_generate_suggestions_and_posteriors(self):

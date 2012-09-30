@@ -21,8 +21,9 @@ class EditDistanceCalculatorTest(unittest.TestCase):
         
     def test_words_two_edits_away(self): 
         word = 'z'
+        ans_two_edits = ['yo']
         self.assertEqual(self.edit_dist_calculator.words_two_edits_away(word),
-                         test_data.ans_two_edits)
+                         ans_two_edits)
 
     def test_known_words_one_edit_away(self): 
         word1 = 'goo'
