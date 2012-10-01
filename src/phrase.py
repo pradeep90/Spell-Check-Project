@@ -2,15 +2,96 @@ import itertools, collections, urllib2, math
 from word import *
 
 memtable = {}
+delete_table = []
+insert_table = []
+sub_table = []
+ex_table = []
+
+def _ord (letter):
+    return ord (letter) - ord ('a')
+
+def read_table (filename):
+    """ Returns a list lists. Each list has 26 numbers.
+    ret_val [0] [2] means table [a, c] """
+    table = [map (int, line.strip().split())
+             for line in file (filename).readlines()
+             if line.strip()]
+    for row in table :
+        if len (row) != 26 :
+            print filename
+            print ' '.join (map (str, row))
+    return table
+
 
 def find_delete_cost (chars):
-    return 0
-def find_ex_cost (foo):
-    return 0
-def find_insert_cost (foo):
-    return 0
-def find_sub_cost (foo):
-    return 0
+    """
+    chars : xy
+    returns : the cost with which y can get deleted in the process
+              of misspelling when x occurs before it.
+              (between 0 and 1)"""
+    global delete_table
+    if not delete_table :
+        delete_table = read_table ('deletion_table.txt')
+
+    freq = 0
+    if len (chars) == 1:
+        # First letter being deleted.
+        freq = delete_table [-1] [_ord (chars)]
+    else :
+        freq = delete_table [_ord (chars[0])] [_ord (chars[1])]
+
+    if freq : return 1.0/freq
+    else : return 1
+
+def find_insert_cost (chars):
+    """
+    chars : xy
+    returns : the cost with which y can get inserted in the process
+              of misspelling when x occurs before it.
+              (between 0 and 1)"""
+    global insert_table
+    if not insert_table :
+        insert_table = read_table ('insertion_table.txt')
+
+    freq = 0
+    if len (chars) == 1:
+        # First letter being insertd.
+        freq = insert_table [-1] [_ord (chars)]
+    else :
+        freq = insert_table [_ord (chars[0])] [_ord (chars[1])]
+
+    if freq : return 1.0/freq
+    else : return 1
+
+def find_ex_cost (chars):
+    """
+    chars : xy
+    returns : the cost with which
+              xy becomes yx
+              (between 0 and 1)"""
+    global ex_table
+    if not ex_table :
+        ex_table = read_table ('swap_table.txt')
+
+    freq = ex_table [_ord (chars[0])] [_ord (chars[1])]
+    if freq : return 1.0/freq
+    else : return 1
+
+def find_sub_cost (chars):
+    """
+    chars : xy
+    returns : the cost with which
+              x becomes y
+              (between 0 and 1)"""
+    global sub_table
+    if not sub_table :
+        sub_table = read_table ('sub_table.txt')
+
+    # Note chars1 before chars0
+    # That's the way the table in the paper is given.
+    freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
+    if freq : return 1.0/freq
+    else : return 1
 
 def generate_all_candidate_suggestions (phrase):
     """ Phrase is either a list of words or a single string.
@@ -50,16 +131,16 @@ def get_edits (correct, mistake):
                                "d" + " d".join(list(correct)))
 
     del_cost, del_ops = get_edits (correct [:-1], mistake)
-    del_cost += 1 - find_delete_cost (correct [-2:])
+    del_cost += find_delete_cost (correct [-2:])
     del_ops += " d" + correct [-1]
 
     ins_cost, ins_ops = get_edits (correct, mistake [:-1])
-    ins_cost += 1 - find_insert_cost (correct [-1] + mistake [-1])
+    ins_cost += find_insert_cost (correct [-1] + mistake [-1])
     ins_ops += " i" + mistake [-1]
 
     sub_cost, sub_ops = get_edits (correct [:-1], mistake [:-1])
     if not correct [-1] == mistake [-1] :
-        sub_cost += 1 - find_sub_cost (correct [-1] + mistake [-1])
+        sub_cost += find_sub_cost (correct [-1] + mistake [-1])
         sub_ops += " s" + correct [-1] + mistake [-1]
 
     if del_cost < min (ins_cost, sub_cost) : ans = (del_cost, del_ops)
@@ -70,7 +151,7 @@ def get_edits (correct, mistake):
         and len (mistake) >= 2
         and correct [-2:] == mistake [-2:][::-1]):
         ex_cost, ex_ops = get_edits (correct [:-2], mistake [:-2])
-        ex_cost += 1 - find_ex_cost (correct [-2:])
+        ex_cost += find_ex_cost (correct [-2:])
         ex_ops += ' e' + correct [-1] + mistake [-1]
         if ans [0] > ex_cost :
             ans = (ex_cost, ex_ops)
@@ -82,6 +163,7 @@ def get_prior (phrase):
     """Returns log (P (phrase)) as given by MS N-gram service."""
     if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
+    print phrase
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
                                              phrase)).read()
     return float(prob.strip())
