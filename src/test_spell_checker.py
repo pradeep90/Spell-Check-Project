@@ -11,21 +11,45 @@ import unittest
 
 class SpellCheckerTest(unittest.TestCase):
     def setUp(self):
-        self.spell_checker = spell_checker.SpellChecker()
+        self.lexicon = lexicon.Lexicon(word_list = [
+            'yo', 'am', 'an', 
+            'foo', 'bar', 'baz', 
+            'boyz', 'edit', 'fast', 'cast',
+            ])
+        self.spell_checker = spell_checker.SpellChecker(given_lexicon = self.lexicon)
 
     def tearDown(self):
         pass
     
-    # def test_generate_candidate_terms(self):
-    #     word1 = 'greatz'
-    #     word2 = 'frast'
+    def test_generate_candidate_terms(self):
+        word1 = 'grst'
+        word2 = 'fr'
+        word3 = 'barz'
 
-    #     ans1 = ['great']
-    #     ans2 = ['yo']
-    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word1),
-    #                      ans1)
-    #     self.assertEqual(self.spell_checker.generate_candidate_terms(word2),
-    #                      ans2)
+        ans1 = ['cast', 'fast']
+        ans2 = ['am', 'an', 'bar', 'foo', 'yo']
+        ans3 = ['bar', 'baz']
+        self.assertEqual(self.spell_checker.generate_candidate_terms(word1),
+                         ans1)
+        self.assertEqual(self.spell_checker.generate_candidate_terms(word2),
+                         ans2)
+        self.assertEqual(self.spell_checker.generate_candidate_terms(word3),
+                         ans3)
+
+    def test_generate_candidate_suggestions(self): 
+        term1_possibilities = ['cast', 'fast']
+        term2_possibilities = ['edit']
+        term3_possibilities = ['boyz', 'baz']
+        term_possibilities_list = [term1_possibilities, term2_possibilities, 
+                                   term3_possibilities]
+        ans_term_possibilities_list = [['cast', 'edit', 'boyz'], 
+                                       ['cast', 'edit', 'baz'], 
+                                       ['fast', 'edit', 'boyz'], 
+                                       ['fast', 'edit', 'baz']]
+
+        self.assertEqual(
+            self.spell_checker.generate_candidate_suggestions(term_possibilities_list),
+            ans_term_possibilities_list)
         
     # def test_generate_suggestions_and_posteriors(self):
     #     query = 'foo'

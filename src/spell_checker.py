@@ -13,57 +13,72 @@ class SpellChecker(object):
     """Suggest corrections for errors in queries.
     """
 
-    def __init__(self):
+    def __init__(self, given_lexicon = None):
         """Initialize all the dicts for suggestions, etc.
         """
         self.suggestion_dict = {}
-        self.lexicon = lexicon.Lexicon()
+
+        self.lexicon = given_lexicon
+        if self.lexicon is None:
+            self.lexicon = lexicon.Lexicon()
+
         self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
 
         # TODO: Check with the full lexicon instead of dummy lexicon.
-    # def generate_candidate_terms(self, term):
-    #     """Return list of candidate terms for term.
+    def generate_candidate_terms(self, term):
+        """Return list of candidate terms for term.
 
-    #     Return:
-    #     - list of the term alone, if it is valid.
-    #     - list of words one edit away, if possible.
-    #     - list of words two edits away, if no valid one-edit words
-    #       exist.
-    #     """
-    #     if self.lexicon.is_known_word(term):
-    #         return [term]
+        Return:
+        - list of the term alone, if it is valid.
+        - list of words one edit away, if possible.
+        - list of words two edits away, if no valid one-edit words
+          exist.
+        """
+        if self.lexicon.is_known_word(term):
+            return [term]
 
-    #     candidate_terms = self.edit_distance_calculator.known_words_one_edit_away (term) 
-    #     # or self.edit_distance_calculator.known_words_two_edits_away (term)
+        candidate_terms = self.edit_distance_calculator.known_words_one_edit_away (term) or self.edit_distance_calculator.known_words_two_edits_away (term)
 
-    #     candidate_terms = self.lexicon.get_top_words(candidate_terms, 
-    #                                                  max_num_word_suggestions)
-    #     return candidate_terms
-    #     pass
+        candidate_terms = self.lexicon.get_top_words(candidate_terms, 
+                                                     max_num_word_suggestions)
+        return candidate_terms
+
+    def generate_candidate_suggestions(self, term_possibilities_list):
+        """Return list of candidate suggestions by combining possibilities from term_possibilities_list.
+        
+        Arguments:
+        - `term_possibilities_list`: list of list of possibilities for
+          each term in the query phrase.
+        """
+        return [list(suggestion) 
+                for suggestion in itertools.product(*term_possibilities_list)]
+        
+
 
     # To be tested once the rest is done 
-    def generate_suggestions_and_posteriors(self, query):
-        """Return (suggestion, posterior) pairs for query.
+    # def generate_suggestions_and_posteriors(self, query):
+    #     """Return (suggestion, posterior) pairs for query.
 
-        Get a list of candidate suggestions and calculate posteriors
-        for each of them.
+    #     Get a list of candidate suggestions and calculate posteriors
+    #     for each of them.
 
-        Arguments:
-        - `query`: list of word(s) making up the word/phrase/sentence
-          query.
-        """
-        # List of list of possibilities for each term
-        all_term_possibilities = [generate_candidate_terms(term) for term in query]
+    #     Arguments:
+    #     - `query`: list of word(s) making up the word/phrase/sentence
+    #       query.
+    #     """
+    #     # List of list of possibilities for each term
+    #     all_term_possibilities = [self.generate_candidate_terms(term) 
+    #                               for term in query]
 
-        # Lust of all suggestions
-        all_suggestions = generate_candidate_suggestions(all_term_combinations)
+    #     # Lust of all suggestions
+    #     all_suggestions = self.generate_candidate_suggestions(all_term_combinations)
 
-        posteriors = [get_posterior(suggestion, query) 
-                      for suggestion in all_suggestions]
+    #     posteriors = [get_posterior(suggestion, query) 
+    #                   for suggestion in all_suggestions]
 
-        normalized_posteriors = get_normalized_probabilities(posteriors)
+    #     normalized_posteriors = get_normalized_probabilities(posteriors)
 
-        return zip(all_suggestions, normalized_posteriors)
+    #     return zip(all_suggestions, normalized_posteriors)
         
         # suggestions = ["believe", "buoyant", "committed", "distract", 
         #                "ecstacy", "fairy", "hello", "gracefully", 

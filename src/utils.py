@@ -60,7 +60,6 @@ def get_splits(run_on_word, num_splits):
 
     valid_split_indices = itertools.combinations(all_indices, num_splits)
     valid_split_indices = [list(tuple_) for tuple_ in valid_split_indices]
-    print valid_split_indices
     return [partition(run_on_word, index_list) 
             for index_list in valid_split_indices]
 

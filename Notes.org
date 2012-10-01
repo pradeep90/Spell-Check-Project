@@ -42,6 +42,11 @@
 * Evaluation
 ** We need C (q), the set of all suggestions we produced for q, and the corresponding posterior probabilities P (c | q)
 ** TODO S (q) - set of human-annotated plausible spelling variations for q
+* Possible Improvements
+** TODO We're not considering two-edit words if one-edit words exist. But there could be better two-edit words
+*** eg. 'adres' now would go to 'acres' instead of 'address' (which is more probable)
+** TODO Filter words while generating them by ignoring operations with low probability (insert q next to z).
+** TODO Edit Distance with different costs for each operation
 * Code - SpellChecker
   CLOCK: [2012-09-26 Wed 13:10]--[2012-09-26 Wed 13:51] =>  0:41
 ** Training
@@ -72,7 +77,8 @@
 ** SUJEET len (q)
 ** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
 ** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
-   CLOCK: [2012-10-01 Mon 10:28]
+   CLOCK: [2012-10-01 Mon 12:18]
+   CLOCK: [2012-10-01 Mon 10:28]--[2012-10-01 Mon 11:17] =>  0:49
    CLOCK: [2012-09-30 Sun 19:00]--[2012-09-30 Sun 22:15] =>  3:15
    CLOCK: [2012-09-30 Sun 16:15]--[2012-09-30 Sun 16:30] =>  0:15
    CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
