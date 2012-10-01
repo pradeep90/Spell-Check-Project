@@ -16,6 +16,7 @@ class EditDistanceCalculator(object):
 
         Note: the strings returned need not be valid words.
         """
+        # alphabet = "abcdef"
         alphabet = "abcdefghijklmnopqrstuvwxyz"
         splits     = [(word[:i], word[i:]) for i in range(len(word) + 1)]
         deletes    = [a + b[1:] for a, b in splits if b]
@@ -24,21 +25,22 @@ class EditDistanceCalculator(object):
         inserts    = [a + c + b     for a, b in splits for c in alphabet]
         return list(set(deletes + transposes + replaces + inserts))
 
-    def words_two_edits_away (self, word):
-        """Given a word, return a list of strings two edit distance away.
-        
-        Note: the strings returned need not be valid words.
-        """
-        return list(set(e2 for e1 in
-                        self.words_one_edit_away (word) 
-                        for e2 in self.words_one_edit_away (e1) 
-                        if self.lexicon.is_known_word(e2)))
-
     def known_words_one_edit_away (self, word):
         return self.lexicon.known_words (self.words_one_edit_away (word))
 
     def known_words_two_edits_away (self, word):
-        return self.lexicon.known_words (self.words_two_edits_away (word))
+        """Given a word, return a list of valid strings two edit distance away.
+        
+        Note: the strings returned need not be valid words.
+        """
+        # return self.lexicon.known_words (self.words_two_edits_away (word))
+
+        # Generating the words and filtering them on the spot might be
+        # better than generating them all and then filtering them
+        # here.
+        return list(set(e2 for e1 in self.words_one_edit_away (word) 
+                        for e2 in self.words_one_edit_away (e1)
+                        if self.lexicon.is_known_word(e2)))
 
     def get_most_frequent_n_words (self, word_set, lexicon, n):
         """Returns a set of most frequent n words from word_set using

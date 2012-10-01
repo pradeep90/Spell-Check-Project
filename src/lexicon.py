@@ -28,12 +28,14 @@ class Lexicon(object):
                                     file(lexicon_filename).read().lower()))
     
     def set_lexicon(self, word_list):
-        """Set the word list of this lexicon as word_list."""
-        self.word_list = word_list
+        """Set the word_set of this lexicon as word_list."""
+        self.word_set = set(word_list)
 
     # TODO: Optimize this.
     def known_words (self, given_word_list):
         """Return the set of valid words in given_word_list."""
+        # TODO: Check if it's better to use if word in self.word_set
+        # instead of the method call to is_known_word.
         return [word for word in given_word_list 
                 if self.is_known_word(word)]
 
@@ -43,7 +45,7 @@ class Lexicon(object):
         Arguments:
         - `word`:
         """
-        return word in self.word_list
+        return word in self.word_set
 
     def get_top_words(self, word_list, num_words_required):
         """Return top num_words_required words from word_list.

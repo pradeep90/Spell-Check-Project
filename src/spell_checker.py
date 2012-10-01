@@ -18,7 +18,7 @@ class SpellChecker(object):
         """
         self.suggestion_dict = {}
         self.lexicon = lexicon.Lexicon()
-        self.edit_dist_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
+        self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
 
         # TODO: Check with the full lexicon instead of dummy lexicon.
     # def generate_candidate_terms(self, term):
@@ -33,8 +33,8 @@ class SpellChecker(object):
     #     if self.lexicon.is_known_word(term):
     #         return [term]
 
-    #     candidate_terms = self.edit_dist_calculator.known_words_one_edit_away (term) 
-    #     # or self.edit_dist_calculator.known_words_two_edits_away (term)
+    #     candidate_terms = self.edit_distance_calculator.known_words_one_edit_away (term) 
+    #     # or self.edit_distance_calculator.known_words_two_edits_away (term)
 
     #     candidate_terms = self.lexicon.get_top_words(candidate_terms, 
     #                                                  max_num_word_suggestions)

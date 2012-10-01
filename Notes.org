@@ -72,7 +72,8 @@
 ** SUJEET len (q)
 ** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
 ** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
-   CLOCK: [2012-09-30 Sun 19:00]
+   CLOCK: [2012-10-01 Mon 10:28]
+   CLOCK: [2012-09-30 Sun 19:00]--[2012-09-30 Sun 22:15] =>  3:15
    CLOCK: [2012-09-30 Sun 16:15]--[2012-09-30 Sun 16:30] =>  0:15
    CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
 *** or C (q) and P (c | q)
@@ -84,3 +85,12 @@
 ** DONE EF1 = HM (EP, ER)
 ** PRADEEP record_performance (EF1, Q)
 ** PRADEEP Script to test performance on different queries
+* Python learning
+** Nested for loops (as generators)
+#+begin_src python
+  print list((e1, e2) 
+  # Outer loop
+  for e1 in xrange(10) 
+  # Inner loop
+  for e2 in xrange(3, 6))
+#+end_src
