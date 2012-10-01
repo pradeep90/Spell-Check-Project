@@ -42,7 +42,8 @@ def test_queries(test_name, query_input_file, query_output_file):
     """Test checker for query inputs (from query_input_file).
 
     Write the output to query_output_file.
-    
+    For sentences, capitalize the first word and add a period at the
+    end to the suggestions.
     Arguments:
     - `query_input_file`:
     - `query_output_file`:
@@ -56,8 +57,18 @@ def test_queries(test_name, query_input_file, query_output_file):
     checker.run_spell_check(query_list)
     query_list = map(str.lower, query_list)
     suggestion_dict = checker.get_suggestion_dict()
+    print suggestion_dict.values()[0]
 
-    write_outputs(query_list, suggestion_dict, 
+    if test_name == 'sentences':
+        # Capitalize each sentence and add a period at the end.
+        suggestion_dict = dict([
+            (query.capitalize(), 
+             [([suggestion[0].capitalize()] + suggestion[1:-1] + [suggestion[-1] + '.']
+               , posterior) 
+              for suggestion, posterior in suggestion_list])
+             for query, suggestion_list in suggestion_dict.iteritems()])
+
+    write_outputs(suggestion_dict.keys(), suggestion_dict, 
                   query_output_file)
 
 def get_output_from_file(filename):
@@ -79,13 +90,17 @@ def get_output_from_file(filename):
     return [query_list, suggestion_dict]
 
 def get_human_suggestions(filename):
-    """Return human_suggestion_dict read from filename."""
+    """Return human_suggestion_dict read from filename.
+
+    Each of the sentences is like 'Yo boyz i am sing song.' with the
+    capitalization and period preserved.
+    """
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print file_input
-    human_suggestion_dict = dict([(line_elements[0].lower(), 
-                                   map(str.lower, line_elements[1:])) 
+    print 'file_input', file_input
+    human_suggestion_dict = dict([(line_elements[0], 
+                                   line_elements[1:]) 
                                   for line_elements in file_input])
     return human_suggestion_dict
 
@@ -119,6 +134,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
+    # test_labels = ['sentences']
     test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
         print commandline_args_str

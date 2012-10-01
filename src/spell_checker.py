@@ -17,6 +17,8 @@ class SpellChecker(object):
     def __init__(self, given_lexicon = None):
         """Initialize all the dicts for suggestions, etc.
         """
+        # key: query string NOT list
+        # val: list of (suggestion, posterior) pairs; suggestion = list of words.
         self.suggestion_dict = {}
 
         self.lexicon = given_lexicon
