@@ -50,7 +50,20 @@ class SpellCheckerTest(unittest.TestCase):
         self.assertEqual(
             self.spell_checker.generate_candidate_suggestions(term_possibilities_list),
             ans_term_possibilities_list)
-        
+
+    def test_get_normalized_probabilities(self): 
+        probability_list = [0.2, 0.3, 0.2]
+        ans = [0.28571428571428575, 0.4285714285714286, 0.28571428571428575]
+
+        actual_list = self.spell_checker.get_normalized_probabilities(
+            probability_list)
+
+        for i in xrange(len(actual_list)):
+            self.assertAlmostEqual(actual_list[i], ans[i])
+
+        self.assertAlmostEqual(sum(actual_list),
+                               1.0)
+
     # def test_generate_suggestions_and_posteriors(self):
     #     query = 'foo'
     #     suggestions = self.spell_checker.generate_suggestions_and_posteriors(query)

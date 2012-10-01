@@ -47,6 +47,8 @@ class Lexicon(object):
         """
         return word in self.word_set
 
+    # TODO: Later this should be based on the fine edit distance cost
+    # of the word.
     def get_top_words(self, word_list, num_words_required):
         """Return top num_words_required words from word_list.
 
@@ -55,6 +57,5 @@ class Lexicon(object):
         word_list.sort()
         return word_list[:num_words_required]
 
-        
 if __name__ == "__main__" :
     print get_word_suggestions ("greatz")

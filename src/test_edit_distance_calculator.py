@@ -39,6 +39,23 @@ class EditDistanceCalculatorTest(unittest.TestCase):
         self.assertEqual(
             full_edit_distance_calculator.known_words_two_edits_away(word1),
             test_data.ans_known_two_edits)
+
+    def test_get_top_known_words(self): 
+        word1 = 'boyz'
+        ans1 = ['boyz']
+        word2 = 'goo'
+        ans2 = ['foo']
+        word3 = 'yoo'
+        ans3 = ['foo', 'yo']
+        ans4 = ['foo']
+        self.assertEqual(self.edit_distance_calculator.get_top_known_words(word1, 10),
+                         ans1)
+        self.assertEqual(self.edit_distance_calculator.get_top_known_words(word2, 10),
+                         ans2)
+        self.assertEqual(self.edit_distance_calculator.get_top_known_words(word3, 10),
+                         ans3)
+        self.assertEqual(self.edit_distance_calculator.get_top_known_words(word3, 1),
+                         ans4)
     
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(EditDistanceCalculatorTest)

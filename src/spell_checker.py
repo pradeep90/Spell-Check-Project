@@ -24,7 +24,7 @@ class SpellChecker(object):
 
         self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
 
-        # TODO: Check with the full lexicon instead of dummy lexicon.
+    # TODO: Check with the full lexicon instead of dummy lexicon.
     def generate_candidate_terms(self, term):
         """Return list of candidate terms for term.
 
@@ -37,10 +37,8 @@ class SpellChecker(object):
         if self.lexicon.is_known_word(term):
             return [term]
 
-        candidate_terms = self.edit_distance_calculator.known_words_one_edit_away (term) or self.edit_distance_calculator.known_words_two_edits_away (term)
-
-        candidate_terms = self.lexicon.get_top_words(candidate_terms, 
-                                                     max_num_word_suggestions)
+        # TODO: I think we should use both and then filter.
+        candidate_terms = self.edit_distance_calculator.get_top_known_words(term, 10)
         return candidate_terms
 
     def generate_candidate_suggestions(self, term_possibilities_list):
@@ -52,9 +50,16 @@ class SpellChecker(object):
         """
         return [list(suggestion) 
                 for suggestion in itertools.product(*term_possibilities_list)]
+
+    def get_normalized_probabilities(self, probability_list):
+        """Return probability_list with the values normalized.
         
-
-
+        Arguments:
+        - `probability_list`:
+        """
+        total = float(sum(probability_list))
+        return [prob / total for prob in probability_list]
+        
     # To be tested once the rest is done 
     # def generate_suggestions_and_posteriors(self, query):
     #     """Return (suggestion, posterior) pairs for query.

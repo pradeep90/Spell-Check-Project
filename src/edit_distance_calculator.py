@@ -42,10 +42,22 @@ class EditDistanceCalculator(object):
                         for e2 in self.words_one_edit_away (e1)
                         if self.lexicon.is_known_word(e2)))
 
-    def get_most_frequent_n_words (self, word_set, lexicon, n):
-        """Returns a set of most frequent n words from word_set using
-        the frequencies from the lexicon"""
-        word_set = list (word_set)
-        word_set.sort (key = lexicon.get, reverse = True)
-        return set (word_set [:n])
+    def get_top_known_words(self, word, num):
+        """Return list of top num words which are close to word.
+
+        Assumption: one-edit words are infinitely more probable than
+        two-edit words.
+        """
+        # TODO: Later make this consider words BOTH from one-edit and
+        # two-edit list.
+        word_list = self.known_words_one_edit_away (word) or self.known_words_two_edits_away (word)
+
+        return self.lexicon.get_top_words(word_list, num)
+
+    # def get_most_frequent_n_words (self, word_set, lexicon, n):
+    #     """Returns a set of most frequent n words from word_set using
+    #     the frequencies from the lexicon"""
+    #     word_set = list (word_set)
+    #     word_set.sort (key = lexicon.get, reverse = True)
+    #     return set (word_set [:n])
 
