@@ -49,11 +49,15 @@ def test_queries(test_name, query_input_file, query_output_file):
     """
     query_list = get_inputs(query_input_file)
     checker = spell_checker.SpellChecker()
-    # checker.get_posterior_fn = dummy_posterior_fn
+
+    if sys.argv[1] == 'dummy-test':
+        checker.get_posterior_fn = dummy_posterior_fn
     
     checker.run_spell_check(query_list)
     query_list = map(str.lower, query_list)
-    write_outputs(query_list, checker.get_suggestion_dict(), 
+    suggestion_dict = checker.get_suggestion_dict()
+
+    write_outputs(query_list, suggestion_dict, 
                   query_output_file)
 
 def get_output_from_file(filename):
@@ -94,6 +98,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     - `suggestion_dict`:
     """
     query_list, suggestion_dict = get_output_from_file(results_file)
+
     human_suggestion_dict = get_human_suggestions(human_suggestions_file)
     dummy_spell_checker = spell_checker.SpellChecker()
 
@@ -114,11 +119,16 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    test_labels = ['words'] #, 'phrases', 'sentences']
+    test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
         print commandline_args_str
         exit (0)
     elif sys.argv[1] == 'run-test':
+        for test_label in test_labels:
+            test_queries(test_label, 
+                         '../data/' + test_label +  '.input', 
+                         '../data/' + test_label + '.output')
+    elif sys.argv[1] == 'dummy-test':
         for test_label in test_labels:
             test_queries(test_label, 
                          '../data/' + test_label +  '.input', 

@@ -42,7 +42,6 @@ class SpellChecker(object):
         if self.lexicon.is_known_word(term):
             return [term]
 
-        # TODO: I think we should use both and then filter.
         candidate_terms = self.edit_distance_calculator.get_top_known_words(term, 10)
         
         return candidate_terms
@@ -69,8 +68,6 @@ class SpellChecker(object):
         """
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
-
-        # print 'get_posterior_fn', get_posterior_fn.__name__
 
         query = query_string.split()
         # List of list of possibilities for each term

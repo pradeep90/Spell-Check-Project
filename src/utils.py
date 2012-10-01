@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
 import itertools
+import lexicon
+
+full_lexicon = lexicon.Lexicon()
 
 # Utility functions for the Spell Check program.
-
 def get_EP(query_list, suggestion_dict, human_suggestion_dict):
     """Return EP for the suggestions as judged by human_suggestion_dict.
 
@@ -68,15 +70,17 @@ def get_splits(run_on_word, num_splits):
 
     valid_split_indices = itertools.combinations(all_indices, num_splits)
     valid_split_indices = [list(tuple_) for tuple_ in valid_split_indices]
-    return [partition(run_on_word, index_list) 
-            for index_list in valid_split_indices]
+    crude_splits_list = [partition(run_on_word, index_list) 
+                         for index_list in valid_split_indices]
+    return [str_tuple for str_tuple in crude_splits_list 
+            if all(full_lexicon.is_known_word(word) for word in str_tuple)]
 
 def get_corrected_run_on_queries(query):
     """Correct run-on query by splitting run-on words.
 
     Return list of phrase/sentence queries with any run-on word split.
 
-    Assumption: max two words have been joined together.
+    Assumption: MAX 3 words have been joined together.
     TODO: Remove the original query from the final list. It will be
     present cos of the cross-product.
     TODO: Not checking for valid words now.
@@ -84,7 +88,11 @@ def get_corrected_run_on_queries(query):
     Arguments:
     - `query`: list of word(s)
     """
-    term_suggestions_list = [get_splits(word, 1) + [[word]] for word in query]
+    max_num_splits = 3
+    term_suggestions_list = [
+        list(itertools.chain(*[get_splits(word, i) 
+                               for i in xrange(1, max_num_splits + 1)])) + [[word]] 
+                               for word in query]
     crude_suggestions_list = itertools.product(*term_suggestions_list)
     # Note: crude_suggestions_list for [foobar, yoboyz] will contain 
     # ([foo bar], [yo boyz],)
@@ -92,6 +100,7 @@ def get_corrected_run_on_queries(query):
     # [foo bar yo boyz]
     split_suggestions_list = [list(itertools.chain(*incomplete_suggestion)) 
                               for incomplete_suggestion in crude_suggestions_list]
+    split_suggestions_list.remove(query)
     return split_suggestions_list
 
 def get_corrected_split_queries(query):
@@ -107,7 +116,8 @@ def get_corrected_split_queries(query):
     - `query`: list of word(s)
     """
     joined_up_suggestion_list = [query[:i] + [query[i] + query[i + 1]] + query[i+2:]
-                                 for i in range(len(query) - 1)]
+                                 for i in range(len(query) - 1)
+                                 if full_lexicon.is_known_word(query[i] + query[i + 1])]
     return joined_up_suggestion_list
 
 def get_normalized_probabilities(probability_list):
