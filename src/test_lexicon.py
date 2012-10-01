@@ -21,6 +21,10 @@ class LexiconTest(unittest.TestCase):
         self.assertFalse(self.lexicon.is_known_word(word1))
         self.assertTrue(self.lexicon.is_known_word(word2))
 
+    def test_get_words_from_lexicon_file(self): 
+        test_lexicon = lexicon.Lexicon()
+        self.assertTrue(all(word.islower() for word in test_lexicon.word_set))
+
     def test_get_top_words(self): 
         word_list = ['yo', 'boyz']
         ans1 = ['boyz']

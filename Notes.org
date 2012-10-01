@@ -113,6 +113,7 @@
 **** prob1 = P (suggestion1 | query{i})
 ** DONE Calculate stats based on the file.
 ** DONE Write output to file and calculate stats based on the file.
+   CLOCK: [2012-10-01 Mon 20:55]--[2012-10-01 Mon 21:47] =>  0:52
 ** TODO Use the split and joined pseudo-queries as well
 ** TODO Test with refined edit distance
 ** TODO Use two-edit words as well

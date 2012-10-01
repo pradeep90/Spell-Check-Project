@@ -49,7 +49,7 @@ def test_queries(test_name, query_input_file, query_output_file):
     """
     query_list = get_inputs(query_input_file)
     checker = spell_checker.SpellChecker()
-    checker.get_posterior_fn = dummy_posterior_fn
+    # checker.get_posterior_fn = dummy_posterior_fn
     
     checker.run_spell_check(query_list)
     query_list = map(str.lower, query_list)
@@ -114,8 +114,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    test_labels = ['words', 'phrases', 'sentences']
-    # test_labels = ['sentences']
+    test_labels = ['words'] #, 'phrases', 'sentences']
     if len (sys.argv) != 2:
         print commandline_args_str
         exit (0)

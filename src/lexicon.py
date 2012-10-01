@@ -24,8 +24,12 @@ class Lexicon(object):
             lexicon_filename = 'words.txt'
 
         self._lexicon_filename = lexicon_filename
-        self.set_lexicon(re.findall('[a-z]+', 
-                                    file(lexicon_filename).read().lower()))
+        self.set_lexicon(self.get_words_from_lexicon_file (file(self._lexicon_filename)))
+
+    def get_words_from_lexicon_file(self, lexicon_file):
+        """Return list of words from lexicon_file.
+        """
+        return re.findall('[a-z]+', lexicon_file.read())
 
     def set_lexicon(self, word_list):
         """Set the word_set of this lexicon as word_list."""
