@@ -33,12 +33,14 @@ class SpellChecker(object):
         - list of words one edit away, if possible.
         - list of words two edits away, if no valid one-edit words
           exist.
+        - Else (nothing was found), return a list of the term alone.
         """
         if self.lexicon.is_known_word(term):
             return [term]
 
         # TODO: I think we should use both and then filter.
         candidate_terms = self.edit_distance_calculator.get_top_known_words(term, 10)
+        
         return candidate_terms
 
     def generate_candidate_suggestions(self, term_possibilities_list):

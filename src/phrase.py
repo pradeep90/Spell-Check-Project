@@ -17,7 +17,7 @@ def generate_all_candidate_suggestions (phrase):
     returns a list of lists.
     each list is a combination of suggested words corresponding to one
     ord in the phrase."""
-    if type (phrase) != type (list) : phrase = phrase.split ()
+    # if type (phrase) != type (list) : phrase = phrase.split ()
     word_suggestions = [get_word_suggestions (word) for word in phrase]
     return [product for product in itertools.product (*word_suggestions)]
 
@@ -28,8 +28,8 @@ def get_likelihood (query, suggestion):
 
     0 - (edit_dist (q, s) / length (q)) """
     edit_dist = 0
-    for corrected_word, misspelt_word in zip (suggestion.split (),
-                                              query.split ()):
+    for corrected_word, misspelt_word in zip (suggestion,
+                                              query):
         edit_cost, foobar = get_edits (corrected_word, misspelt_word)
         edit_dist += edit_cost
     return 0 - (edit_dist / len (query))
@@ -80,17 +80,20 @@ def get_edits (correct, mistake):
 
 def get_prior (phrase):
     """Returns log (P (phrase)) as given by MS N-gram service."""
-    if type (phrase) != type (str) : phrase = " ".join (phrase)
+    if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
                                              phrase)).read()
     return float(prob.strip())
 
-def get_posterior (phrase):
-    return math.exp(get_prior (phrase) + get_likelihood (phrase))
+def get_posterior (suggestion, query):
+    return math.exp(get_prior (suggestion) + get_likelihood (query, suggestion))
 
 if __name__ == "__main__":
-    # for suggestion in generate_all_candidate_suggestions ("cat aret gonne") :
-    #     print " ".join (suggestion)
-    print get_edits ("sujeet", "usjeet")
+    for suggestion in generate_all_candidate_suggestions ("i can haz cheezburger".split()) :
+        print suggestion
+        print get_prior(suggestion)
+        # print get_posterior(suggestion, 'cat aret gonne'.split())
+        # print " ".join (suggestion)
+    # print get_edits ("sujeet", "usjeet")
     # print get_phrase_prior ("I am a dog")

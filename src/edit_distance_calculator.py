@@ -52,6 +52,8 @@ class EditDistanceCalculator(object):
         # two-edit list.
         word_list = self.known_words_one_edit_away (word) or self.known_words_two_edits_away (word)
 
+        if not word_list:
+            word_list = [word]
         return self.lexicon.get_top_words(word_list, num)
 
     # def get_most_frequent_n_words (self, word_set, lexicon, n):

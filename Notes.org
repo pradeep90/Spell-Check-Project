@@ -43,10 +43,12 @@
 ** We need C (q), the set of all suggestions we produced for q, and the corresponding posterior probabilities P (c | q)
 ** TODO S (q) - set of human-annotated plausible spelling variations for q
 * Possible Improvements
+** TODO Edit Distance with different costs for each operation
 ** TODO We're not considering two-edit words if one-edit words exist. But there could be better two-edit words
 *** eg. 'adres' now would go to 'acres' instead of 'address' (which is more probable)
+*** TODO Join all the words and sort using Sujeet's costs
+** TODO New Split and joined queries can be considered as new queries
 ** TODO Filter words while generating them by ignoring operations with low probability (insert q next to z).
-** TODO Edit Distance with different costs for each operation
 ** Unknown words
 *** Maybe change 2/3/4-letter sequences according to some rules
 * Code - SpellChecker
