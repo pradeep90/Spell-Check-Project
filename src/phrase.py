@@ -29,6 +29,7 @@ def find_delete_cost (chars):
     returns : the cost with which y can get deleted in the process
               of misspelling when x occurs before it.
               (between 0 and 1)"""
+    return 1
     global delete_table
     if not delete_table :
         delete_table = read_table ('deletion_table.txt')
@@ -49,6 +50,7 @@ def find_insert_cost (chars):
     returns : the cost with which y can get inserted in the process
               of misspelling when x occurs before it.
               (between 0 and 1)"""
+    return 1
     global insert_table
     if not insert_table :
         insert_table = read_table ('insertion_table.txt')
@@ -69,6 +71,7 @@ def find_ex_cost (chars):
     returns : the cost with which
               xy becomes yx
               (between 0 and 1)"""
+    return 1
     global ex_table
     if not ex_table :
         ex_table = read_table ('swap_table.txt')
@@ -83,15 +86,16 @@ def find_sub_cost (chars):
     returns : the cost with which
               x becomes y
               (between 0 and 1)"""
-    global sub_table
-    if not sub_table :
-        sub_table = read_table ('sub_table.txt')
+    return 1
+    # global sub_table
+    # if not sub_table :
+    #     sub_table = read_table ('sub_table.txt')
 
-    # Note chars1 before chars0
-    # That's the way the table in the paper is given.
-    freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
-    if freq : return 1.0/freq
-    else : return 1
+    # # Note chars1 before chars0
+    # # That's the way the table in the paper is given.
+    # freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
+    # if freq : return 1.0/freq
+    # else : return 1
 
 def generate_all_candidate_suggestions (phrase):
     """ Phrase is either a list of words or a single string.

@@ -20,6 +20,18 @@ class UtilsTest(unittest.TestCase):
         self.assertAlmostEqual(utils.get_EP([1], test_dict, ans_dict),
                                0.7)
 
+    def test_get_EP_corner_cases(self): 
+        test_dict = { 1: [('foo', 0.3), ('bar', 0.7)], 
+                      2: [('baz', 0.8), ('bah', 0.2)]}
+        # key's ans_dict value is []
+        ans_dict = { 1: [], 2: [] }
+        self.assertAlmostEqual(utils.get_EP([1, 2], test_dict, ans_dict),
+                               0)
+
+        # query_list is empty
+        self.assertAlmostEqual(utils.get_EP([], test_dict, ans_dict),
+                               0)
+
     def test_get_ER(self):
         test_dict = { 1: [('foo', 0.3), ('bar', 0.7)], 
                       2: [('baz', 0.8), ('bah', 0.2)]}
@@ -31,6 +43,18 @@ class UtilsTest(unittest.TestCase):
         self.assertAlmostEqual(utils.get_ER([2], test_dict, ans_dict),
                                1.0/3)
 
+    def test_get_ER(self): 
+        test_dict = { 1: [('foo', 0.3), ('bar', 0.7)], 
+                      2: [('baz', 0.8), ('bah', 0.2)]}
+        ans_dict = { 1: [], 2: ['all', 'work', 'baz'] }
+
+        # key's ans_dict value is []
+        self.assertAlmostEqual(utils.get_ER([1, 2], test_dict, ans_dict),
+                               1.0/6)
+        # query_list is empty
+        self.assertAlmostEqual(utils.get_ER([], test_dict, ans_dict),
+                               0)
+        
     def test_get_HM(self):
         self.assertAlmostEqual(utils.get_HM(3, 3),
                                3, 1)
@@ -42,6 +66,14 @@ class UtilsTest(unittest.TestCase):
                                0.5 , 1)
         self.assertAlmostEqual(utils.get_HM(0.1, 0.9),
                                0.18, 1)
+
+    def test_get_HM_corner_cases(self): 
+        self.assertAlmostEqual(utils.get_HM(0.0, 3.0),
+                               0.0, 1)
+        self.assertAlmostEqual(utils.get_HM(0.3, 0.0),
+                               0.0, 1)
+        self.assertAlmostEqual(utils.get_HM(0.0, 0.0),
+                               0.0, 1)
 
     def test_partition(self):
         given_list = [1, 2, 3, 4, 5, 6, 7, 8]

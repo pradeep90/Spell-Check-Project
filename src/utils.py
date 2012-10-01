@@ -8,9 +8,12 @@ def get_EP(query_list, suggestion_dict, human_suggestion_dict):
     """Return EP for the suggestions as judged by human_suggestion_dict.
 
     EP: Expected Precision.
-    Average over queries in query_list of posteriors for those
+    Average over queries in query_list of posteriors for posteriors of
     suggestions that are in the human_suggestion_dict.
     """
+    if not query_list:
+        return 0.0
+
     total = sum(sum(posterior
                     for (suggestion, posterior) in suggestion_dict[query] 
                     if suggestion in human_suggestion_dict[query])
@@ -24,15 +27,20 @@ def get_ER(query_list, suggestion_dict, human_suggestion_dict):
     Average over queries in query_list of number of human suggestions
     that have been suggested in suggestion_dict.
     """
+    if not query_list:
+        return 0.0
     total = sum(sum(1
                     for human_suggestion in human_suggestion_dict[query] 
                     if human_suggestion in zip(*suggestion_dict[query])[0]
                     ) / float(len(human_suggestion_dict[query]))
-                for query in query_list)
+                for query in query_list if human_suggestion_dict[query])
     return total / float(len(query_list))
             
 def get_HM(x, y):
     """Return HM of x and y."""
+    if x == 0 or y == 0:
+        return 0.0
+
     return (2 * x * y) / (x + y)
 
 def partition(given_list, indices):

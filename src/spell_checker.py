@@ -45,7 +45,7 @@ class SpellChecker(object):
         return candidate_terms
 
     def generate_candidate_suggestions(self, term_possibilities_list):
-        """Return list of candidate suggestions by combining possibilities from term_possibilities_list.
+        """Return list of candidate suggestions by combining all possibilities.
         
         Arguments:
         - `term_possibilities_list`: list of list of possibilities for
@@ -72,15 +72,14 @@ class SpellChecker(object):
         all_term_possibilities = [self.generate_candidate_terms(term) 
                                   for term in query]
 
-        # Lust of all suggestions
+        # List of all suggestions
         all_suggestions = self.generate_candidate_suggestions(all_term_possibilities)
         print all_suggestions
 
         posteriors = [get_posterior_fn(suggestion, query) 
                       for suggestion in all_suggestions]
-        print posteriors
-
         normalized_posteriors = utils.get_normalized_probabilities(posteriors)
+        print normalized_posteriors
 
         return zip(all_suggestions, normalized_posteriors)
 
@@ -103,8 +102,8 @@ class SpellChecker(object):
           human-annotated suggestions
         """
         args = [self.query_list, self.suggestion_dict, human_suggestion_dict]
-        return get_HM (get_EP(*args),
-                       get_ER(*args))
+        return utils.get_HM (utils.get_EP(*args),
+                             utils.get_ER(*args))
     
     def get_all_stats(self, human_suggestion_dict):
         """Return [EP, ER, EF1] for performance as judged by human_suggestion_dict.
@@ -113,7 +112,7 @@ class SpellChecker(object):
         - `human_suggestion_dict`:
         """
         args = [self.query_list, self.suggestion_dict, human_suggestion_dict]
-        return [get_EP(*args), get_ER(*args), 
+        return [utils.get_EP(*args), utils.get_ER(*args), 
                 self.get_EF1_measure(human_suggestion_dict)]
 
 if __name__ == '__main__':

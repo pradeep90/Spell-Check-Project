@@ -94,6 +94,51 @@ class SpellCheckerTest(unittest.TestCase):
             self.spell_checker.generate_suggestions_and_posteriors('yo boyz'),
             self.spell_checker.suggestion_dict['yo boyz'])
 
+    def test_get_all_stats(self): 
+        self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
+        query_list = ['yo boyz i am sing song',
+                      'faster and faster edits',
+                      'jack in a bark floor']
+        self.spell_checker.run_spell_check(query_list)
+        human_dict = {
+            query_list[0]: [['yo', 'boyz', 'am', 'am', 'sing', 'song']],
+            query_list[1]: [['fast', 'an', 'fast', 'edit']],
+            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.61111111111111105, 1.0, 0.75862068965517226]
+        self.assertEqual(actual_stats,
+                         expected_stats)
+
+    def test_get_all_stats_corner_cases(self): 
+        self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
+        query_list = ['yo boyz i am sing song',
+                      'faster and faster edits',
+                      'jack in a bark floor']
+        self.spell_checker.run_spell_check(query_list)
+
+        # key's dict value is empty
+        human_dict = {
+            query_list[0]: [],
+            query_list[1]: [['fast', 'an', 'fast', 'edit']],
+            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.5, 0.66666666666666663, 0.57142857142857151]
+        self.assertEqual(actual_stats,
+                         expected_stats)
+
+        # All keys' dict values are empty
+        human_dict = {
+            query_list[0]: [],
+            query_list[1]: [],
+            query_list[2]: [],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.0, 0.0, 0.0]
+        self.assertEqual(actual_stats,
+                         expected_stats)
+
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(SpellCheckerTest)
     return suite
