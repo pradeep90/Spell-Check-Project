@@ -80,8 +80,9 @@
 ** SUJEET lev (c, q) -> edit distance with different costs for each operation
 ** SUJEET len (q)
 ** DONE get_normalized_probability (list of posterior probabilities) -> normalized list
-** TODO get_posterior (suggestion, query)
-** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
+** DONE get_posterior (suggestion, query)
+** DONE generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-10-01 Mon 13:10]--[2012-10-01 Mon 14:47] =>  1:37
    CLOCK: [2012-10-01 Mon 12:18]--[2012-10-01 Mon 12:49] =>  0:31
    CLOCK: [2012-10-01 Mon 10:28]--[2012-10-01 Mon 11:17] =>  0:49
    CLOCK: [2012-09-30 Sun 19:00]--[2012-09-30 Sun 22:15] =>  3:15
@@ -94,6 +95,8 @@
 *** DONE get_ER
     CLOCK: [2012-09-27 Thu 13:42]--[2012-09-27 Thu 13:46] =>  0:04
 ** DONE EF1 = HM (EP, ER)
+** TODO run_spell_check ()
+   CLOCK: [2012-10-01 Mon 14:50]
 ** PRADEEP record_performance (EF1, Q)
 ** PRADEEP Script to test performance on different queries
 * Python learning
@@ -105,3 +108,16 @@
   # Inner loop
   for e2 in xrange(3, 6))
 #+end_src
+* Evaluation
+** TODO Test data in data/0643.zip
+import re
+string = """I OFTEN VISITED my AUNT.  She lived in  a  MAGNIFICENT
+HOUSE  OPPOSITE the GALLERY.  I REMEMBER her SPLENDID PURPLE
+CURTAINS.  She WROTE POETRY.  The PROBLEM was  nobody  could
+UNDERSTAND  it.   Her  LATEST  POEMS  had words like prunty,
+slimber, grondel, blomp.  I WANTED to LAUGH  but  I  had  to
+PRETEND  to  like  them.  However, I REALLY like the SPECIAL
+REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
+I left, my STOMACH was full and I was happy and CONTENTED."""
+print re.findall('[A-Z]+', string)
+    

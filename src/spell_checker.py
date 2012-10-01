@@ -6,6 +6,7 @@ import itertools
 import utils
 import lexicon
 import edit_distance_calculator
+import phrase
 
 max_num_word_suggestions = 10
 
@@ -23,8 +24,8 @@ class SpellChecker(object):
             self.lexicon = lexicon.Lexicon()
 
         self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
+        self.get_posterior_fn = phrase.get_posterior
 
-    # TODO: Check with the full lexicon instead of dummy lexicon.
     def generate_candidate_terms(self, term):
         """Return list of candidate terms for term.
 
@@ -52,55 +53,42 @@ class SpellChecker(object):
         """
         return [list(suggestion) 
                 for suggestion in itertools.product(*term_possibilities_list)]
+    
+    def generate_suggestions_and_posteriors(self, query_string, 
+                                            get_posterior_fn = None):
+        """Return (suggestion, posterior) pairs for query.
 
-    def get_normalized_probabilities(self, probability_list):
-        """Return probability_list with the values normalized.
-        
+        Get a list of candidate suggestions and calculate posteriors
+        for each of them.
+
         Arguments:
-        - `probability_list`:
+        - `query_string`: string representing the word/phrase/sentence query.
         """
-        total = float(sum(probability_list))
-        return [prob / total for prob in probability_list]
-        
-    # To be tested once the rest is done 
-    # def generate_suggestions_and_posteriors(self, query):
-    #     """Return (suggestion, posterior) pairs for query.
+        if get_posterior_fn == None:
+            get_posterior_fn = self.get_posterior_fn
 
-    #     Get a list of candidate suggestions and calculate posteriors
-    #     for each of them.
+        query = query_string.split()
+        # List of list of possibilities for each term
+        all_term_possibilities = [self.generate_candidate_terms(term) 
+                                  for term in query]
 
-    #     Arguments:
-    #     - `query`: list of word(s) making up the word/phrase/sentence
-    #       query.
-    #     """
-    #     # List of list of possibilities for each term
-    #     all_term_possibilities = [self.generate_candidate_terms(term) 
-    #                               for term in query]
+        # Lust of all suggestions
+        all_suggestions = self.generate_candidate_suggestions(all_term_possibilities)
+        print all_suggestions
 
-    #     # Lust of all suggestions
-    #     all_suggestions = self.generate_candidate_suggestions(all_term_combinations)
+        posteriors = [get_posterior_fn(suggestion, query) 
+                      for suggestion in all_suggestions]
+        print posteriors
 
-    #     posteriors = [get_posterior(suggestion, query) 
-    #                   for suggestion in all_suggestions]
+        normalized_posteriors = utils.get_normalized_probabilities(posteriors)
 
-    #     normalized_posteriors = get_normalized_probabilities(posteriors)
-
-    #     return zip(all_suggestions, normalized_posteriors)
-        
-        # suggestions = ["believe", "buoyant", "committed", "distract", 
-        #                "ecstacy", "fairy", "hello", "gracefully", 
-        #                "liaison", "occasion", "possible", "throughout", 
-        #                "volley", "tattoos", "respect"]
-
-        # posteriors = [0.11, 0.02, 0.15, 0.04, 0.04, 0.05, 0.02, 0.06, 0.07, 
-        #               0.1, 0.01, 0.03, 0.07, 0.04, 0.19]
-        # return zip(suggestions, posteriors)
+        return zip(all_suggestions, normalized_posteriors)
 
     def run_spell_check(self, query_list):
         """Run spell check on queries in query_list and store the suggestions.
         
         Arguments:
-        - `query_list`:
+        - `query_list`: a string (NOT list) representing word/phrase/sentence.
         """
         self.query_list = query_list
         for query in self.query_list:

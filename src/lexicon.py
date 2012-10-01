@@ -26,7 +26,7 @@ class Lexicon(object):
         self._lexicon_filename = lexicon_filename
         self.set_lexicon(re.findall('[a-z]+', 
                                     file(lexicon_filename).read().lower()))
-    
+
     def set_lexicon(self, word_list):
         """Set the word_set of this lexicon as word_list."""
         self.word_set = set(word_list)

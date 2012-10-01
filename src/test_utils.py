@@ -154,6 +154,18 @@ class UtilsTest(unittest.TestCase):
             self.assertEqual(utils.get_corrected_split_queries(queries[i]),
                              answers[i])
 
+    def test_get_normalized_probabilities(self): 
+        probability_list = [0.2, 0.3, 0.2]
+        ans = [0.28571428571428575, 0.4285714285714286, 0.28571428571428575]
+
+        actual_list = utils.get_normalized_probabilities(probability_list)
+
+        for i in xrange(len(actual_list)):
+            self.assertAlmostEqual(actual_list[i], ans[i])
+
+        self.assertAlmostEqual(sum(actual_list),
+                               1.0)
+
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(UtilsTest)
     return suite

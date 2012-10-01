@@ -101,3 +101,12 @@ def get_corrected_split_queries(query):
     joined_up_suggestion_list = [query[:i] + [query[i] + query[i + 1]] + query[i+2:]
                                  for i in range(len(query) - 1)]
     return joined_up_suggestion_list
+
+def get_normalized_probabilities(probability_list):
+    """Return probability_list with the values normalized.
+    
+    Arguments:
+    - `probability_list`:
+    """
+    total = float(sum(probability_list))
+    return [prob / total for prob in probability_list]
