@@ -1,4 +1,6 @@
 *.py[co]
+*.~
+*#
 
 SpellCheck_Mod.pdf
 

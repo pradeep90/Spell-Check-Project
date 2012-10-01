@@ -32,7 +32,7 @@ def find_delete_cost (chars):
     return 1
     global delete_table
     if not delete_table :
-        delete_table = read_table ('deletion_table.txt')
+        delete_table = read_table ('../data/deletion_table.txt')
 
     freq = 0
     if len (chars) == 1:
@@ -53,7 +53,7 @@ def find_insert_cost (chars):
     return 1
     global insert_table
     if not insert_table :
-        insert_table = read_table ('insertion_table.txt')
+        insert_table = read_table ('../data/insertion_table.txt')
 
     freq = 0
     if len (chars) == 1:
@@ -74,7 +74,7 @@ def find_ex_cost (chars):
     return 1
     global ex_table
     if not ex_table :
-        ex_table = read_table ('swap_table.txt')
+        ex_table = read_table ('../data/swap_table.txt')
 
     freq = ex_table [_ord (chars[0])] [_ord (chars[1])]
     if freq : return 1.0/freq
@@ -87,9 +87,9 @@ def find_sub_cost (chars):
               x becomes y
               (between 0 and 1)"""
     return 1
-    # global sub_table
-    # if not sub_table :
-    #     sub_table = read_table ('sub_table.txt')
+    global sub_table
+    if not sub_table :
+        sub_table = read_table ('../data/sub_table.txt')
 
     # # Note chars1 before chars0
     # # That's the way the table in the paper is given.

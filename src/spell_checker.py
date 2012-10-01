@@ -117,7 +117,9 @@ class SpellChecker(object):
 
 if __name__ == '__main__':
     spell_checker = SpellChecker()
-    spell_checker.run_spell_check(['yo', 'boyz'])
-    human_dict = { 'yo': ['bar', 'jack'], 'boyz': ['tattoos', 'respect', 'baz'] }
+    query_list = ['why this kolaveri', 'i am sixg sxng']
+    spell_checker.run_spell_check(query_list)
+    human_dict = { query_list[0]: ['why this kolaveri'.split()], 
+                   query_list[1]: ['i am sing song'.split()] }
     print spell_checker.get_EF1_measure(human_dict)
     print spell_checker.get_all_stats(human_dict)

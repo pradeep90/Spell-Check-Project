@@ -76,9 +76,8 @@
       indices = [0]+indices+[len(list_)]
       return [list_[v:indices[k+1]] for k, v in enumerate(indices[:-1])]
 #+end_src
-** SUJEET get_prior (n-gram) -> prior probability for the n-gram
-** SUJEET lev (c, q) -> edit distance with different costs for each operation
-** SUJEET len (q)
+** DONE get_prior (n-gram) -> prior probability for the n-gram
+** DONE lev (c, q) -> edit distance with different costs for each operation
 ** DONE get_normalized_probability (list of posterior probabilities) -> normalized list
 ** DONE get_posterior (suggestion, query)
 ** DONE generate_suggestions (q) -> [(suggestion, posterior), ...]
@@ -95,8 +94,8 @@
 *** DONE get_ER
     CLOCK: [2012-09-27 Thu 13:42]--[2012-09-27 Thu 13:46] =>  0:04
 ** DONE EF1 = HM (EP, ER)
-** TODO run_spell_check ()
-   CLOCK: [2012-10-01 Mon 14:50]
+** DONE run_spell_check ()
+   CLOCK: [2012-10-01 Mon 14:50]--[2012-10-01 Mon 16:54] =>  2:04
 ** PRADEEP record_performance (EF1, Q)
 ** PRADEEP Script to test performance on different queries
 * Python learning
