@@ -100,6 +100,9 @@ def get_corrected_run_on_queries(query):
                                                    term_suggestions_list[i], 
                                                    [query[i + 1:]])]
     
+    term_combos.sort()
+    # Remove duplicates
+    # This requires that keys with same value be consecutive (hence sort).
     term_combos = [key for key, _ in itertools.groupby(term_combos)]
     term_combos.remove(query)
     return term_combos

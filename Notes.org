@@ -119,6 +119,7 @@
    CLOCK: [2012-10-01 Mon 23:15]--[2012-10-02 Tue 00:46] =>  1:31
    CLOCK: [2012-10-01 Mon 21:50]--[2012-10-01 Mon 23:07] =>  1:17
 ** TODO Use the split and joined pseudo-queries as well
+   CLOCK: [2012-10-02 Tue 02:15]
 ** TODO Test with refined edit distance
 ** TODO Use two-edit words as well
 ** TODO Test data in data/0643.zip

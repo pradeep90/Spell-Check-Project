@@ -67,6 +67,7 @@ class SpellCheckerTest(unittest.TestCase):
             ans_term_possibilities_list)
     
     def test_generate_suggestions_and_posteriors(self):
+        # Note: All this is with our tiny dummy lexicon
         query = 'wheere are yu going'
         suggestions = self.spell_checker.generate_suggestions_and_posteriors(
             query,
@@ -83,8 +84,8 @@ class SpellCheckerTest(unittest.TestCase):
         
         self.assertEqual(actual_suggestion_list,
                          expected_suggestion_list)
-        self.assertListAlmostEqual(actual_posterior_list,
-                               expected_posterior_list)
+        self.assertEqual(actual_posterior_list,
+                         expected_posterior_list)
 
     def test_run_spell_check(self):
         # Setting this here so that we don't have to call MS N-gram API
@@ -106,7 +107,7 @@ class SpellCheckerTest(unittest.TestCase):
             query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
             }
         actual_stats = self.spell_checker.get_all_stats(human_dict)
-        expected_stats = [0.61111111111111105, 1.0, 0.75862068965517226]
+        expected_stats = [0.55555555555555558, 1.0, 0.7142857142857143]
         self.assertEqual(actual_stats,
                          expected_stats)
 

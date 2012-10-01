@@ -21,7 +21,7 @@ def get_inputs(filename = '../data/words.input'):
     f = open(filename, 'r')
     query_list = [line.strip() for line in f]
     f.close()
-    print query_list
+    print 'query_list', query_list
     return query_list
 
 def write_outputs(query_list,
@@ -35,7 +35,7 @@ def write_outputs(query_list,
             '{0}\t{1}'.format(' '.join(term for term in suggestion), posterior)
             for suggestion, posterior in suggestion_dict[query_list[i]])
         line = '{0}\t{1}'.format(query_list[i], suggestions_str)
-        print line
+        print 'line', line
         f.write(line + '\n')
 
 def test_queries(test_name, query_input_file, query_output_file):
@@ -57,7 +57,6 @@ def test_queries(test_name, query_input_file, query_output_file):
     checker.run_spell_check(query_list)
     query_list = map(str.lower, query_list)
     suggestion_dict = checker.get_suggestion_dict()
-    print suggestion_dict.values()[0]
 
     if test_name == 'sentences':
         # Capitalize each sentence and add a period at the end.
@@ -79,14 +78,14 @@ def get_output_from_file(filename):
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print file_input
+    print 'file_input', file_input
     suggestion_dict = dict((line_elements[0], 
                             zip (line_elements[1::2], 
                                  map(float, line_elements[2::2])))
                             for line_elements in file_input)
     query_list = suggestion_dict.keys()
-    print suggestion_dict
-    print query_list
+    print 'suggestion_dict', suggestion_dict
+    print 'query_list', query_list
     return [query_list, suggestion_dict]
 
 def get_human_suggestions(filename):
@@ -122,22 +121,22 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     ER = utils.get_ER(*args) 
     EF1 = utils.get_HM(EP, ER)
     stats = [EP, ER, EF1]
-    print stats
+    print 'stats', stats
 
     f = open(stats_file, 'a')
     stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {2}\tER: {3}\tEF1: {4}\n'.format(
         str(datetime.now()), test_label, *stats)
-    print stats_str
+    print 'stats_str', stats_str
     f.write(stats_str)
     f.close()
 
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    # test_labels = ['sentences']
-    test_labels = ['words', 'phrases', 'sentences']
+    test_labels = ['sentences']
+    # test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
-        print commandline_args_str
+        print 'commandline_args_str', commandline_args_str
         exit (0)
     elif sys.argv[1] == 'run-test':
         for test_label in test_labels:
@@ -156,5 +155,5 @@ if __name__ == '__main__':
                        '../data/' + test_label + '.tsv', 
                        '../data/' + test_label + '.stats')
     else:
-        print commandline_args_str
+        print 'commandline_args_str', commandline_args_str
         exit (0)

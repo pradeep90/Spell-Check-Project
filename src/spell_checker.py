@@ -74,17 +74,26 @@ class SpellChecker(object):
         query = query_string.split()
 
         all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
-        print all_queries
+        print 'all_queries', all_queries
+        # print 'utils.get_corrected_split_queries(query)', utils.get_corrected_split_queries(query)
+        # print 'utils.get_corrected_run_on_queries(query)', utils.get_corrected_run_on_queries(query)
 
         # List of all suggestions = combos of list of list of
         # possibilities for each term
-        all_suggestions = self.generate_candidate_suggestions(
-            [self.generate_candidate_terms(term) for term in query])
+        all_suggestions = [
+            self.generate_candidate_suggestions([self.generate_candidate_terms(term) 
+                                                 for term in query]) 
+                                                 for query in all_queries]
 
-        posteriors = [get_posterior_fn(suggestion, query) 
-                      for suggestion in all_suggestions]
-        normalized_posteriors = utils.get_normalized_probabilities(posteriors)
-        # print normalized_posteriors
+
+        all_posteriors = [[get_posterior_fn(suggestion, query)
+                          for suggestion in all_suggestions[index]]
+                          for index, query in enumerate(all_queries)]
+
+        all_suggestions = list(itertools.chain(*all_suggestions))
+        all_posteriors = list(itertools.chain(*all_posteriors))
+
+        normalized_posteriors = utils.get_normalized_probabilities(all_posteriors)
 
         return zip(all_suggestions, normalized_posteriors)
 
@@ -97,6 +106,7 @@ class SpellChecker(object):
         """
         self.query_list = query_list
         self.query_list = map(str.lower, query_list)
+        # self.query_list = [for query in self.query_list]
         for query in self.query_list:
             self.suggestion_dict[query] = self.generate_suggestions_and_posteriors(
                 query)
@@ -137,5 +147,5 @@ if __name__ == '__main__':
     spell_checker.run_spell_check(query_list)
     human_dict = { query_list[0]: ['why this kolaveri'.split()], 
                    query_list[1]: ['i am sing song'.split()] }
-    print spell_checker.get_EF1_measure(human_dict)
-    print spell_checker.get_all_stats(human_dict)
+    print 'spell_checker.get_EF1_measure(human_dict)', spell_checker.get_EF1_measure(human_dict)
+    print 'spell_checker.get_all_stats(human_dict)', spell_checker.get_all_stats(human_dict)
