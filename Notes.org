@@ -7,13 +7,6 @@
 ** Word spell check - standalone words are given and you are supposed to suggest corrections.
 ** Phrase spell check - words present in a phrases need to be checked for spelling
 ** Sentence spell check - an entire sentence needs to be checked for spelling
-* Input
-** query1
-** query2
-** ...
-* Output
-** query{i} suggestion1 prob1 suggestion2 prob2 ...
-** prob1 = P (suggestion1 | query{i})
 * Metrics
 ** EP, ER, EF1
 * Word spell-check
@@ -43,16 +36,16 @@
 ** We need C (q), the set of all suggestions we produced for q, and the corresponding posterior probabilities P (c | q)
 ** TODO S (q) - set of human-annotated plausible spelling variations for q
 * Possible Improvements
+** TODO Edit Distance with different costs for each operation
 ** TODO We're not considering two-edit words if one-edit words exist. But there could be better two-edit words
 *** eg. 'adres' now would go to 'acres' instead of 'address' (which is more probable)
+*** TODO Join all the words and sort using Sujeet's costs
+** TODO New Split and joined queries can be considered as new queries
 ** TODO Filter words while generating them by ignoring operations with low probability (insert q next to z).
-** TODO Edit Distance with different costs for each operation
 ** Unknown words
 *** Maybe change 2/3/4-letter sequences according to some rules
-* Code - SpellChecker
+* DONE Code - SpellChecker
   CLOCK: [2012-09-26 Wed 13:10]--[2012-09-26 Wed 13:51] =>  0:41
-** Training
-*** Take in S (q) (?) or some training data
 ** DONE filter_valid_words (list of words) -> list of valid words OR is_in_dict (term) -> true or false
 *** Store a list of dictionary words.
 ** DONE generate_candidate_terms (term) -> list of N_t candidate terms + the original term
@@ -74,12 +67,12 @@
       indices = [0]+indices+[len(list_)]
       return [list_[v:indices[k+1]] for k, v in enumerate(indices[:-1])]
 #+end_src
-** SUJEET get_prior (n-gram) -> prior probability for the n-gram
-** SUJEET lev (c, q) -> edit distance with different costs for each operation
-** SUJEET len (q)
+** DONE get_prior (n-gram) -> prior probability for the n-gram
+** DONE lev (c, q) -> edit distance with different costs for each operation
 ** DONE get_normalized_probability (list of posterior probabilities) -> normalized list
-** TODO get_posterior (suggestion, query)
-** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
+** DONE get_posterior (suggestion, query)
+** DONE generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-10-01 Mon 13:10]--[2012-10-01 Mon 14:47] =>  1:37
    CLOCK: [2012-10-01 Mon 12:18]--[2012-10-01 Mon 12:49] =>  0:31
    CLOCK: [2012-10-01 Mon 10:28]--[2012-10-01 Mon 11:17] =>  0:49
    CLOCK: [2012-09-30 Sun 19:00]--[2012-09-30 Sun 22:15] =>  3:15
@@ -92,8 +85,10 @@
 *** DONE get_ER
     CLOCK: [2012-09-27 Thu 13:42]--[2012-09-27 Thu 13:46] =>  0:04
 ** DONE EF1 = HM (EP, ER)
-** PRADEEP record_performance (EF1, Q)
-** PRADEEP Script to test performance on different queries
+** DONE run_spell_check ()
+   CLOCK: [2012-10-01 Mon 14:50]--[2012-10-01 Mon 16:54] =>  2:04
+** DONE record_performance (EF1, Q)
+** DONE Script to test performance on different queries
 * Python learning
 ** Nested for loops (as generators)
 #+begin_src python
@@ -103,3 +98,34 @@
   # Inner loop
   for e2 in xrange(3, 6))
 #+end_src
+* Evaluation
+  CLOCK: [2012-10-01 Mon 17:25]--[2012-10-01 Mon 18:54] =>  1:29
+** DONE Testing
+** DONE Test words, phrases, and sentences separately
+*** Dataset
+**** query1 suggestion1 ...
+*** Input
+**** query1
+**** query2
+**** ...
+*** Output
+**** query{i} suggestion1 prob1 suggestion2 prob2 ...
+**** prob1 = P (suggestion1 | query{i})
+** DONE Calculate stats based on the file.
+** DONE Write output to file and calculate stats based on the file.
+   CLOCK: [2012-10-01 Mon 20:55]--[2012-10-01 Mon 21:47] =>  0:52
+** TODO Use the split and joined pseudo-queries as well
+** TODO Test with refined edit distance
+** TODO Use two-edit words as well
+** TODO Test data in data/0643.zip
+import re
+string = """I OFTEN VISITED my AUNT.  She lived in  a  MAGNIFICENT
+HOUSE  OPPOSITE the GALLERY.  I REMEMBER her SPLENDID PURPLE
+CURTAINS.  She WROTE POETRY.  The PROBLEM was  nobody  could
+UNDERSTAND  it.   Her  LATEST  POEMS  had words like prunty,
+slimber, grondel, blomp.  I WANTED to LAUGH  but  I  had  to
+PRETEND  to  like  them.  However, I REALLY like the SPECIAL
+REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
+I left, my STOMACH was full and I was happy and CONTENTED."""
+print re.findall('[A-Z]+', string)
+    

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import itertools, collections, urllib2, math
 from word import *
 
@@ -29,6 +31,7 @@ def find_delete_cost (chars):
     returns : the cost with which y can get deleted in the process
               of misspelling when x occurs before it.
               (between 0 and 1)"""
+    return 1
     global delete_table
     if not delete_table :
         delete_table = read_table ('../data/deletion_table.txt')
@@ -49,6 +52,7 @@ def find_insert_cost (chars):
     returns : the cost with which y can get inserted in the process
               of misspelling when x occurs before it.
               (between 0 and 1)"""
+    return 1
     global insert_table
     if not insert_table :
         insert_table = read_table ('../data/insertion_table.txt')
@@ -69,6 +73,7 @@ def find_ex_cost (chars):
     returns : the cost with which
               xy becomes yx
               (between 0 and 1)"""
+    return 1
     global ex_table
     if not ex_table :
         ex_table = read_table ('../data/swap_table.txt')
@@ -83,22 +88,23 @@ def find_sub_cost (chars):
     returns : the cost with which
               x becomes y
               (between 0 and 1)"""
+    return 1
     global sub_table
     if not sub_table :
         sub_table = read_table ('../data/sub_table.txt')
 
-    # Note chars1 before chars0
-    # That's the way the table in the paper is given.
-    freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
-    if freq : return 1.0/freq
-    else : return 1
+    # # Note chars1 before chars0
+    # # That's the way the table in the paper is given.
+    # freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
+    # if freq : return 1.0/freq
+    # else : return 1
 
 def generate_all_candidate_suggestions (phrase):
     """ Phrase is either a list of words or a single string.
     returns a list of lists.
     each list is a combination of suggested words corresponding to one
     ord in the phrase."""
-    if type (phrase) != type (list) : phrase = phrase.split ()
+    # if type (phrase) != type (list) : phrase = phrase.split ()
     word_suggestions = [get_word_suggestions (word) for word in phrase]
     return [product for product in itertools.product (*word_suggestions)]
 
@@ -109,8 +115,8 @@ def get_likelihood (query, suggestion):
 
     0 - (edit_dist (q, s) / length (q)) """
     edit_dist = 0
-    for corrected_word, misspelt_word in zip (suggestion.split (),
-                                              query.split ()):
+    for corrected_word, misspelt_word in zip (suggestion,
+                                              query):
         edit_cost, foobar = get_edits (corrected_word, misspelt_word)
         edit_dist += edit_cost
     return 0 - (edit_dist / len (query))
@@ -121,6 +127,7 @@ def get_edits (correct, mistake):
         ix means _ mapped to x
         sxy means x mapped to y
         exy means x and y were swapped """
+    # print correct, mistake
     ans = memtable.get (correct + ":" + mistake)
     if ans : return ans
 
@@ -157,24 +164,29 @@ def get_edits (correct, mistake):
             ans = (ex_cost, ex_ops)
 
     memtable [correct + ":" + mistake] = ans
+    # print correct, mistake
     return (ans [0], ans [1].strip())
 
 def get_prior (phrase):
     """Returns log (P (phrase)) as given by MS N-gram service."""
     if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
-    print phrase
+    print 'get_prior', phrase
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
                                              phrase)).read()
     return float(prob.strip())
 
-def get_posterior (phrase):
-    return math.exp(get_prior (phrase) + get_likelihood (phrase))
+def get_posterior (suggestion, query):
+    return math.exp(get_prior (suggestion) + get_likelihood (query, suggestion))
 
 if __name__ == "__main__":
-    # for suggestion in generate_all_candidate_suggestions ("cat aret gonne") :
-    #     print " ".join (suggestion)
+    # print get_edits ("belie", "belive")
+    # print get_posterior (["belie"], ["belive"])
+    # for suggestion in generate_all_candidate_suggestions ("i can haz cheezburger".split()) :
+    #     print suggestion
+    #     print get_prior(suggestion)
+        # print get_posterior(suggestion, 'cat aret gonne'.split())
+        # print " ".join (suggestion)
     # print get_edits ("sujeet", "usjeet")
-    print get_edits ("cats", "cat")
-    print get_edits ("cats", "catr")
     # print get_phrase_prior ("I am a dog")
+    pass

@@ -18,9 +18,24 @@ class SpellCheckerTest(unittest.TestCase):
             ])
         self.spell_checker = spell_checker.SpellChecker(given_lexicon = self.lexicon)
 
+        # It'll end up being 1/3 anyway if every suggestion has the
+        # same posterior, cos of normalization
+        self.dummy_posterior = 1 / 3.0
+        self.dummy_posterior_fn = lambda suggestion, query: self.dummy_posterior
+
     def tearDown(self):
         pass
-    
+
+    def assertListAlmostEqual(self, actual_list, expected_list):
+        """Assert that actual_list and expected_list are almost equal.
+
+        ie. assertAlmostEqual(actual_elem, expected_elem) in each list.
+        Assumption: They are of same length.
+        """
+        self.assertTrue(len(actual_list) == len(expected_list))
+        for i in xrange(len(actual_list)):
+            self.assertAlmostEqual(actual_list[i], expected_list[i])
+        
     def test_generate_candidate_terms(self):
         word1 = 'grst'
         word2 = 'fr'
@@ -50,48 +65,79 @@ class SpellCheckerTest(unittest.TestCase):
         self.assertEqual(
             self.spell_checker.generate_candidate_suggestions(term_possibilities_list),
             ans_term_possibilities_list)
+    
+    def test_generate_suggestions_and_posteriors(self):
+        query = 'wheere are yu going'
+        suggestions = self.spell_checker.generate_suggestions_and_posteriors(
+            query,
+            get_posterior_fn = self.dummy_posterior_fn)
+        expected_suggestion_list = [['wheere', 'am', 'yo', 'going'], 
+                                    ['wheere', 'an', 'yo', 'going'], 
+                                    ['wheere', 'bar', 'yo', 'going']]
+               
+        expected_posterior_list = [self.dummy_posterior] * 3
 
-    def test_get_normalized_probabilities(self): 
-        probability_list = [0.2, 0.3, 0.2]
-        ans = [0.28571428571428575, 0.4285714285714286, 0.28571428571428575]
+        actual_suggestion_list, actual_posterior_list = [list(produced_tuple) 
+                                                         for produced_tuple 
+                                                         in zip(*suggestions)]
+        
+        self.assertEqual(actual_suggestion_list,
+                         expected_suggestion_list)
+        self.assertListAlmostEqual(actual_posterior_list,
+                               expected_posterior_list)
 
-        actual_list = self.spell_checker.get_normalized_probabilities(
-            probability_list)
+    def test_run_spell_check(self):
+        # Setting this here so that we don't have to call MS N-gram API
+        self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
+        self.spell_checker.run_spell_check(['yo boyz'])
+        self.assertEqual(
+            self.spell_checker.generate_suggestions_and_posteriors('yo boyz'),
+            self.spell_checker.suggestion_dict['yo boyz'])
 
-        for i in xrange(len(actual_list)):
-            self.assertAlmostEqual(actual_list[i], ans[i])
+    def test_get_all_stats(self): 
+        self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
+        query_list = ['yo boyz i am sing song',
+                      'faster and faster edits',
+                      'jack in a bark floor']
+        self.spell_checker.run_spell_check(query_list)
+        human_dict = {
+            query_list[0]: [['yo', 'boyz', 'am', 'am', 'sing', 'song']],
+            query_list[1]: [['fast', 'an', 'fast', 'edit']],
+            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.61111111111111105, 1.0, 0.75862068965517226]
+        self.assertEqual(actual_stats,
+                         expected_stats)
 
-        self.assertAlmostEqual(sum(actual_list),
-                               1.0)
+    def test_get_all_stats_corner_cases(self): 
+        self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
+        query_list = ['yo boyz i am sing song',
+                      'faster and faster edits',
+                      'jack in a bark floor']
+        self.spell_checker.run_spell_check(query_list)
 
-    # def test_generate_suggestions_and_posteriors(self):
-    #     query = 'foo'
-    #     suggestions = self.spell_checker.generate_suggestions_and_posteriors(query)
-    #     expected = [('believe', 0.11),
-    #                 ('buoyant', 0.02),
-    #                 ('committed', 0.14999999999999999),
-    #                 ('distract', 0.040000000000000001),
-    #                 ('ecstacy', 0.040000000000000001),
-    #                 ('fairy', 0.050000000000000003),
-    #                 ('hello', 0.02),
-    #                 ('gracefully', 0.059999999999999998),
-    #                 ('liaison', 0.070000000000000007),
-    #                 ('occasion', 0.10000000000000001),
-    #                 ('possible', 0.01),
-    #                 ('throughout', 0.029999999999999999),
-    #                 ('volley', 0.070000000000000007),
-    #                 ('tattoos', 0.040000000000000001),
-    #                 ('respect', 0.19)
-    #                 ]
-    #     self.assertEqual(suggestions,
-    #                      expected)
+        # key's dict value is empty
+        human_dict = {
+            query_list[0]: [],
+            query_list[1]: [['fast', 'an', 'fast', 'edit']],
+            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.5, 0.66666666666666663, 0.57142857142857151]
+        self.assertEqual(actual_stats,
+                         expected_stats)
 
-    # def test_run_spell_check(self):
-    #     self.spell_checker.run_spell_check(['yo', 'boyz'])
-    #     self.assertEqual(self.spell_checker.suggestion_dict['yo'],
-    #                      self.spell_checker.generate_suggestions_and_posteriors('yo'))
-    #     self.assertEqual(self.spell_checker.suggestion_dict['boyz'],
-    #                      self.spell_checker.generate_suggestions_and_posteriors('boyz'))
+        # All keys' dict values are empty
+        human_dict = {
+            query_list[0]: [],
+            query_list[1]: [],
+            query_list[2]: [],
+            }
+        actual_stats = self.spell_checker.get_all_stats(human_dict)
+        expected_stats = [0.0, 0.0, 0.0]
+        self.assertEqual(actual_stats,
+                         expected_stats)
 
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(SpellCheckerTest)
