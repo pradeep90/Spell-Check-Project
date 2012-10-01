@@ -7,13 +7,6 @@
 ** Word spell check - standalone words are given and you are supposed to suggest corrections.
 ** Phrase spell check - words present in a phrases need to be checked for spelling
 ** Sentence spell check - an entire sentence needs to be checked for spelling
-* Input
-** query1
-** query2
-** ...
-* Output
-** query{i} suggestion1 prob1 suggestion2 prob2 ...
-** prob1 = P (suggestion1 | query{i})
 * Metrics
 ** EP, ER, EF1
 * Word spell-check
@@ -108,6 +101,23 @@
   for e2 in xrange(3, 6))
 #+end_src
 * Evaluation
+  CLOCK: [2012-10-01 Mon 17:25]--[2012-10-01 Mon 18:54] =>  1:29
+** DONE Testing
+** DONE Test words, phrases, and sentences separately
+*** Dataset
+**** query1 suggestion1 ...
+*** Input
+**** query1
+**** query2
+**** ...
+*** Output
+**** query{i} suggestion1 prob1 suggestion2 prob2 ...
+**** prob1 = P (suggestion1 | query{i})
+** DONE Calculate stats based on the file.
+** DONE Write output to file and calculate stats based on the file.
+** TODO Use the split and joined pseudo-queries as well
+** TODO Test with refined edit distance
+** TODO Use two-edit words as well
 ** TODO Test data in data/0643.zip
 import re
 string = """I OFTEN VISITED my AUNT.  She lived in  a  MAGNIFICENT

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import itertools, collections, urllib2, math
 from word import *
 
@@ -125,6 +127,7 @@ def get_edits (correct, mistake):
         ix means _ mapped to x
         sxy means x mapped to y
         exy means x and y were swapped """
+    # print correct, mistake
     ans = memtable.get (correct + ":" + mistake)
     if ans : return ans
 
@@ -161,13 +164,14 @@ def get_edits (correct, mistake):
             ans = (ex_cost, ex_ops)
 
     memtable [correct + ":" + mistake] = ans
+    # print correct, mistake
     return (ans [0], ans [1].strip())
 
 def get_prior (phrase):
     """Returns log (P (phrase)) as given by MS N-gram service."""
     if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
-    print phrase
+    print 'get_prior', phrase
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
                                              phrase)).read()
     return float(prob.strip())
@@ -176,9 +180,11 @@ def get_posterior (suggestion, query):
     return math.exp(get_prior (suggestion) + get_likelihood (query, suggestion))
 
 if __name__ == "__main__":
-    for suggestion in generate_all_candidate_suggestions ("i can haz cheezburger".split()) :
-        print suggestion
-        print get_prior(suggestion)
+    # print get_edits ("belie", "belive")
+    print get_posterior (["belie"], ["belive"])
+    # for suggestion in generate_all_candidate_suggestions ("i can haz cheezburger".split()) :
+    #     print suggestion
+    #     print get_prior(suggestion)
         # print get_posterior(suggestion, 'cat aret gonne'.split())
         # print " ".join (suggestion)
     # print get_edits ("sujeet", "usjeet")

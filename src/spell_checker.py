@@ -26,6 +26,9 @@ class SpellChecker(object):
         self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
         self.get_posterior_fn = phrase.get_posterior
 
+    def get_suggestion_dict(self):
+        return self.suggestion_dict
+
     def generate_candidate_terms(self, term):
         """Return list of candidate terms for term.
 
@@ -67,6 +70,8 @@ class SpellChecker(object):
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
 
+        # print 'get_posterior_fn', get_posterior_fn.__name__
+
         query = query_string.split()
         # List of list of possibilities for each term
         all_term_possibilities = [self.generate_candidate_terms(term) 
@@ -74,12 +79,12 @@ class SpellChecker(object):
 
         # List of all suggestions
         all_suggestions = self.generate_candidate_suggestions(all_term_possibilities)
-        print all_suggestions
+        # print all_suggestions
 
         posteriors = [get_posterior_fn(suggestion, query) 
                       for suggestion in all_suggestions]
         normalized_posteriors = utils.get_normalized_probabilities(posteriors)
-        print normalized_posteriors
+        # print normalized_posteriors
 
         return zip(all_suggestions, normalized_posteriors)
 
@@ -105,12 +110,21 @@ class SpellChecker(object):
         return utils.get_HM (utils.get_EP(*args),
                              utils.get_ER(*args))
     
-    def get_all_stats(self, human_suggestion_dict):
+    def get_all_stats(self, 
+                      human_suggestion_dict,
+                      query_list = None,
+                      suggestion_dict = None):
         """Return [EP, ER, EF1] for performance as judged by human_suggestion_dict.
         
         Arguments:
         - `human_suggestion_dict`:
         """
+
+        if query_list == None:
+            query_list = self.query_list
+        if suggestion_dict == None:
+            suggestion_dict = self.suggestion_dict
+
         args = [self.query_list, self.suggestion_dict, human_suggestion_dict]
         return [utils.get_EP(*args), utils.get_ER(*args), 
                 self.get_EF1_measure(human_suggestion_dict)]
