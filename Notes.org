@@ -42,6 +42,13 @@
 * Evaluation
 ** We need C (q), the set of all suggestions we produced for q, and the corresponding posterior probabilities P (c | q)
 ** TODO S (q) - set of human-annotated plausible spelling variations for q
+* Possible Improvements
+** TODO We're not considering two-edit words if one-edit words exist. But there could be better two-edit words
+*** eg. 'adres' now would go to 'acres' instead of 'address' (which is more probable)
+** TODO Filter words while generating them by ignoring operations with low probability (insert q next to z).
+** TODO Edit Distance with different costs for each operation
+** Unknown words
+*** Maybe change 2/3/4-letter sequences according to some rules
 * Code - SpellChecker
   CLOCK: [2012-09-26 Wed 13:10]--[2012-09-26 Wed 13:51] =>  0:41
 ** Training
@@ -51,17 +58,32 @@
 ** DONE generate_candidate_terms (term) -> list of N_t candidate terms + the original term
 *** Make sure it returns only valid terms.
 *** Maybe do set intersection with the dictionary.
-** SUJEET generate_candidate_suggestions (list of list of candidates for each term) -> list of candidate suggestions (phrases)
+** DONE generate_candidate_suggestions (list of list of candidates for each term) -> list of candidate suggestions (phrases)
 *** cross-product of the lists
-** PRADEEP get_corrected_split_phrases (query) -> list of phrases consisting of split words joined together if it results in valid terms
+** DONE get_corrected_split_phrases (query) -> list of phrases consisting of split words joined together if it results in valid terms
+   CLOCK: [2012-09-30 Sun 18:35]--[2012-09-30 Sun 19:00] =>  0:25
 *** Assumption: max two words will be joined.
-** PRADEEP get_corrected_run_on_phrases (query) -> list of phrases consisting of run-on words split if it results in valid terms
+** DONE get_corrected_run_on_phrases (query) -> list of phrases consisting of run-on words split if it results in valid terms
+   CLOCK: [2012-09-30 Sun 17:12]--[2012-09-30 Sun 18:32] =>  1:20
+   CLOCK: [2012-09-30 Sun 16:30]--[2012-09-30 Sun 17:11] =>  0:41
 *** Assumption: max three words have been joined together.
+*** Could have used this but went with the inefficient yet more Pythonic version
+#+begin_src python
+  def parts(list_, indices):
+      # http://stackoverflow.com/questions/1198512/split-a-list-into-parts-based-on-a-set-of-indexes-in-python
+      indices = [0]+indices+[len(list_)]
+      return [list_[v:indices[k+1]] for k, v in enumerate(indices[:-1])]
+#+end_src
 ** SUJEET get_prior (n-gram) -> prior probability for the n-gram
 ** SUJEET lev (c, q) -> edit distance with different costs for each operation
 ** SUJEET len (q)
-** SUJEET get_normalized_probability (list of posterior probabilities) -> normalized list
-** PRADEEP generate_suggestions (q) -> [(suggestion, posterior), ...]
+** DONE get_normalized_probability (list of posterior probabilities) -> normalized list
+** TODO get_posterior (suggestion, query)
+** TODO generate_suggestions (q) -> [(suggestion, posterior), ...]
+   CLOCK: [2012-10-01 Mon 12:18]--[2012-10-01 Mon 12:49] =>  0:31
+   CLOCK: [2012-10-01 Mon 10:28]--[2012-10-01 Mon 11:17] =>  0:49
+   CLOCK: [2012-09-30 Sun 19:00]--[2012-09-30 Sun 22:15] =>  3:15
+   CLOCK: [2012-09-30 Sun 16:15]--[2012-09-30 Sun 16:30] =>  0:15
    CLOCK: [2012-09-27 Thu 13:50]--[2012-09-27 Thu 14:26] =>  0:36
 *** or C (q) and P (c | q)
 ** DONE evaluate_suggestions (q, C (q), P (c | q), S (q)) -> [EP, ER]
@@ -72,3 +94,12 @@
 ** DONE EF1 = HM (EP, ER)
 ** PRADEEP record_performance (EF1, Q)
 ** PRADEEP Script to test performance on different queries
+* Python learning
+** Nested for loops (as generators)
+#+begin_src python
+  print list((e1, e2) 
+  # Outer loop
+  for e1 in xrange(10) 
+  # Inner loop
+  for e2 in xrange(3, 6))
+#+end_src
