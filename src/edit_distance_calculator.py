@@ -35,8 +35,6 @@ class EditDistanceCalculator(object):
         
         Note: the strings returned need not be valid words.
         """
-        # return self.lexicon.known_words (self.words_two_edits_away (word))
-
         # Generating the words and filtering them on the spot might be
         # better than generating them all and then filtering them
         # here.

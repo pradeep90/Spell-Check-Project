@@ -24,12 +24,14 @@ class Lexicon(object):
             lexicon_filename = 'words.txt'
 
         self._lexicon_filename = lexicon_filename
-        self.set_lexicon(self.get_words_from_lexicon_file (file(self._lexicon_filename)))
+        self.set_lexicon(self.get_words_from_lexicon_file(open(self._lexicon_filename)))
 
     def get_words_from_lexicon_file(self, lexicon_file):
         """Return list of words from lexicon_file.
         """
-        return re.findall('[a-z]+', lexicon_file.read())
+        prog = re.compile('^[a-z]+')
+        return [prog.match(line.strip()).group(0) for line in lexicon_file 
+                if prog.match(line.strip())]
 
     def set_lexicon(self, word_list):
         """Set the word_set of this lexicon as word_list."""
@@ -62,4 +64,5 @@ class Lexicon(object):
         return word_list[:num_words_required]
 
 if __name__ == "__main__" :
-    print get_word_suggestions ("greatz")
+    test_lexicon = Lexicon()
+    test_lexicon.get_words_from_lexicon_file(open('words.txt'))

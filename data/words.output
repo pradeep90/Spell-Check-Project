@@ -1,15 +1,15 @@
-belive	belie	0.25	believe	0.25	belize	0.25	relive	0.25
+belive	belie	0.0507330847019	believe	0.840669212327	relive	0.108597702971
 bouyant	buoyant	1.0
-comitte	cogitate	0.1	colette	0.1	comity	0.1	committed	0.1	committee	0.1	commute	0.1	compete	0.1	compote	0.1	compute	0.1	comte	0.1
+comitte	cogitate	0.00791846645807	comity	0.0179515876241	committed	0.189896190688	committee	0.3737019513	commute	0.0648156805607	compete	0.131093860374	compote	0.0198227953948	compute	0.100117406073	omitted	0.094682061528
 distarct	distract	1.0
-extacy	exact	0.25	extant	0.25	extract	0.25	stacy	0.25
-failr	fail	0.333333333333	fails	0.333333333333	fair	0.333333333333
-hellpp	hell	0.125	helled	0.125	heller	0.125	hello	0.125	hellos	0.125	hells	0.125	help	0.125	helps	0.125
-gracefull	graceful	0.5	gracefully	0.5
-liason	liaison	1.0
-ocassion	cession	0.2	occasion	0.2	omission	0.2	passion	0.2	scansion	0.2
-possable	passable	0.5	possible	0.5
-thruout	throat	0.2	thrust	0.2	trout	0.2	tryout	0.2	turnout	0.2
-volly	dolly	0.125	folly	0.125	golly	0.125	holly	0.125	jolly	0.125	molly	0.125	polly	0.125	volley	0.125
-tatoos	taboos	0.5	tattoos	0.5
-respe	crepe	0.1	erse	0.1	espy	0.1	hesse	0.1	jesse	0.1	kresge	0.1	rape	0.1	rasp	0.1	rasped	0.1	rasps	0.1
+extacy	exaco	0.00706943313936	exact	0.469926029552	extans	0.00250571293387	extant	0.112193639035	extract	0.373591628476	tacy	0.0347135568643
+failr	fail	0.30008170164	fails	0.252857420966	fair	0.447060877394
+hellpp	hell	0.1179252493	helled	0.00139013371898	helley	0.00320391321768	hello	0.151177545364	hellos	0.012179143544	hells	0.0235093201164	helly	0.0176584062224	help	0.520309560561	helps	0.149468092689	hillip	0.00317863526657
+gracefull	graceful	0.552736131716	gracefully	0.447263868284
+liason	leason	0.0706566952809	liaison	0.86190225549	lison	0.0674410492288
+ocassion	assion	0.0131775792251	cession	0.0483537047179	occasion	0.332683584606	omission	0.216752433296	passion	0.368116270929	scansion	0.0209164272252
+possable	passable	0.0570138163755	possible	0.942986183625
+thruout	throat	0.280022242088	thrust	0.200193427374	trout	0.257609284538	tryout	0.0915700301194	turnout	0.170605015882
+volly	dolly	0.180749097508	folly	0.13574672971	golly	0.0645437228625	holly	0.290121809627	jolly	0.155518060254	olly	0.0759563526435	volley	0.0973642273956
+tatoos	taboos	0.222806962752	tattoos	0.777193037248
+respe	resge	1.0

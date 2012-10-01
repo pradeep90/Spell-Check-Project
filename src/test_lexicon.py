@@ -10,6 +10,10 @@ class LexiconTest(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_init(self): 
+        full_lexicon = lexicon.Lexicon()
+        self.assertFalse(len(full_lexicon.word_set) == 0)
+
     def test_known_words(self): 
         word_list = ['foo', 'yo', 'bar']
         self.assertEqual(self.lexicon.known_words(word_list),
@@ -21,7 +25,7 @@ class LexiconTest(unittest.TestCase):
         self.assertFalse(self.lexicon.is_known_word(word1))
         self.assertTrue(self.lexicon.is_known_word(word2))
 
-    def test_get_words_from_lexicon_file(self): 
+    def test_get_words_from_lexicon_file_lowercase(self): 
         test_lexicon = lexicon.Lexicon()
         self.assertTrue(all(word.islower() for word in test_lexicon.word_set))
 
