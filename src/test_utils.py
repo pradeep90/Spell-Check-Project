@@ -108,12 +108,11 @@ class UtilsTest(unittest.TestCase):
 
     def test_get_corrected_run_on_queries(self):
         query_3_words = ['footballhalloffame', 'rocks']
-        ans_3_words = [['football', 'hall', 'of', 'fame', 'rock', 's'], 
-                       ['football', 'hall', 'of', 'fame', 'r', 'o', 'c', 'ks'], 
-                       ['football', 'hall', 'of', 'fame', 'rocks'], 
+        ans_3_words = [['football', 'hall', 'of', 'fame', 'rocks'], 
                        ['footballhalloffame', 'rock', 's'], 
-                       ['footballhalloffame', 'r', 'o', 'c', 'ks']]
-
+                       ['footballhalloffame', 'r', 'o', 'c', 'ks'], 
+                       ['footballhalloffame', 'rocks']]
+                       
         query_2_words = ['giantcell', 'M']
 
         # TODO: The lexicon contains single-alphabets as words. Fix.

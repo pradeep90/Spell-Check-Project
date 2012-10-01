@@ -80,28 +80,28 @@ def get_corrected_run_on_queries(query):
 
     Return list of phrase/sentence queries with any run-on word split.
 
-    Assumption: MAX 3 words have been joined together.
-    TODO: Remove the original query from the final list. It will be
-    present cos of the cross-product.
-    TODO: Not checking for valid words now.
-
+    Assumption: MAX max_num_splits words have been joined together.
     Arguments:
     - `query`: list of word(s)
     """
     max_num_splits = 3
+    # List of list of suggestions for each word
     term_suggestions_list = [
         list(itertools.chain(*[get_splits(word, i) 
                                for i in xrange(1, max_num_splits + 1)])) + [[word]] 
                                for word in query]
-    crude_suggestions_list = itertools.product(*term_suggestions_list)
-    # Note: crude_suggestions_list for [foobar, yoboyz] will contain 
-    # ([foo bar], [yo boyz],)
-    # whereas we want 
-    # [foo bar yo boyz]
-    split_suggestions_list = [list(itertools.chain(*incomplete_suggestion)) 
-                              for incomplete_suggestion in crude_suggestions_list]
-    split_suggestions_list.remove(query)
-    return split_suggestions_list
+
+    # All term_combos (considering only one word to be a run-on word
+    # at a time)
+    term_combos = [list(itertools.chain(*tuple_))
+                   for i in xrange(len(query))
+                   for tuple_ in itertools.product([query[:i]], 
+                                                   term_suggestions_list[i], 
+                                                   [query[i + 1:]])]
+    
+    term_combos = [key for key, _ in itertools.groupby(term_combos)]
+    term_combos.remove(query)
+    return term_combos
 
 def get_corrected_split_queries(query):
     """Correct split query by joining words.
