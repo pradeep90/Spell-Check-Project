@@ -2,11 +2,13 @@
 
 # Program to correct spelling errors.
 
+from datetime import datetime
 import edit_distance_calculator
 import itertools
 import lexicon
 import phrase
 import spell_checker
+import sys
 import utils
 
 dummy_posterior = 1 / 3.0
@@ -50,6 +52,7 @@ def test_queries(test_name, query_input_file, query_output_file):
     checker.get_posterior_fn = dummy_posterior_fn
     
     checker.run_spell_check(query_list)
+    query_list = map(str.lower, query_list)
     write_outputs(query_list, checker.get_suggestion_dict(), 
                   query_output_file)
 
@@ -77,7 +80,8 @@ def get_human_suggestions(filename):
     file_input = [line.strip().split('\t') for line in f]
     f.close()
     print file_input
-    human_suggestion_dict = dict([(line_elements[0], line_elements[1:]) 
+    human_suggestion_dict = dict([(line_elements[0].lower(), 
+                                   map(str.lower, line_elements[1:])) 
                                   for line_elements in file_input])
     return human_suggestion_dict
 
@@ -101,27 +105,31 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     print stats
 
     f = open(stats_file, 'a')
-    f.write(' '.join(map(str, stats)) + '\n')
+    stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {2}\tER: {3}\tEF1: {4}\n'.format(
+        str(datetime.now()), test_label, *stats)
+    print stats_str
+    f.write(stats_str)
     f.close()
 
 if __name__ == '__main__':
-    # test_labels = ['words', 'phrases', 'sentences']
-    # for test_label in test_labels:
-    #     test_queries(test_label, 
-    #                  '../data/' + test_label +  '.input', 
-    #                  '../data/' + test_label + '.output')
+    commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    # get_inputs()
-    # write_outputs(query_list = ['yo', 'boyz'],
-    #               suggestion_dict = {'yo': [(['foo'], 0.7), (['bar'], 0.3)], 
-    #                                  'boyz': [(['bar'], 0.4), (['baz'], 0.6)]})
-
-    print get_output_from_file('../data/words.output')
-    print get_human_suggestions('../data/words.tsv')
-    calc_stats('words', '../data/words.output', 
-               '../data/words.tsv', '../data/words.stats')
-    # get_output_from_file('../data/phrases.output')
-    # get_output_from_file('../data/sentences.output')
-
-    
-
+    test_labels = ['words', 'phrases', 'sentences']
+    # test_labels = ['sentences']
+    if len (sys.argv) != 2:
+        print commandline_args_str
+        exit (0)
+    elif sys.argv[1] == 'run-test':
+        for test_label in test_labels:
+            test_queries(test_label, 
+                         '../data/' + test_label +  '.input', 
+                         '../data/' + test_label + '.output')
+    elif sys.argv[1] == 'calc-stats':
+        for test_label in test_labels:
+            calc_stats(test_label, 
+                       '../data/' + test_label + '.output', 
+                       '../data/' + test_label + '.tsv', 
+                       '../data/' + test_label + '.stats')
+    else:
+        print commandline_args_str
+        exit (0)

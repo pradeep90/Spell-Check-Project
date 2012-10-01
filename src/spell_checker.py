@@ -91,10 +91,12 @@ class SpellChecker(object):
     def run_spell_check(self, query_list):
         """Run spell check on queries in query_list and store the suggestions.
         
+        ASSUMPTION: all words in query_list are lowercase.
         Arguments:
         - `query_list`: a string (NOT list) representing word/phrase/sentence.
         """
         self.query_list = query_list
+        self.query_list = map(str.lower, query_list)
         for query in self.query_list:
             self.suggestion_dict[query] = self.generate_suggestions_and_posteriors(
                 query)

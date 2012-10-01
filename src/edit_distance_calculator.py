@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import lexicon
+
 # Edit Distance calculator
 
 class EditDistanceCalculator(object):
@@ -63,3 +65,7 @@ class EditDistanceCalculator(object):
     #     word_set.sort (key = lexicon.get, reverse = True)
     #     return set (word_set [:n])
 
+if __name__ == '__main__':
+    lexicon = lexicon.Lexicon ()
+    calculator = EditDistanceCalculator (lexicon)
+    print calculator.get_top_known_words ('corses', 100)

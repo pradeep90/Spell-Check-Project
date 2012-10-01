@@ -181,7 +181,7 @@ def get_posterior (suggestion, query):
 
 if __name__ == "__main__":
     # print get_edits ("belie", "belive")
-    print get_posterior (["belie"], ["belive"])
+    # print get_posterior (["belie"], ["belive"])
     # for suggestion in generate_all_candidate_suggestions ("i can haz cheezburger".split()) :
     #     print suggestion
     #     print get_prior(suggestion)
@@ -189,3 +189,4 @@ if __name__ == "__main__":
         # print " ".join (suggestion)
     # print get_edits ("sujeet", "usjeet")
     # print get_phrase_prior ("I am a dog")
+    pass
