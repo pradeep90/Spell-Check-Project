@@ -72,6 +72,7 @@ def get_splits(run_on_word, num_splits):
     valid_split_indices = [list(tuple_) for tuple_ in valid_split_indices]
     crude_splits_list = [partition(run_on_word, index_list) 
                          for index_list in valid_split_indices]
+
     return [str_tuple for str_tuple in crude_splits_list 
             if all(full_lexicon.is_known_word(word) for word in str_tuple)]
 

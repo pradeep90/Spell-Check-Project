@@ -115,6 +115,8 @@
 ** DONE Write output to file and calculate stats based on the file.
    CLOCK: [2012-10-01 Mon 20:55]--[2012-10-01 Mon 21:47] =>  0:52
 ** DONE Fix Bugs
+   CLOCK: [2012-10-02 Tue 00:50]--[2012-10-02 Tue 02:11] =>  1:21
+   CLOCK: [2012-10-01 Mon 23:15]--[2012-10-02 Tue 00:46] =>  1:31
    CLOCK: [2012-10-01 Mon 21:50]--[2012-10-01 Mon 23:07] =>  1:17
 ** TODO Use the split and joined pseudo-queries as well
 ** TODO Test with refined edit distance

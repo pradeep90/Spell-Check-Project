@@ -72,13 +72,14 @@ class SpellChecker(object):
             get_posterior_fn = self.get_posterior_fn
 
         query = query_string.split()
-        # List of list of possibilities for each term
-        all_term_possibilities = [self.generate_candidate_terms(term) 
-                                  for term in query]
 
-        # List of all suggestions
-        all_suggestions = self.generate_candidate_suggestions(all_term_possibilities)
-        # print all_suggestions
+        all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
+        print all_queries
+
+        # List of all suggestions = combos of list of list of
+        # possibilities for each term
+        all_suggestions = self.generate_candidate_suggestions(
+            [self.generate_candidate_terms(term) for term in query])
 
         posteriors = [get_posterior_fn(suggestion, query) 
                       for suggestion in all_suggestions]

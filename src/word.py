@@ -2,7 +2,7 @@
 import re, collections
 
 max_num_word_suggestions = 10
-lexicon_filename = "words.txt"
+lexicon_filename = "decently-big-words.txt"
 
 def build_frequency_dict_from_list (lst):
     """ input example : [a, b, a, a, k, k]
