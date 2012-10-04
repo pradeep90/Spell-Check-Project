@@ -2,6 +2,11 @@
 *.~
 *#
 
+*.tar.gz
+*.pdf
+*.aux
+*.log
+
 SpellCheck_Mod.pdf
 
 # Packages

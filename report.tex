@@ -18,8 +18,8 @@ Sujeet Gholap, CS09B010
 %\doublespacing
 
 
-%Put here the basic sketch of the algorithm. It must contain the assumptions that you 
-%are making, if any, and the basic method of the algorithm. 
+%Put here the basic sketch of the algorithm. It must contain the assumptions that you
+%are making, if any, and the basic method of the algorithm.
 \section{Algorithm Sketch}
 \begin{enumerate}
 \item Candidate word selection : Out of words within edit distance of two,
@@ -31,16 +31,16 @@ suggested phrase.
 used as prior for each candidate phrase.
 \item Likelihood for query given candidate : Assuming the probability
 exponentially decreases as the number of edits required increases, likelihood
-is calculated as $e^{(weighted\ edit\ distance / length)}$
+is calculated as $e^{-(weighted\ edit\ distance / length)}$
 \end{enumerate}
 
 
 %Put here the results on the sample cases provided. Both the expected average precision and
-%recall. Also your observations on the results obtained. 
+%recall. Also your observations on the results obtained.
 \section{Results \& Observations}
 
 
-%Put here the resources used along with the url if any of the resource used. If you want, you can attach a bibtex file along too. 
+%Put here the resources used along with the url if any of the resource used. If you want, you can attach a bibtex file along too.
 \section{Resources Used}
 \begin{enumerate}
 \item Microsoft Web N-gram service : http://research.microsoft.com/en-us/collaboration/focus/cs/web-ngram.aspx

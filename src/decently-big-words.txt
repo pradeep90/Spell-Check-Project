@@ -3591,7 +3591,6 @@ axle
 axles
 axon
 axons
-ay
 ayatollah
 ayatollahs
 aye
@@ -3602,7 +3601,6 @@ azimuth
 azimuths
 azure
 azures
-b
 baa
 baaed
 baaing
@@ -7296,7 +7294,6 @@ byway
 byways
 byword
 bywords
-c
 cab
 cabal
 cabals
@@ -13147,7 +13144,6 @@ crystallizing
 crystallographic
 crystallography
 crystals
-cs
 cub
 cubbyhole
 cubbyholes
@@ -13506,8 +13502,6 @@ czar
 czarina
 czarinas
 czars
-d
-dB
 dab
 dabbed
 dabbing
@@ -17589,7 +17583,6 @@ dyslexics
 dyspepsia
 dyspeptic
 dyspeptics
-e
 eBay
 each
 eager
@@ -17929,7 +17922,6 @@ egress
 egresses
 egret
 egrets
-eh
 eider
 eiderdown
 eiderdowns
@@ -18159,7 +18151,6 @@ elusive
 elusively
 elusiveness
 elves
-em
 emaciate
 emaciated
 emaciates
@@ -19173,7 +19164,6 @@ eruptions
 erupts
 erythrocyte
 erythrocytes
-es
 escalate
 escalated
 escalates
@@ -19473,7 +19463,6 @@ ewe
 ewer
 ewers
 ewes
-ex
 exacerbate
 exacerbated
 exacerbates
@@ -20184,8 +20173,6 @@ eying
 eyrie
 eyries
 eyry
-f
-fa
 fable
 fabled
 fables
@@ -23012,7 +22999,6 @@ fuzzily
 fuzziness
 fuzzing
 fuzzy
-g
 gab
 gabardine
 gabardines
@@ -24840,7 +24826,6 @@ grunt
 grunted
 grunting
 grunts
-gs
 guacamole
 guano
 guarantee
@@ -25093,7 +25078,6 @@ gyro
 gyros
 gyroscope
 gyroscopes
-h
 ha
 haberdasher
 haberdasheries
@@ -30057,7 +30041,6 @@ ivies
 ivories
 ivory
 ivy
-j
 jab
 jabbed
 jabber
@@ -30627,9 +30610,7 @@ juxtaposes
 juxtaposing
 juxtaposition
 juxtapositions
-k
 kHz
-kW
 kabob
 kabobs
 kaboom
@@ -30661,7 +30642,6 @@ kayaking
 kayaks
 kazoo
 kazoos
-kc
 kebab
 kebabs
 kebob
@@ -31078,14 +31058,11 @@ krone
 kroner
 kronor
 krypton
-ks
 kudos
 kudzu
 kudzus
 kumquat
 kumquats
-l
-la
 lab
 label
 labeled
@@ -32450,7 +32427,6 @@ llama
 llamas
 llano
 llanos
-lo
 load
 loadable
 loaded
@@ -32854,7 +32830,6 @@ loyalties
 loyalty
 lozenge
 lozenges
-ls
 luau
 luaus
 lubber
@@ -33044,8 +33019,6 @@ lyrically
 lyricist
 lyricists
 lyrics
-m
-ma
 macabre
 macadam
 macaroni
@@ -33997,7 +33970,6 @@ mazourka
 mazourkas
 mazurka
 mazurkas
-me
 mead
 meadow
 meadowlark
@@ -34508,7 +34480,6 @@ mewls
 mews
 mezzanine
 mezzanines
-mi
 miasma
 miasmas
 miasmata
@@ -35970,8 +35941,6 @@ mowing
 mown
 mows
 mozzarella
-ms
-mu
 much
 mucilage
 muck
@@ -36311,7 +36280,6 @@ muzzle
 muzzled
 muzzles
 muzzling
-my
 myna
 mynah
 mynahs
@@ -36353,7 +36321,6 @@ mythologist
 mythologists
 mythology
 myths
-n
 nab
 nabbed
 nabbing
@@ -37380,7 +37347,6 @@ noxious
 nozzle
 nozzles
 nth
-nu
 nuance
 nuanced
 nuances
@@ -37522,7 +37488,6 @@ nymphomania
 nymphomaniac
 nymphomaniacs
 nymphs
-o
 oaf
 oafish
 oafs
@@ -39045,7 +39010,6 @@ ovulation
 ovule
 ovules
 ovum
-ow
 owe
 owed
 owes
@@ -39091,8 +39055,6 @@ oxymorons
 oyster
 oysters
 ozone
-p
-pH
 pa
 pace
 paced
@@ -44247,7 +44209,6 @@ pyx
 pyxed
 pyxes
 pyxing
-q
 qua
 quack
 quacked
@@ -44570,7 +44531,6 @@ quotidian
 quotient
 quotients
 quoting
-r
 rabbi
 rabbies
 rabbinate
@@ -45059,7 +45019,6 @@ razz
 razzed
 razzes
 razzing
-re
 reach
 reachable
 reached
@@ -48123,7 +48082,6 @@ royally
 royals
 royalties
 royalty
-rs
 rub
 rubbed
 rubber
@@ -48350,7 +48308,6 @@ ruts
 rutted
 rutting
 rye
-s
 sabbatical
 sabbaticals
 saber
@@ -50189,7 +50146,6 @@ sexual
 sexuality
 sexually
 sexy
-sh
 shabbier
 shabbiest
 shabbily
@@ -56063,7 +56019,6 @@ systemic
 systemics
 systems
 systolic
-t
 tab
 tabbed
 tabbies
@@ -57404,7 +57359,6 @@ thymuses
 thyroid
 thyroids
 thyself
-ti
 tiara
 tiaras
 tibia
@@ -58962,7 +58916,6 @@ tryst
 trysted
 trysting
 trysts
-ts
 tsar
 tsarina
 tsarinas
@@ -59339,7 +59292,6 @@ tyroes
 tyros
 tzar
 tzars
-u
 ubiquitous
 ubiquitously
 ubiquity
@@ -59353,7 +59305,6 @@ ugliest
 ugliness
 ugly
 uglying
-uh
 ukulele
 ukuleles
 ulcer
@@ -59393,7 +59344,6 @@ ululate
 ululated
 ululates
 ululating
-um
 umbel
 umbels
 umber
@@ -60970,7 +60920,6 @@ uvulae
 uvular
 uvulars
 uvulas
-v
 vacancies
 vacancy
 vacant
@@ -61947,7 +61896,6 @@ vulva
 vulvae
 vulvas
 vying
-w
 wackes
 wackier
 wackiest
@@ -63715,7 +63663,6 @@ wryly
 wryness
 wuss
 wusses
-x
 xenon
 xenophobia
 xenophobic
@@ -63726,8 +63673,6 @@ xylophone
 xylophones
 xylophonist
 xylophonists
-y
-ya
 yacht
 yachted
 yachting
@@ -63776,7 +63721,6 @@ yawned
 yawning
 yawns
 yaws
-ye
 yea
 yeah
 yeahs
@@ -63845,7 +63789,6 @@ yippee
 yippees
 yipping
 yips
-yo
 yodel
 yodeled
 yodeler
@@ -63920,7 +63863,6 @@ yuppie
 yuppies
 yuppy
 yups
-z
 zanied
 zanier
 zanies

@@ -98,7 +98,7 @@
   # Inner loop
   for e2 in xrange(3, 6))
 #+end_src
-* Evaluation
+* Code for evaluation
   CLOCK: [2012-10-01 Mon 17:25]--[2012-10-01 Mon 18:54] =>  1:29
 ** DONE Testing
 ** DONE Test words, phrases, and sentences separately
@@ -114,7 +114,12 @@
 ** DONE Calculate stats based on the file.
 ** DONE Write output to file and calculate stats based on the file.
    CLOCK: [2012-10-01 Mon 20:55]--[2012-10-01 Mon 21:47] =>  0:52
+** DONE Fix Bugs
+   CLOCK: [2012-10-02 Tue 00:50]--[2012-10-02 Tue 02:11] =>  1:21
+   CLOCK: [2012-10-01 Mon 23:15]--[2012-10-02 Tue 00:46] =>  1:31
+   CLOCK: [2012-10-01 Mon 21:50]--[2012-10-01 Mon 23:07] =>  1:17
 ** TODO Use the split and joined pseudo-queries as well
+   CLOCK: [2012-10-02 Tue 02:15]
 ** TODO Test with refined edit distance
 ** TODO Use two-edit words as well
 ** TODO Test data in data/0643.zip
@@ -129,3 +134,5 @@ REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
 I left, my STOMACH was full and I was happy and CONTENTED."""
 print re.findall('[A-Z]+', string)
     
+* Evaluation
+** run-test on full script took ~7m

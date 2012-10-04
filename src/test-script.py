@@ -21,7 +21,7 @@ def get_inputs(filename = '../data/words.input'):
     f = open(filename, 'r')
     query_list = [line.strip() for line in f]
     f.close()
-    print query_list
+    print 'query_list', query_list
     return query_list
 
 def write_outputs(query_list,
@@ -35,25 +35,39 @@ def write_outputs(query_list,
             '{0}\t{1}'.format(' '.join(term for term in suggestion), posterior)
             for suggestion, posterior in suggestion_dict[query_list[i]])
         line = '{0}\t{1}'.format(query_list[i], suggestions_str)
-        print line
+        print 'line', line
         f.write(line + '\n')
 
 def test_queries(test_name, query_input_file, query_output_file):
     """Test checker for query inputs (from query_input_file).
 
     Write the output to query_output_file.
-    
+    For sentences, capitalize the first word and add a period at the
+    end to the suggestions.
     Arguments:
     - `query_input_file`:
     - `query_output_file`:
     """
     query_list = get_inputs(query_input_file)
     checker = spell_checker.SpellChecker()
-    # checker.get_posterior_fn = dummy_posterior_fn
+
+    if sys.argv[1] == 'dummy-test':
+        checker.get_posterior_fn = dummy_posterior_fn
     
     checker.run_spell_check(query_list)
     query_list = map(str.lower, query_list)
-    write_outputs(query_list, checker.get_suggestion_dict(), 
+    suggestion_dict = checker.get_suggestion_dict()
+
+    if test_name == 'sentences':
+        # Capitalize each sentence and add a period at the end.
+        suggestion_dict = dict([
+            (query.capitalize(), 
+             [([suggestion[0].capitalize()] + suggestion[1:-1] + [suggestion[-1] + '.']
+               , posterior) 
+              for suggestion, posterior in suggestion_list])
+             for query, suggestion_list in suggestion_dict.iteritems()])
+
+    write_outputs(suggestion_dict.keys(), suggestion_dict, 
                   query_output_file)
 
 def get_output_from_file(filename):
@@ -64,24 +78,28 @@ def get_output_from_file(filename):
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print file_input
+    print 'file_input', file_input
     suggestion_dict = dict((line_elements[0], 
                             zip (line_elements[1::2], 
                                  map(float, line_elements[2::2])))
                             for line_elements in file_input)
     query_list = suggestion_dict.keys()
-    print suggestion_dict
-    print query_list
+    print 'suggestion_dict', suggestion_dict
+    print 'query_list', query_list
     return [query_list, suggestion_dict]
 
 def get_human_suggestions(filename):
-    """Return human_suggestion_dict read from filename."""
+    """Return human_suggestion_dict read from filename.
+
+    Each of the sentences is like 'Yo boyz i am sing song.' with the
+    capitalization and period preserved.
+    """
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print file_input
-    human_suggestion_dict = dict([(line_elements[0].lower(), 
-                                   map(str.lower, line_elements[1:])) 
+    print 'file_input', file_input
+    human_suggestion_dict = dict([(line_elements[0], 
+                                   line_elements[1:]) 
                                   for line_elements in file_input])
     return human_suggestion_dict
 
@@ -94,6 +112,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     - `suggestion_dict`:
     """
     query_list, suggestion_dict = get_output_from_file(results_file)
+
     human_suggestion_dict = get_human_suggestions(human_suggestions_file)
     dummy_spell_checker = spell_checker.SpellChecker()
 
@@ -102,23 +121,29 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     ER = utils.get_ER(*args) 
     EF1 = utils.get_HM(EP, ER)
     stats = [EP, ER, EF1]
-    print stats
+    print 'stats', stats
 
     f = open(stats_file, 'a')
     stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {2}\tER: {3}\tEF1: {4}\n'.format(
         str(datetime.now()), test_label, *stats)
-    print stats_str
+    print 'stats_str', stats_str
     f.write(stats_str)
     f.close()
 
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    test_labels = ['words'] #, 'phrases', 'sentences']
+    test_labels = ['sentences']
+    # test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
-        print commandline_args_str
+        print 'commandline_args_str', commandline_args_str
         exit (0)
     elif sys.argv[1] == 'run-test':
+        for test_label in test_labels:
+            test_queries(test_label, 
+                         '../data/' + test_label +  '.input', 
+                         '../data/' + test_label + '.output')
+    elif sys.argv[1] == 'dummy-test':
         for test_label in test_labels:
             test_queries(test_label, 
                          '../data/' + test_label +  '.input', 
@@ -130,5 +155,5 @@ if __name__ == '__main__':
                        '../data/' + test_label + '.tsv', 
                        '../data/' + test_label + '.stats')
     else:
-        print commandline_args_str
+        print 'commandline_args_str', commandline_args_str
         exit (0)
