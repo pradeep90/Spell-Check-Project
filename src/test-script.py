@@ -10,9 +10,11 @@ import phrase
 import spell_checker
 import sys
 import utils
+import math
 
 dummy_posterior = 1 / 3.0
-dummy_posterior_fn = lambda suggestion, query: dummy_posterior
+dummy_prior = 1 / 3.0
+dummy_posterior_fn = lambda suggestion, query: math.exp(math.log(dummy_prior) + phrase.get_likelihood(query, suggestion))
 lexicon = lexicon.Lexicon()
 
 def get_inputs(filename = '../data/words.input'):
@@ -35,7 +37,7 @@ def write_outputs(query_list,
             '{0}\t{1}'.format(' '.join(term for term in suggestion), posterior)
             for suggestion, posterior in suggestion_dict[query_list[i]])
         line = '{0}\t{1}'.format(query_list[i], suggestions_str)
-        print 'line', line
+        print 'line:', line.replace('\t', '\n')
         f.write(line + '\n')
 
 def test_queries(test_name, query_input_file, query_output_file):
@@ -133,7 +135,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    test_labels = ['sentences']
+    test_labels = ['phrases']
     # test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
         print 'commandline_args_str', commandline_args_str

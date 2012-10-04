@@ -1,15 +1,15 @@
-extacy	exact	1.0
+extacy	exact	0.333333333333	extant	0.333333333333	extract	0.333333333333
 bouyant	buoyant	1.0
-tatoos	taboos	1.0
-failr	fail	1.0
-possable	passable	1.0
-comitte	cogitate	1.0
+tatoos	taboos	0.5	tattoos	0.5
+failr	fail	0.333333333333	fails	0.333333333333	fair	0.333333333333
+possable	passable	0.5	possible	0.5
+comitte	cogitate	0.111111111111	comity	0.111111111111	committed	0.111111111111	committee	0.111111111111	commute	0.111111111111	compete	0.111111111111	compote	0.111111111111	compute	0.111111111111	omitted	0.111111111111
 liason	liaison	1.0
-respe	crepe	1.0
+respe	crepe	0.1	espy	0.1	rape	0.1	rasp	0.1	rasped	0.1	rasps	0.1	raspy	0.1	reap	0.1	reaped	0.1	reaper	0.1
 distarct	distract	1.0
-belive	belie	0.5	believe	0.5
-ocassion	cession	1.0
-hellpp	hell	1.0
-gracefull	graceful	0.5	gracefully	0.5
-thruout	throat	0.5	thrust	0.5
-volly	dolly	1.0
+belive	belie	0.25	believe	0.25	relive	0.25	be live	0.25
+ocassion	cession	0.2	occasion	0.2	omission	0.2	passion	0.2	scansion	0.2
+hellpp	hell	0.142857142857	helled	0.142857142857	hello	0.142857142857	hellos	0.142857142857	hells	0.142857142857	help	0.142857142857	helps	0.142857142857
+gracefull	graceful	0.333333333333	gracefully	0.333333333333	grace full	0.333333333333
+thruout	throat	0.166666666667	thrust	0.166666666667	trout	0.166666666667	tryout	0.166666666667	turnout	0.166666666667	thru out	0.166666666667
+volly	dolly	0.166666666667	folly	0.166666666667	golly	0.166666666667	holly	0.166666666667	jolly	0.166666666667	volley	0.166666666667

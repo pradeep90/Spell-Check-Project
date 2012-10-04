@@ -8,7 +8,7 @@ import lexicon
 import edit_distance_calculator
 import phrase
 
-max_num_word_suggestions = 10
+NUM_CANDIDATES_TERMS_PER_WORD = 10
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
@@ -44,7 +44,8 @@ class SpellChecker(object):
         if self.lexicon.is_known_word(term):
             return [term]
 
-        candidate_terms = self.edit_distance_calculator.get_top_known_words(term, 10)
+        candidate_terms = self.edit_distance_calculator.get_top_known_words(
+            term, NUM_CANDIDATES_TERMS_PER_WORD)
         
         return candidate_terms
 

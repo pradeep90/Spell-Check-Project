@@ -93,11 +93,11 @@ def find_sub_cost (chars):
     if not sub_table :
         sub_table = read_table ('../data/sub_table.txt')
 
-    # # Note chars1 before chars0
-    # # That's the way the table in the paper is given.
-    # freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
-    # if freq : return 1.0/freq
-    # else : return 1
+    # Note chars1 before chars0
+    # That's the way the table in the paper is given.
+    freq = sub_table [_ord (chars[1])] [_ord (chars[0])]
+    if freq : return 1.0/freq
+    else : return 1
 
 def generate_all_candidate_suggestions (phrase):
     """ Phrase is either a list of words or a single string.

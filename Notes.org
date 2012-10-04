@@ -118,10 +118,12 @@
    CLOCK: [2012-10-02 Tue 00:50]--[2012-10-02 Tue 02:11] =>  1:21
    CLOCK: [2012-10-01 Mon 23:15]--[2012-10-02 Tue 00:46] =>  1:31
    CLOCK: [2012-10-01 Mon 21:50]--[2012-10-01 Mon 23:07] =>  1:17
-** TODO Use the split and joined pseudo-queries as well
+** DONE Use the split and joined pseudo-queries as well
    CLOCK: [2012-10-02 Tue 02:15]
 ** TODO Test with refined edit distance
+*** TODO Ain't working as of now
 ** TODO Use two-edit words as well
+*** TODO Rank them using the fine edit distance
 ** TODO Test data in data/0643.zip
 import re
 string = """I OFTEN VISITED my AUNT.  She lived in  a  MAGNIFICENT
@@ -134,5 +136,6 @@ REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
 I left, my STOMACH was full and I was happy and CONTENTED."""
 print re.findall('[A-Z]+', string)
     
+** TODO Sliding window
 * Evaluation
 ** run-test on full script took ~7m
