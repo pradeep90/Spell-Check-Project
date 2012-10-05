@@ -155,6 +155,25 @@ class UtilsTest(unittest.TestCase):
         self.assertAlmostEqual(sum(actual_list),
                                1.0)
 
+    def test_get_phrase_from_sentence(self): 
+        sentence = 'Foo bar yo.'
+        expected = 'foo bar yo'
+        self.assertEqual(utils.get_phrase_from_sentence(sentence),
+                         expected)
+
+    def test_get_sentence_from_phrase(self): 
+        phrase = 'foo bar yo'
+        expected = 'Foo bar yo.'
+        self.assertEqual(utils.get_sentence_from_phrase(phrase),
+                         expected)
+
+    def test_get_sentence_suggestion_from_phrase_suggestion(self): 
+        phrase_suggestion = 'foo bar yo'.split()
+        expected_sentence_suggestion = 'Foo bar yo.'.split()
+        self.assertEqual(
+            utils.get_sentence_suggestion_from_phrase_suggestion(phrase_suggestion),
+            expected_sentence_suggestion)
+        
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(UtilsTest)
     return suite

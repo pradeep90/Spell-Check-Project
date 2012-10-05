@@ -17,21 +17,41 @@ dummy_prior = 1 / 3.0
 dummy_posterior_fn = lambda suggestion, query: math.exp(math.log(dummy_prior) + phrase.get_likelihood(query, suggestion))
 lexicon = lexicon.Lexicon()
 
-def get_inputs(filename = '../data/words.input'):
+def get_inputs(test_label, filename = '../data/words.input'):
     """Return list of input queries read from filename.
+
+    Lowercase all the words.
+    If a query is a sentence, remove the period at the end.
     """
     f = open(filename, 'r')
     query_list = [line.strip() for line in f]
     f.close()
+    if test_label == 'sentences':
+        query_list = [utils.get_phrase_from_sentence(query) 
+                      for query in query_list]
+
+    query_list = [query.lower() for query in query_list]
+    
     print 'query_list', query_list
     return query_list
 
-def write_outputs(query_list,
+def write_outputs(test_label, 
+                  query_list,
                   suggestion_dict,
                   output_filename = '../data/words.output'):
     """Write query_list along with suggestion_dict to output_filename.
     """
     f = open(output_filename, 'w')
+
+    if test_label == 'sentences':
+        # Capitalize each sentence and add a period at the end.
+        suggestion_dict = dict([
+            (utils.get_sentence_from_phrase(query), 
+             [(utils.get_sentence_suggestion_from_phrase_suggestion(suggestion), 
+               posterior) 
+              for suggestion, posterior in suggestion_list])
+             for query, suggestion_list in suggestion_dict.iteritems()])
+
     for i in xrange(len(query_list)):
         suggestions_str = '\t'.join(
             '{0}\t{1}'.format(' '.join(term for term in suggestion), posterior)
@@ -40,39 +60,31 @@ def write_outputs(query_list,
         print 'line:', line.replace('\t', '\n')
         f.write(line + '\n')
 
-def test_queries(test_name, query_input_file, query_output_file):
+def test_queries(test_label, query_input_file, query_output_file):
     """Test checker for query inputs (from query_input_file).
 
     Write the output to query_output_file.
     For sentences, capitalize the first word and add a period at the
     end to the suggestions.
+
     Arguments:
+    - `test_label`:
     - `query_input_file`:
     - `query_output_file`:
     """
-    query_list = get_inputs(query_input_file)
+    query_list = get_inputs(test_label, query_input_file)
     checker = spell_checker.SpellChecker()
 
     if sys.argv[1] == 'dummy-test':
         checker.get_posterior_fn = dummy_posterior_fn
     
     checker.run_spell_check(query_list)
-    query_list = map(str.lower, query_list)
     suggestion_dict = checker.get_suggestion_dict()
-
-    if test_name == 'sentences':
-        # Capitalize each sentence and add a period at the end.
-        suggestion_dict = dict([
-            (query.capitalize(), 
-             [([suggestion[0].capitalize()] + suggestion[1:-1] + [suggestion[-1] + '.']
-               , posterior) 
-              for suggestion, posterior in suggestion_list])
-             for query, suggestion_list in suggestion_dict.iteritems()])
-
-    write_outputs(suggestion_dict.keys(), suggestion_dict, 
+    
+    write_outputs(test_label, suggestion_dict.keys(), suggestion_dict, 
                   query_output_file)
 
-def get_output_from_file(filename):
+def get_output_from_file(test_label, filename):
     """Return output of spell check from filename.
 
     Output: [query_list, suggestion_dict]
@@ -90,7 +102,7 @@ def get_output_from_file(filename):
     print 'query_list', query_list
     return [query_list, suggestion_dict]
 
-def get_human_suggestions(filename):
+def get_human_suggestions(test_label, filename):
     """Return human_suggestion_dict read from filename.
 
     Each of the sentences is like 'Yo boyz i am sing song.' with the
@@ -113,9 +125,9 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     - `query_list`:
     - `suggestion_dict`:
     """
-    query_list, suggestion_dict = get_output_from_file(results_file)
+    query_list, suggestion_dict = get_output_from_file(test_label, results_file)
 
-    human_suggestion_dict = get_human_suggestions(human_suggestions_file)
+    human_suggestion_dict = get_human_suggestions(test_label, human_suggestions_file)
     dummy_spell_checker = spell_checker.SpellChecker()
 
     args = [query_list, suggestion_dict, human_suggestion_dict]
@@ -135,8 +147,8 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
 if __name__ == '__main__':
     commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
 
-    test_labels = ['phrases']
-    # test_labels = ['words', 'phrases', 'sentences']
+    # test_labels = ['phrases']
+    test_labels = ['words', 'phrases', 'sentences']
     if len (sys.argv) != 2:
         print 'commandline_args_str', commandline_args_str
         exit (0)

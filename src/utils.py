@@ -132,3 +132,27 @@ def get_normalized_probabilities(probability_list):
     """
     total = float(sum(probability_list))
     return [prob / total for prob in probability_list]
+
+def get_phrase_from_sentence(sentence_string):
+    """Return phrase equivalent of sentence_string.
+
+    Lowercase the string and remove the period at the end.
+    """
+    return sentence_string.lower()[:-1]
+
+def get_sentence_from_phrase(phrase_string):
+    """Return sentence equivalent of phrase_string.
+
+    Capitalize the string and add a period at the end.
+    """
+    return phrase_string.capitalize() + '.'
+
+def get_sentence_suggestion_from_phrase_suggestion(phrase_suggestion):
+    """Return sentence equivalent of phrase_suggestion.
+    
+    Arguments:
+    - `phrase_suggestion`: list of term strings.
+    """
+    return [phrase_suggestion[0].capitalize()] + phrase_suggestion[1:-1] + [phrase_suggestion[-1] + '.'] 
+    
+

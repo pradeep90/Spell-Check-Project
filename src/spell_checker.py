@@ -6,9 +6,10 @@ import itertools
 import utils
 import lexicon
 import edit_distance_calculator
+import re
 import phrase
 
-NUM_CANDIDATES_TERMS_PER_WORD = 10
+MAX_NUM_TERMS = 10
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
@@ -31,7 +32,9 @@ class SpellChecker(object):
     def get_suggestion_dict(self):
         return self.suggestion_dict
 
-    def generate_candidate_terms(self, term):
+    def generate_candidate_terms(self, 
+                                 term, 
+                                 num_candidates_terms_per_word = MAX_NUM_TERMS):
         """Return list of candidate terms for term.
 
         Return:
@@ -45,7 +48,7 @@ class SpellChecker(object):
             return [term]
 
         candidate_terms = self.edit_distance_calculator.get_top_known_words(
-            term, NUM_CANDIDATES_TERMS_PER_WORD)
+            term, num_candidates_terms_per_word)
         
         return candidate_terms
 
@@ -72,7 +75,9 @@ class SpellChecker(object):
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
 
-        query = query_string.split()
+        print 'query_string', query_string
+        query = filter(None, re.split('[, ]', query_string))
+        print 'query', query
 
         all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
         print 'all_queries', all_queries

@@ -5,6 +5,7 @@ import utils
 import test_utils
 import lexicon
 import test_lexicon
+import test_phrase
 import edit_distance_calculator
 import test_edit_distance_calculator
 import unittest
@@ -50,6 +51,12 @@ class SpellCheckerTest(unittest.TestCase):
                          ans2)
         self.assertEqual(self.spell_checker.generate_candidate_terms(word3),
                          ans3)
+
+        # Test for num_candidates_terms_per_word
+        self.assertEqual(self.spell_checker.generate_candidate_terms(word2, 10),
+                         ans2)
+        self.assertEqual(self.spell_checker.generate_candidate_terms(word2, 2),
+                         ans2[:2])
 
     def test_generate_candidate_suggestions(self): 
         term1_possibilities = ['cast', 'fast']
@@ -145,12 +152,13 @@ def get_suite():
     return suite
 
 if __name__ == '__main__':
-    spell_checker_suite = get_suite()
-    utils_suite = test_utils.get_suite()
-    lexicon_suite = test_lexicon.get_suite()
-    edit_distance_calculator_suite = test_edit_distance_calculator.get_suite()
-    test_suites = [spell_checker_suite, utils_suite, lexicon_suite, 
-                   edit_distance_calculator_suite]
+    test_suites = [get_suite(),
+                   test_utils.get_suite(),
+                   test_lexicon.get_suite(),
+                   test_edit_distance_calculator.get_suite(),
+                   test_phrase.get_suite(),
+                   test_suggestion.get_suite(),
+                   ]
 
     all_tests = unittest.TestSuite(test_suites)
     unittest.TextTestRunner(verbosity=2).run(all_tests)
