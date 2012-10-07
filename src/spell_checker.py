@@ -12,6 +12,7 @@ import re
 import utils
 
 MAX_NUM_TERMS = 10
+MAX_NUM_SUGGESTIONS = 7
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
@@ -54,7 +55,7 @@ class SpellChecker(object):
         
         return candidate_terms
 
-    def generate_candidate_suggestions(self, term_possibilities_list):
+    def generate_candidate_suggestions(self, term_possibilities_list, suggestion_type):
         """Return list of candidate Suggestions by combining all possibilities.
         
         Arguments:
@@ -62,7 +63,7 @@ class SpellChecker(object):
           each term in the query phrase.
         """
         # suggestion is a tuple, so converting it to a list
-        return [Suggestion(list(suggestion)) 
+        return [Suggestion(list(suggestion), suggestion_type = suggestion_type) 
                 for suggestion in itertools.product(*term_possibilities_list)]
     
     def generate_suggestions_and_posteriors(self, query, 
@@ -80,26 +81,29 @@ class SpellChecker(object):
 
         all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
         print 'all_queries', all_queries
-        # print 'utils.get_corrected_split_queries(query)', utils.get_corrected_split_queries(query)
-        # print 'utils.get_corrected_run_on_queries(query)', utils.get_corrected_run_on_queries(query)
 
-        # List of list of suggestions for each query
-        all_suggestions = [
-            self.generate_candidate_suggestions([self.generate_candidate_terms(term) 
-                                                 for term in query]) 
-                                                 for query in all_queries]
-
-
-        all_posteriors = [[get_posterior_fn(suggestion, query)
-                          for suggestion in all_suggestions[index]]
-                          for index, query in enumerate(all_queries)]
+        # List of list of (query, suggestion, likelihood) for each query
+        all_suggestions = [[(query, suggestion, phrase.get_likelihood(query, suggestion)) 
+                            for suggestion in self.generate_candidate_suggestions(
+                                    map(self.generate_candidate_terms, query),
+                                    query.suggestion_type)] 
+                                    for query in all_queries]
 
         # Flatten the list of list of suggestions
         all_suggestions = list(itertools.chain(*all_suggestions))
-        all_posteriors = list(itertools.chain(*all_posteriors))
 
+        all_suggestions.sort(key = lambda _tuple: _tuple[2], 
+                             reverse = True)
+
+        all_suggestions = all_suggestions[:MAX_NUM_SUGGESTIONS]
+
+        print 'len(all_suggestions)', len(all_suggestions)
+
+        all_posteriors = [get_posterior_fn(suggestion, query)
+                          for query, suggestion, likelihood in all_suggestions]
+
+        all_suggestions = zip(*all_suggestions)[1]
         normalized_posteriors = utils.get_normalized_probabilities(all_posteriors)
-
         return zip(all_suggestions, normalized_posteriors)
 
     def run_spell_check(self, query_list):

@@ -2,6 +2,7 @@
 
 import itertools
 import lexicon
+from suggestion import Suggestion
 
 full_lexicon = lexicon.Lexicon()
 
@@ -110,7 +111,9 @@ def get_corrected_run_on_queries(query):
     print 'term_combos', term_combos
     term_combos.remove(query)
     print 'term_combos', term_combos
-    return term_combos
+    return [Suggestion(term_combo, suggestion_type = 
+                       'sentence' if query.suggestion_type == 'sentence' else 'phrase') 
+                       for term_combo in term_combos]
 
 def get_corrected_split_queries(query):
     """Correct split query by joining words.
@@ -119,14 +122,18 @@ def get_corrected_split_queries(query):
 
     Assumption: a word has been split only once.
     Note: The original query is NOT part of the returned list.
-    TODO: Not filtering using valid words now.
 
     Arguments:
     - `query`: Suggestion object
     """
-    joined_up_suggestion_list = [query[:i] + [query[i] + query[i + 1]] + query[i+2:]
-                                 for i in range(len(query) - 1)
-                                 if full_lexicon.is_known_word(query[i] + query[i + 1])]
+    # TODO: Should probably check to see if the resultant suggestion
+    # is a word/phrase/suggestion and then set its suggestion_type.
+    # eg. 'No w.' (sentence) -> 'Now.' (word)
+    joined_up_suggestion_list = [
+        Suggestion(query[:i] + [query[i] + query[i + 1]] + query[i+2:], 
+                   suggestion_type = query.suggestion_type)
+        for i in range(len(query) - 1)
+        if full_lexicon.is_known_word(query[i] + query[i + 1])]
     return joined_up_suggestion_list
 
 def get_normalized_probabilities(probability_list):

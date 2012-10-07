@@ -69,7 +69,8 @@ class SpellCheckerTest(unittest.TestCase):
                                        ['fast', 'edit', 'boyz'], 
                                        ['fast', 'edit', 'baz']]
         self.assertEqual(
-            self.spell_checker.generate_candidate_suggestions(term_possibilities_list),
+            self.spell_checker.generate_candidate_suggestions(term_possibilities_list, 
+                                                              'phrase'),
             ans_term_possibilities_list)
     
     def test_generate_suggestions_and_posteriors(self):
@@ -78,8 +79,8 @@ class SpellCheckerTest(unittest.TestCase):
         suggestions = self.spell_checker.generate_suggestions_and_posteriors(
             query,
             get_posterior_fn = self.dummy_posterior_fn)
-        expected_suggestion_list = [['wheere', 'am', 'yo', 'going'], 
-                                    ['wheere', 'an', 'yo', 'going'], 
+        expected_suggestion_list = [['wheere', 'an', 'yo', 'going'], 
+                                    ['wheere', 'am', 'yo', 'going'], 
                                     ['wheere', 'bar', 'yo', 'going']]
                
         expected_posterior_list = [self.dummy_posterior] * 3

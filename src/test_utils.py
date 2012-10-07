@@ -108,18 +108,15 @@ class UtilsTest(unittest.TestCase):
                          ans_2_splits)
 
     def test_get_corrected_run_on_queries(self):
-        query_3_words = ['footballhalloffame', 'rocks']
-        ans_3_words = [['football', 'hall', 'of', 'fame', 'rocks']]
+        query_3_words = Suggestion(['footballhalloffame', 'rocks'])
+        ans_3_words = [Suggestion(['football', 'hall', 'of', 'fame', 'rocks'])]
                        
-        query_2_words = ['giantcell', 'M']
+        query_2_words = Suggestion(['giantcell', 'M'])
 
-        # TODO: The lexicon contains single-alphabets as words. Fix.
-        ans_2_words = [['giant', 'cell', 'M']]
+        ans_2_words = [Suggestion(['giant', 'cell', 'M'])]
         self.assertEqual(utils.get_corrected_run_on_queries(query_2_words),
                          ans_2_words)
 
-        # Skipping this for now, cos we aren't doing valid words
-        # check.
         self.assertEqual(utils.get_corrected_run_on_queries(query_3_words),
                          ans_3_words)
 

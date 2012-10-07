@@ -108,7 +108,7 @@ def get_output_from_file(test_label, filename):
                                        suggestion_type = test_label[:-1]), 
                             zip ([Suggestion(suggestion_str = suggestion_str, 
                                              suggestion_type = test_label[:-1]) 
-                                             for suggestion_str in line_elements], 
+                                             for suggestion_str in line_elements[1::2]], 
                                  map(float, line_elements[2::2])))
                             for line_elements in file_input)
     query_list = suggestion_dict.keys()

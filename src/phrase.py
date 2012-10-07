@@ -113,12 +113,11 @@ def find_sub_cost (chars):
 #     word_suggestions = [get_word_suggestions (word) for word in phrase]
 #     return [product for product in itertools.product (*word_suggestions)]
 
-@accepts(list, Suggestion)
+@accepts(Suggestion, Suggestion)
 def get_likelihood (query, suggestion):
     """ Returns an approximation of P (query | suggestion).
 
-    Query is a potentially misspelt phrase while suggestion is
-    a phrase consisting of dictionary words.
+    The more the better.
 
     Likelihood = -(edit_dist (q, s) / total_length (q)).
     - 1 <= Likelihood <= 0
@@ -136,9 +135,18 @@ def get_likelihood (query, suggestion):
     print 'query', query
     print 'suggestion', suggestion
 
-    edit_distance = sum(get_edits(correct_word, misspelt_word)[0] 
-                        for correct_word, misspelt_word 
-                        in zip(suggestion, query))
+    if len(suggestion) == len(query):
+        edit_distance = sum(get_edits(correct_word, misspelt_word)[0] 
+                            for correct_word, misspelt_word 
+                            in zip(suggestion, query))
+    else:
+        # TODO
+        # But, for a phrase which only had a word split and no errors,
+        # the above edit_distance would be 0.
+        # So, we need to have some cost for a split/join-up of words.
+        edit_distance = get_edits(''.join(suggestion.to_list()),
+                                  ''.join(query.to_list()))
+
     query_string_length = len(str(query))
     return -(edit_distance / query_string_length)
 
@@ -204,7 +212,7 @@ def get_prior (phrase):
                                              phrase)).read()
     return float(prob.strip())
 
-@accepts(list, list)
+@accepts(Suggestion, Suggestion)
 def get_posterior (suggestion, query):
     """Return P(suggestion | query).
 
@@ -212,6 +220,10 @@ def get_posterior (suggestion, query):
     - `query`: Suggestion object
     - `suggestion`: Suggestion object
     """
+    # TODO: Check whether it is good to call the MS API with a phrase
+    # instead of a sentence with capitalized first word and a period
+    # at the end.
+    phrase_suggestion = Suggestion(suggestion.term_list, suggestion_type = 'phrase')
     return math.exp(get_prior (str(suggestion)) + get_likelihood (query, suggestion))
 
 if __name__ == "__main__":

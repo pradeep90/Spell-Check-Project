@@ -11,6 +11,7 @@ class EditDistanceCalculator(object):
         """Initialize lexicon.
         """
         self.lexicon = lexicon
+        self.edit_threshold = 0.01
 
     # Source : http://norvig.com/spell-correct.html
     def words_one_edit_away (self, word):
@@ -32,8 +33,6 @@ class EditDistanceCalculator(object):
 
     def known_words_two_edits_away (self, word):
         """Given a word, return a list of valid strings two edit distance away.
-        
-        Note: the strings returned need not be valid words.
         """
         # Generating the words and filtering them on the spot might be
         # better than generating them all and then filtering them
@@ -51,6 +50,7 @@ class EditDistanceCalculator(object):
         # TODO: Later make this consider words BOTH from one-edit and
         # two-edit list.
         word_list = self.known_words_one_edit_away (word) or self.known_words_two_edits_away (word)
+        print 'len(word_list)', len(word_list)
 
         if not word_list:
             word_list = [word]
