@@ -2,6 +2,7 @@
 
 import phrase
 import unittest
+from suggestion import Suggestion
 
 class PhraseTest(unittest.TestCase):
     def setUp(self):
@@ -18,22 +19,12 @@ class PhraseTest(unittest.TestCase):
                          expected)
     
     def test_get_likelihood(self): 
-        query = ['foo']
-        suggestion = ['bar']
-        expected = -(phrase.get_edits(suggestion[0], query[0])[0] / len(query[0]))
+        query = Suggestion(['foo'])
+        suggestion = Suggestion(['bar'])
+        expected = -(phrase.get_edits(suggestion[0], 
+                                      query[0])[0] / len(str(query)))
         self.assertAlmostEqual(phrase.get_likelihood(query, suggestion),
                                expected, 2)
-
-        # query = [
-        #     'the', 'departments', 'of', 'the', 'institute', 
-        #     'offer', 'corses', 'conducted', 'by', 'highly', 'qualified', 'staff']
-        # suggestion = [
-        #     'the', 'departments', 'of', 'the', 'institute', 
-        #     'offer', 'coarsest', 'conducted', 'by', 'highly', 'qualified', 'staff']
-        # expected = -0.00070509367744390789
-
-        # self.assertAlmostEqual(phrase.get_likelihood(query, suggestion),
-        #                        expected, 2)
 
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(PhraseTest)

@@ -2,6 +2,7 @@
 
 import utils
 import unittest
+from suggestion import Suggestion
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):
@@ -137,6 +138,7 @@ class UtilsTest(unittest.TestCase):
         ans_4_word = [['fast', 'forward', 'march']]
 
         queries = [query_1_word, query_2_word, query_3_word, query_4_word]
+        queries = [Suggestion(query) for query in queries]
         answers = [ans_1_word, ans_2_word, ans_3_word, ans_4_word]
 
         for i in xrange(4):

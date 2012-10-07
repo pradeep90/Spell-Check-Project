@@ -1,12 +1,12 @@
 #!/usr/bin/python
 
 import spell_checker
-import utils
 import test_utils
 import lexicon
 import test_lexicon
+from suggestion import Suggestion
 import test_phrase
-import edit_distance_calculator
+import test_suggestion
 import test_edit_distance_calculator
 import unittest
 
@@ -68,14 +68,13 @@ class SpellCheckerTest(unittest.TestCase):
                                        ['cast', 'edit', 'baz'], 
                                        ['fast', 'edit', 'boyz'], 
                                        ['fast', 'edit', 'baz']]
-
         self.assertEqual(
             self.spell_checker.generate_candidate_suggestions(term_possibilities_list),
             ans_term_possibilities_list)
     
     def test_generate_suggestions_and_posteriors(self):
         # Note: All this is with our tiny dummy lexicon
-        query = 'wheere are yu going'
+        query = Suggestion(suggestion_str = 'wheere are yu going')
         suggestions = self.spell_checker.generate_suggestions_and_posteriors(
             query,
             get_posterior_fn = self.dummy_posterior_fn)
@@ -94,24 +93,45 @@ class SpellCheckerTest(unittest.TestCase):
         self.assertEqual(actual_posterior_list,
                          expected_posterior_list)
 
+        query = Suggestion(['yo', 'boyz'])
+        suggestions = self.spell_checker.generate_suggestions_and_posteriors(
+            query,
+            get_posterior_fn = self.dummy_posterior_fn)
+        expected_suggestion_list = [Suggestion(['yo', 'boyz'])]
+               
+        expected_posterior_list = [1.0]
+
+        actual_suggestion_list, actual_posterior_list = [list(produced_tuple) 
+                                                         for produced_tuple 
+                                                         in zip(*suggestions)]
+        
+        self.assertEqual(actual_suggestion_list,
+                         expected_suggestion_list)
+        self.assertEqual(actual_posterior_list,
+                         expected_posterior_list)
+
     def test_run_spell_check(self):
         # Setting this here so that we don't have to call MS N-gram API
         self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
-        self.spell_checker.run_spell_check(['yo boyz'])
+        query_list = [Suggestion(['yo', 'boyz'])]
+        self.spell_checker.run_spell_check(query_list)
+
         self.assertEqual(
-            self.spell_checker.generate_suggestions_and_posteriors('yo boyz'),
-            self.spell_checker.suggestion_dict['yo boyz'])
+            self.spell_checker.generate_suggestions_and_posteriors(
+                Suggestion(suggestion_str = 'yo boyz')),
+            self.spell_checker.suggestion_dict[query_list[0]])
 
     def test_get_all_stats(self): 
         self.spell_checker.get_posterior_fn = self.dummy_posterior_fn
         query_list = ['yo boyz i am sing song',
                       'faster and faster edits',
                       'jack in a bark floor']
+        query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
         human_dict = {
-            query_list[0]: [['yo', 'boyz', 'am', 'am', 'sing', 'song']],
-            query_list[1]: [['fast', 'an', 'fast', 'edit']],
-            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            query_list[0]: [Suggestion(['yo', 'boyz', 'am', 'am', 'sing', 'song'])],
+            query_list[1]: [Suggestion(['fast', 'an', 'fast', 'edit'])],
+            query_list[2]: [Suggestion(['jack', 'an', 'an', 'bar', 'foo'])],
             }
         actual_stats = self.spell_checker.get_all_stats(human_dict)
         expected_stats = [0.55555555555555558, 1.0, 0.7142857142857143]
@@ -123,13 +143,14 @@ class SpellCheckerTest(unittest.TestCase):
         query_list = ['yo boyz i am sing song',
                       'faster and faster edits',
                       'jack in a bark floor']
+        query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
 
         # key's dict value is empty
         human_dict = {
             query_list[0]: [],
-            query_list[1]: [['fast', 'an', 'fast', 'edit']],
-            query_list[2]: [['jack', 'an', 'an', 'bar', 'foo']],
+            query_list[1]: [Suggestion(['fast', 'an', 'fast', 'edit'])],
+            query_list[2]: [Suggestion(['jack', 'an', 'an', 'bar', 'foo'])],
             }
         actual_stats = self.spell_checker.get_all_stats(human_dict)
         expected_stats = [0.5, 0.66666666666666663, 0.57142857142857151]
@@ -146,19 +167,11 @@ class SpellCheckerTest(unittest.TestCase):
         expected_stats = [0.0, 0.0, 0.0]
         self.assertEqual(actual_stats,
                          expected_stats)
-
+    
 def get_suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(SpellCheckerTest)
     return suite
 
 if __name__ == '__main__':
-    test_suites = [get_suite(),
-                   test_utils.get_suite(),
-                   test_lexicon.get_suite(),
-                   test_edit_distance_calculator.get_suite(),
-                   test_phrase.get_suite(),
-                   test_suggestion.get_suite(),
-                   ]
-
-    all_tests = unittest.TestSuite(test_suites)
-    unittest.TextTestRunner(verbosity=2).run(all_tests)
+    suite = get_suite()
+    unittest.TextTestRunner(verbosity=2).run(suite)

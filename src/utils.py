@@ -81,16 +81,18 @@ def get_corrected_run_on_queries(query):
 
     Return list of phrase/sentence queries with any run-on word split.
 
-    Assumption: MAX max_num_splits words have been joined together.
+    Assumption: A maximum of max_num_splits words have been joined together.
     Arguments:
-    - `query`: list of word(s)
+    - `query`: Suggestion object
     """
     max_num_splits = 3
+    print query
     # List of list of suggestions for each word
     term_suggestions_list = [
         list(itertools.chain(*[get_splits(word, i) 
                                for i in xrange(1, max_num_splits + 1)])) + [[word]] 
                                for word in query]
+    print 'term_suggestions_list', term_suggestions_list
 
     # All term_combos (considering only one word to be a run-on word
     # at a time)
@@ -100,11 +102,14 @@ def get_corrected_run_on_queries(query):
                                                    term_suggestions_list[i], 
                                                    [query[i + 1:]])]
     
+    print 'term_combos', term_combos
     term_combos.sort()
     # Remove duplicates
     # This requires that keys with same value be consecutive (hence sort).
     term_combos = [key for key, _ in itertools.groupby(term_combos)]
+    print 'term_combos', term_combos
     term_combos.remove(query)
+    print 'term_combos', term_combos
     return term_combos
 
 def get_corrected_split_queries(query):
@@ -117,7 +122,7 @@ def get_corrected_split_queries(query):
     TODO: Not filtering using valid words now.
 
     Arguments:
-    - `query`: list of word(s)
+    - `query`: Suggestion object
     """
     joined_up_suggestion_list = [query[:i] + [query[i] + query[i + 1]] + query[i+2:]
                                  for i in range(len(query) - 1)

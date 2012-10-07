@@ -2,12 +2,14 @@
 
 # Program to correct spelling errors.
 
-import itertools
-import utils
-import lexicon
 import edit_distance_calculator
-import re
+import itertools
+import lexicon
 import phrase
+import pickle
+from suggestion import Suggestion
+import re
+import utils
 
 MAX_NUM_TERMS = 10
 
@@ -18,8 +20,8 @@ class SpellChecker(object):
     def __init__(self, given_lexicon = None):
         """Initialize all the dicts for suggestions, etc.
         """
-        # key: query string NOT list
-        # val: list of (suggestion, posterior) pairs; suggestion = list of words.
+        # key: query (which is a Suggestion object)
+        # val: list of (Suggestion object, posterior) pairs;
         self.suggestion_dict = {}
 
         self.lexicon = given_lexicon
@@ -53,16 +55,17 @@ class SpellChecker(object):
         return candidate_terms
 
     def generate_candidate_suggestions(self, term_possibilities_list):
-        """Return list of candidate suggestions by combining all possibilities.
+        """Return list of candidate Suggestions by combining all possibilities.
         
         Arguments:
         - `term_possibilities_list`: list of list of possibilities for
           each term in the query phrase.
         """
-        return [list(suggestion) 
+        # suggestion is a tuple, so converting it to a list
+        return [Suggestion(list(suggestion)) 
                 for suggestion in itertools.product(*term_possibilities_list)]
     
-    def generate_suggestions_and_posteriors(self, query_string, 
+    def generate_suggestions_and_posteriors(self, query, 
                                             get_posterior_fn = None):
         """Return (suggestion, posterior) pairs for query.
 
@@ -70,22 +73,17 @@ class SpellChecker(object):
         for each of them.
 
         Arguments:
-        - `query_string`: string representing the word/phrase/sentence query.
+        - `query`: Suggestion object.
         """
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
-
-        print 'query_string', query_string
-        query = filter(None, re.split('[, ]', query_string))
-        print 'query', query
 
         all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
         print 'all_queries', all_queries
         # print 'utils.get_corrected_split_queries(query)', utils.get_corrected_split_queries(query)
         # print 'utils.get_corrected_run_on_queries(query)', utils.get_corrected_run_on_queries(query)
 
-        # List of all suggestions = combos of list of list of
-        # possibilities for each term
+        # List of list of suggestions for each query
         all_suggestions = [
             self.generate_candidate_suggestions([self.generate_candidate_terms(term) 
                                                  for term in query]) 
@@ -96,6 +94,7 @@ class SpellChecker(object):
                           for suggestion in all_suggestions[index]]
                           for index, query in enumerate(all_queries)]
 
+        # Flatten the list of list of suggestions
         all_suggestions = list(itertools.chain(*all_suggestions))
         all_posteriors = list(itertools.chain(*all_posteriors))
 
@@ -111,7 +110,7 @@ class SpellChecker(object):
         - `query_list`: a string (NOT list) representing word/phrase/sentence.
         """
         self.query_list = query_list
-        self.query_list = map(str.lower, query_list)
+        # self.query_list = map(str.lower, query_list)
         # self.query_list = [for query in self.query_list]
         for query in self.query_list:
             self.suggestion_dict[query] = self.generate_suggestions_and_posteriors(
@@ -147,11 +146,21 @@ class SpellChecker(object):
         return [utils.get_EP(*args), utils.get_ER(*args), 
                 self.get_EF1_measure(human_suggestion_dict)]
 
+# @memoize
+# def fibonacci(n):
+#    "Return the nth fibonacci number."
+#    if n in (0, 1):
+#       return n
+#    return fibonacci(n-1) + fibonacci(n-2)
+
 if __name__ == '__main__':
     spell_checker = SpellChecker()
     query_list = ['why this kolaveri', 'i am sixg sxng']
+    query_list = [Suggestion(query) for query in query_list]
     spell_checker.run_spell_check(query_list)
-    human_dict = { query_list[0]: ['why this kolaveri'.split()], 
-                   query_list[1]: ['i am sing song'.split()] }
+    human_dict = { query_list[0]: [Suggestion('why this kolaveri'.split())], 
+                   query_list[1]: [Suggestion('i am sing song'.split())] }
     print 'spell_checker.get_EF1_measure(human_dict)', spell_checker.get_EF1_measure(human_dict)
     print 'spell_checker.get_all_stats(human_dict)', spell_checker.get_all_stats(human_dict)
+
+

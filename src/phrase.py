@@ -2,6 +2,8 @@
 
 import itertools, collections, urllib2, math
 from accepts_decorator import accepts, returns
+from memoize import memoize
+from suggestion import Suggestion
 # from word import *
 
 memtable = {}
@@ -102,16 +104,16 @@ def find_sub_cost (chars):
     if freq : return 1.0/freq
     else : return 1
 
-def generate_all_candidate_suggestions (phrase):
-    """ Phrase is either a list of words or a single string.
-    returns a list of lists.
-    each list is a combination of suggested words corresponding to one
-    ord in the phrase."""
-    # if type (phrase) != type (list) : phrase = phrase.split ()
-    word_suggestions = [get_word_suggestions (word) for word in phrase]
-    return [product for product in itertools.product (*word_suggestions)]
+# def generate_all_candidate_suggestions (phrase):
+#     """ Phrase is either a list of words or a single string.
+#     returns a list of lists.
+#     each list is a combination of suggested words corresponding to one
+#     ord in the phrase."""
+#     # if type (phrase) != type (list) : phrase = phrase.split ()
+#     word_suggestions = [get_word_suggestions (word) for word in phrase]
+#     return [product for product in itertools.product (*word_suggestions)]
 
-@accepts(list, list)
+@accepts(list, Suggestion)
 def get_likelihood (query, suggestion):
     """ Returns an approximation of P (query | suggestion).
 
@@ -125,8 +127,8 @@ def get_likelihood (query, suggestion):
     suggestion and query are different (eg. run-on and split queries).
 
     Arguments:
-    - `query`: List of terms
-    - `suggestion`: List of terms
+    - `query`: Suggestion object
+    - `suggestion`: Suggestion object
     """
     # TODO: If number of terms is different just remove all spaces in
     # the phrase/sentence and treat it as one string.
@@ -134,13 +136,13 @@ def get_likelihood (query, suggestion):
     print 'query', query
     print 'suggestion', suggestion
 
-    print zip(suggestion, query)
     edit_distance = sum(get_edits(correct_word, misspelt_word)[0] 
                         for correct_word, misspelt_word 
                         in zip(suggestion, query))
-    query_string_length = len(''.join(query))
+    query_string_length = len(str(query))
     return -(edit_distance / query_string_length)
 
+@memoize
 def get_edits (correct, mistake):
     """ Returns (edit cost, edits string space separated)
         dx means x mapped to _
@@ -187,9 +189,15 @@ def get_edits (correct, mistake):
     # print correct, mistake
     return (ans [0], ans [1].strip())
 
+@memoize
+@accepts(str)
 def get_prior (phrase):
-    """Returns log (P (phrase)) as given by MS N-gram service."""
-    if type (phrase) != str : phrase = " ".join (phrase)
+    """Returns log (P (phrase)) as given by MS N-gram service.
+
+    Arguments:
+    - `phrase`: string representing the phrase.
+    """
+    # if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
     print 'get_prior', phrase
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
@@ -201,10 +209,10 @@ def get_posterior (suggestion, query):
     """Return P(suggestion | query).
 
     Arguments:
-    - `query`: List of strings representing terms
-    - `suggestion`: List of strings representing terms
+    - `query`: Suggestion object
+    - `suggestion`: Suggestion object
     """
-    return math.exp(get_prior (suggestion) + get_likelihood (query, suggestion))
+    return math.exp(get_prior (str(suggestion)) + get_likelihood (query, suggestion))
 
 if __name__ == "__main__":
     # print get_edits ("belie", "belive")
