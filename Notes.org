@@ -121,9 +121,16 @@
 ** DONE Use the split and joined pseudo-queries as well
    CLOCK: [2012-10-02 Tue 02:15]
 ** DONE It was reading sentences with a dot at the end. Hadn't tested it cos I was only looking at phrases so far.
-** TODO Test with refined edit distance
-*** TODO Ain't working as of now
-** TODO Restrict the number of final suggestions for which we look up MS API
+** DONE Memoize get-prior
+*** DONE Code
+*** DONE Testing
+** DONE Use Suggestion objects everywhere
+*** DONE First, make suggestions into Suggestion objects
+*** DONE Then, queries too
+** DONE Test with refined edit distance
+*** DONE Ain't working as of now
+** DONE Restrict the number of final suggestions for which we look up MS API
+** DONE Deal with the cases where the number of terms in the suggestion and query are different (eg. run-on and split queries).
 ** TODO Use two-edit words as well
 *** TODO Rank them using the fine edit distance
 ** TODO Test data in data/0643.zip
@@ -139,6 +146,5 @@ I left, my STOMACH was full and I was happy and CONTENTED."""
 print re.findall('[A-Z]+', string)
     
 ** TODO Sliding window
-** TODO Deal with the cases where the number of terms in the suggestion and query are different (eg. run-on and split queries).
 * Evaluation
 ** run-test on full script took ~7m
