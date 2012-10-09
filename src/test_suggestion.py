@@ -180,7 +180,7 @@ class SuggestionTest(unittest.TestCase):
 
     def test__hash__(self):
         # This was a big bug. Because I didn't implement __hash__, the
-        # default probably used something based on some hidden
+        # default was probably something based on some hidden
         # properties and so I couldn't use a Suggestion instance A as
         # a key and then try to retrieve the value using an identical
         # Suggestion instance B.

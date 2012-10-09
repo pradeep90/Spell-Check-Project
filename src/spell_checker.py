@@ -95,6 +95,7 @@ class SpellChecker(object):
         all_suggestions.sort(key = lambda _tuple: _tuple[2], 
                              reverse = True)
 
+        # Take only the top few suggestions
         all_suggestions = all_suggestions[:MAX_NUM_SUGGESTIONS]
 
         print 'len(all_suggestions)', len(all_suggestions)
@@ -149,13 +150,6 @@ class SpellChecker(object):
         args = [self.query_list, self.suggestion_dict, human_suggestion_dict]
         return [utils.get_EP(*args), utils.get_ER(*args), 
                 self.get_EF1_measure(human_suggestion_dict)]
-
-# @memoize
-# def fibonacci(n):
-#    "Return the nth fibonacci number."
-#    if n in (0, 1):
-#       return n
-#    return fibonacci(n-1) + fibonacci(n-2)
 
 if __name__ == '__main__':
     spell_checker = SpellChecker()

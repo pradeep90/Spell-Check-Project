@@ -4,7 +4,6 @@ import itertools, collections, urllib2, math
 from accepts_decorator import accepts, returns
 from memoize import memoize
 from suggestion import Suggestion
-# from word import *
 
 memtable = {}
 delete_table = []

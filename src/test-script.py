@@ -30,11 +30,6 @@ def get_inputs(test_label, filename = '../data/words.input'):
                              suggestion_type = test_label[:-1]) 
                              for line in f]
     f.close()
-    # if test_label == 'sentences':
-    #     query_list = [utils.get_phrase_from_sentence(query) 
-    #                   for query in query_list]
-
-    # query_list = [query.lower() for query in query_list]
     
     print 'query_list', query_list
     return query_list
@@ -46,15 +41,6 @@ def write_outputs(test_label,
     """Write query_list along with suggestion_dict to output_filename.
     """
     f = open(output_filename, 'w')
-
-    # if test_label == 'sentences':
-    #     # Capitalize each sentence and add a period at the end.
-    #     suggestion_dict = dict([
-    #         (utils.get_sentence_from_phrase(query), 
-    #          [(suggestion.set_suggestion_type('sentence'), 
-    #            posterior) 
-    #           for suggestion, posterior in suggestion_list])
-    #          for query, suggestion_list in suggestion_dict.iteritems()])
 
     for i in xrange(len(query_list)):
         suggestions_str = '\t'.join(
