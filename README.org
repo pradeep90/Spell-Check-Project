@@ -1,3 +1,18 @@
 		     README - Spell Check Project
 
 * Spell Check Project for NLP course
+* Instructions for running the code
+** To test the Spell Checker on the data in the data/ folder
+   ./src/test-script.py run-test
+** To calculate statistics based on the last run
+   ./src/test-script.py calc-stats
+** To view statistics of all previous runs, see ./data/phrases.stats (or words.stats or sentences.stats as the case may be)
+* Algorithm Sketch
+** Candidate word selection
+   Out of words within edit distance of two, top K words are chosen based on weighted edit distance.
+** Candidate phrase generation
+   A simple cartesian product of all the candidate words suggested for each word in the query make up the candidate suggested phrase.
+** Prior for each candidate phrase
+   Microsoft N gram service results are used as prior for each candidate phrase.
+** Likelihood for query given candidate
+   Assuming the probability exponentially decreases as the number of edits required increases, likelihood is calculated as e^{−(weighted edit distance/length)}

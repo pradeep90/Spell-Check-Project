@@ -33,9 +33,6 @@ class Suggestion(object):
             self.set_term_list([])
 
     def __eq__(self, other):
-        print 'in __eq__'
-        print str(type(self)), str(self)
-        print str(type(other)), str(other)
         if isinstance(other, self.__class__):
             return self.__dict__ == other.__dict__
         # TODO: Big problem, the suggestion_types could be sentence,

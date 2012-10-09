@@ -13,6 +13,7 @@ import utils
 
 MAX_NUM_TERMS = 10
 MAX_NUM_SUGGESTIONS = 7
+ORIGINAL_POSTERIOR_THRESHOLD = 0.1
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
@@ -83,7 +84,7 @@ class SpellChecker(object):
         print 'all_queries', all_queries
 
         # List of list of (query, suggestion, likelihood) for each query
-        all_suggestions = [[(query, suggestion, phrase.get_likelihood(query, suggestion)) 
+        all_suggestions = [[(query, suggestion) 
                             for suggestion in self.generate_candidate_suggestions(
                                     map(self.generate_candidate_terms, query),
                                     query.suggestion_type)] 
@@ -92,8 +93,12 @@ class SpellChecker(object):
         # Flatten the list of list of suggestions
         all_suggestions = list(itertools.chain(*all_suggestions))
 
-        all_suggestions.sort(key = lambda _tuple: _tuple[2], 
+        all_suggestions.sort(key = lambda query_sugg_tuple: 
+                             phrase.get_likelihood(*query_sugg_tuple), 
                              reverse = True)
+
+        # Remove duplicates (if any)
+        all_suggestions = [key for key, _ in itertools.groupby(all_suggestions)]
 
         # Take only the top few suggestions
         all_suggestions = all_suggestions[:MAX_NUM_SUGGESTIONS]
@@ -101,9 +106,17 @@ class SpellChecker(object):
         print 'len(all_suggestions)', len(all_suggestions)
 
         all_posteriors = [get_posterior_fn(suggestion, query)
-                          for query, suggestion, likelihood in all_suggestions]
+                          for query, suggestion in all_suggestions]
 
         all_suggestions = zip(*all_suggestions)[1]
+
+        original_query = query
+        original_query_posterior = get_posterior_fn(query, query)
+        print 'original_query', original_query, original_query_posterior
+        if original_query_posterior > ORIGINAL_POSTERIOR_THRESHOLD:
+            all_suggestions += [original_query]
+            all_posteriors += [original_query_posterior]
+
         normalized_posteriors = utils.get_normalized_probabilities(all_posteriors)
         return zip(all_suggestions, normalized_posteriors)
 

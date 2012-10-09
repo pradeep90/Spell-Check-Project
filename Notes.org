@@ -131,6 +131,10 @@
 *** DONE Ain't working as of now
 ** DONE Restrict the number of final suggestions for which we look up MS API
 ** DONE Deal with the cases where the number of terms in the suggestion and query are different (eg. run-on and split queries).
+** DONE Output the stuff in order
+** DONE Get rid of duplicates in the suggestions
+** TODO Include proper nouns? - chester a arthur, missouri
+** TODO Include abbreviations? - dept
 ** TODO Use two-edit words as well
 *** TODO Rank them using the fine edit distance
 ** TODO Test data in data/0643.zip
@@ -145,6 +149,6 @@ REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
 I left, my STOMACH was full and I was happy and CONTENTED."""
 print re.findall('[A-Z]+', string)
     
-** TODO Sliding window
+** TODO Sliding window - ie. use a smaller n-gram instead of the whole phrase or sentence
 * Evaluation
 ** run-test on full script took ~7m

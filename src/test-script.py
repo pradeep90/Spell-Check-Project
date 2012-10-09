@@ -73,11 +73,14 @@ def test_queries(test_label, query_input_file, query_output_file):
     checker.run_spell_check(query_list)
     suggestion_dict = checker.get_suggestion_dict()
 
-    print 'suggestion_dict', suggestion_dict
+    # print 'suggestion_dict', suggestion_dict
     
     # TODO: Remove this
     save_memoize_table()
-    write_outputs(test_label, suggestion_dict.keys(), suggestion_dict, 
+
+    # Note: The query_list must be sent and not suggestion_dict.keys()
+    # cos the original order of queries must be maintained
+    write_outputs(test_label, query_list, suggestion_dict, 
                   query_output_file)
 
 def get_output_from_file(test_label, filename):
@@ -89,7 +92,7 @@ def get_output_from_file(test_label, filename):
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print 'file_input', file_input
+    # print 'file_input', file_input
     suggestion_dict = dict((Suggestion(suggestion_str = line_elements[0], 
                                        suggestion_type = test_label[:-1]), 
                             zip ([Suggestion(suggestion_str = suggestion_str, 
@@ -98,8 +101,8 @@ def get_output_from_file(test_label, filename):
                                  map(float, line_elements[2::2])))
                             for line_elements in file_input)
     query_list = suggestion_dict.keys()
-    print 'suggestion_dict', suggestion_dict
-    print 'query_list', query_list
+    # print 'suggestion_dict', suggestion_dict
+    # print 'query_list', query_list
     return [query_list, suggestion_dict]
 
 def get_human_suggestions(test_label, filename):
@@ -111,7 +114,7 @@ def get_human_suggestions(test_label, filename):
     f = open(filename, 'r')
     file_input = [line.strip().split('\t') for line in f]
     f.close()
-    print 'file_input', file_input
+    # print 'file_input', file_input
     human_suggestion_dict = dict([(line_elements[0], 
                                    line_elements[1:]) 
                                   for line_elements in file_input])
@@ -138,8 +141,9 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     print 'stats', stats
 
     f = open(stats_file, 'a')
-    stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {2}\tER: {3}\tEF1: {4}\n'.format(
-        str(datetime.now()), test_label, *stats)
+    stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {3}\tER: {4}\t \
+    EF1: {5}\tNum queries: {2}\n'.format(
+            str(datetime.now()), test_label, len(query_list), *stats)
     print 'stats_str', stats_str
     f.write(stats_str)
     f.close()
