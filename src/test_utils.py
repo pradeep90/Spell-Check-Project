@@ -2,12 +2,17 @@
 
 import utils
 import unittest
+import lexicon
 from suggestion import Suggestion
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):
         # self.spell_checker = utils.SpellChecker()
-        pass
+        self.lexicon = lexicon.Lexicon(word_list = [
+            'yo', 'boyz', 'foo',
+            'giant', 'cell', 'M',
+            'forward', 'kick',
+            'football', 'hall', 'of', 'fame'])
 
     def tearDown(self):
         pass
@@ -102,9 +107,9 @@ class UtilsTest(unittest.TestCase):
         run_on_word = 'giantkick'
         ans_1_splits = [['giant', 'kick'],]
         ans_2_splits = []
-        self.assertEqual(utils.get_splits(run_on_word, 1),
+        self.assertEqual(utils.get_splits(run_on_word, 1, self.lexicon),
                          ans_1_splits)
-        self.assertEqual(utils.get_splits(run_on_word, 2),
+        self.assertEqual(utils.get_splits(run_on_word, 2, self.lexicon),
                          ans_2_splits)
 
     def test_get_corrected_run_on_queries(self):
@@ -114,10 +119,10 @@ class UtilsTest(unittest.TestCase):
         query_2_words = Suggestion(['giantcell', 'M'])
 
         ans_2_words = [Suggestion(['giant', 'cell', 'M'])]
-        self.assertEqual(utils.get_corrected_run_on_queries(query_2_words),
+        self.assertEqual(utils.get_corrected_run_on_queries(query_2_words, self.lexicon),
                          ans_2_words)
 
-        self.assertEqual(utils.get_corrected_run_on_queries(query_3_words),
+        self.assertEqual(utils.get_corrected_run_on_queries(query_3_words, self.lexicon),
                          ans_3_words)
 
     def test_get_corrected_split_queries(self):
@@ -139,7 +144,7 @@ class UtilsTest(unittest.TestCase):
         answers = [ans_1_word, ans_2_word, ans_3_word, ans_4_word]
 
         for i in xrange(4):
-            self.assertEqual(utils.get_corrected_split_queries(queries[i]),
+            self.assertEqual(utils.get_corrected_split_queries(queries[i], self.lexicon),
                              answers[i])
 
     def test_get_normalized_probabilities(self): 

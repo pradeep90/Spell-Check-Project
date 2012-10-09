@@ -9,6 +9,7 @@ import test_phrase
 import test_suggestion
 import test_edit_distance_calculator
 import unittest
+from pprint import pprint
 
 class SpellCheckerTest(unittest.TestCase):
     def setUp(self):
@@ -23,6 +24,11 @@ class SpellCheckerTest(unittest.TestCase):
         # same posterior, cos of normalization
         self.dummy_posterior = 1 / 3.0
         self.dummy_posterior_fn = lambda suggestion, query: self.dummy_posterior
+
+        # Make sure that the original query doesn't make it into the
+        # suggestion list cos all queries will have posterior =
+        # dummy_posterior during testing.
+        self.spell_checker.ORIGINAL_POSTERIOR_THRESHOLD = 1.0
 
     def tearDown(self):
         pass
@@ -76,6 +82,7 @@ class SpellCheckerTest(unittest.TestCase):
     def test_generate_suggestions_and_posteriors(self):
         # Note: All this is with our tiny dummy lexicon
         query = Suggestion(suggestion_str = 'wheere are yu going')
+
         suggestions = self.spell_checker.generate_suggestions_and_posteriors(
             query,
             get_posterior_fn = self.dummy_posterior_fn)
@@ -129,13 +136,14 @@ class SpellCheckerTest(unittest.TestCase):
                       'jack in a bark floor']
         query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
+        pprint(self.spell_checker.get_suggestion_dict())
         human_dict = {
             query_list[0]: [Suggestion(['yo', 'boyz', 'am', 'am', 'sing', 'song'])],
             query_list[1]: [Suggestion(['fast', 'an', 'fast', 'edit'])],
             query_list[2]: [Suggestion(['jack', 'an', 'an', 'bar', 'foo'])],
             }
         actual_stats = self.spell_checker.get_all_stats(human_dict)
-        expected_stats = [0.55555555555555558, 1.0, 0.7142857142857143]
+        expected_stats = [0.61111111111111105, 1.0, 0.75862068965517226]
         self.assertEqual(actual_stats,
                          expected_stats)
 
@@ -146,6 +154,7 @@ class SpellCheckerTest(unittest.TestCase):
                       'jack in a bark floor']
         query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
+        pprint(self.spell_checker.get_suggestion_dict())
 
         # key's dict value is empty
         human_dict = {

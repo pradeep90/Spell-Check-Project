@@ -4,8 +4,6 @@ import itertools
 import lexicon
 from suggestion import Suggestion
 
-full_lexicon = lexicon.Lexicon()
-
 # Utility functions for the Spell Check program.
 def get_EP(query_list, suggestion_dict, human_suggestion_dict):
     """Return EP for the suggestions as judged by human_suggestion_dict.
@@ -60,7 +58,7 @@ def is_sorted(given_list, key = lambda x: x):
     return all([key(given_list[i]) <= key(given_list[i + 1]) 
                 for i in xrange(len(given_list) - 1)])
 
-def get_splits(run_on_word, num_splits):
+def get_splits(run_on_word, num_splits, lexicon):
     """Return all possible valid splits for run_on_word.
 
     TODO: Check for validity of each word.
@@ -75,9 +73,9 @@ def get_splits(run_on_word, num_splits):
                          for index_list in valid_split_indices]
 
     return [str_tuple for str_tuple in crude_splits_list 
-            if all(full_lexicon.is_known_word(word) for word in str_tuple)]
+            if all(lexicon.is_known_word(word) for word in str_tuple)]
 
-def get_corrected_run_on_queries(query):
+def get_corrected_run_on_queries(query, lexicon):
     """Correct run-on query by splitting run-on words.
 
     Return list of phrase/sentence queries with any run-on word split.
@@ -85,12 +83,13 @@ def get_corrected_run_on_queries(query):
     Assumption: A maximum of max_num_splits words have been joined together.
     Arguments:
     - `query`: Suggestion object
+    - `lexicon`: lexicon of the spell checker
     """
     max_num_splits = 3
     print query
     # List of list of suggestions for each word
     term_suggestions_list = [
-        list(itertools.chain(*[get_splits(word, i) 
+        list(itertools.chain(*[get_splits(word, i, lexicon) 
                                for i in xrange(1, max_num_splits + 1)])) + [[word]] 
                                for word in query]
     print 'term_suggestions_list', term_suggestions_list
@@ -115,7 +114,7 @@ def get_corrected_run_on_queries(query):
                        'sentence' if query.suggestion_type == 'sentence' else 'phrase') 
                        for term_combo in term_combos]
 
-def get_corrected_split_queries(query):
+def get_corrected_split_queries(query, lexicon):
     """Correct split query by joining words.
 
     Return list of word/phrase/sentence queries with the split words joined.
@@ -125,6 +124,7 @@ def get_corrected_split_queries(query):
 
     Arguments:
     - `query`: Suggestion object
+    - `lexicon`: lexicon of the spell checker
     """
     # TODO: Should probably check to see if the resultant suggestion
     # is a word/phrase/suggestion and then set its suggestion_type.
@@ -133,7 +133,7 @@ def get_corrected_split_queries(query):
         Suggestion(query[:i] + [query[i] + query[i + 1]] + query[i+2:], 
                    suggestion_type = query.suggestion_type)
         for i in range(len(query) - 1)
-        if full_lexicon.is_known_word(query[i] + query[i + 1])]
+        if lexicon.is_known_word(query[i] + query[i + 1])]
     return joined_up_suggestion_list
 
 def get_normalized_probabilities(probability_list):

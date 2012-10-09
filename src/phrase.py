@@ -12,6 +12,11 @@ sub_table = []
 ex_table = []
 
 STRONG = 2
+# The maximum frequency for any edit is 427, so 300 should be safe
+# as space errors are quite common
+space_edit_cost = 1.0 / 300
+# From Gord Lueck's paper, 'A Data-driven approach for correcting search queries'
+error_penalization = 36.0
 
 def _ord (letter):
     return ord (letter) - ord ('a')
@@ -133,21 +138,26 @@ def get_likelihood (query, suggestion):
 
     print 'query', query
     print 'suggestion', suggestion
-
+    
     if len(suggestion) == len(query):
         edit_distance = sum(get_edits(correct_word, misspelt_word)[0] 
                             for correct_word, misspelt_word 
                             in zip(suggestion, query))
-    else:
-        # TODO
-        # But, for a phrase which only had a word split and no errors,
+    elif ''.join(suggestion.to_list()) == ''.join(query.to_list()):
+        # A phrase which only has word splits and no errors.
         # the above edit_distance would be 0.
         # So, we need to have some cost for a split/join-up of words.
+        edit_distance = abs(len(suggestion) - len(query)) * space_edit_cost
+    else:
+        # A phrase with word splits AND errors
+        # Right now return only the sum of edit costs of errors.
         edit_distance = get_edits(''.join(suggestion.to_list()),
-                                  ''.join(query.to_list()))
+                                  ''.join(query.to_list()))[0]
+        # Also add the space edit costs
+        edit_distance += abs(len(suggestion) - len(query)) * space_edit_cost
 
     query_string_length = len(str(query))
-    return -(edit_distance / query_string_length)
+    return error_penalization * -(edit_distance / query_string_length)
 
 @memoize
 def get_edits (correct, mistake):

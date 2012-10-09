@@ -133,10 +133,12 @@
 ** DONE Deal with the cases where the number of terms in the suggestion and query are different (eg. run-on and split queries).
 ** DONE Output the stuff in order
 ** DONE Get rid of duplicates in the suggestions
+** DONE Fix the get_all_stats bug - why are the stats different only now (after adding a new lexicon)?
 ** TODO Include proper nouns? - chester a arthur, missouri
 ** TODO Include abbreviations? - dept
 ** TODO Use two-edit words as well
 *** TODO Rank them using the fine edit distance
+** TODO Sliding window - ie. use a smaller n-gram instead of the whole phrase or sentence
 ** TODO Test data in data/0643.zip
 import re
 string = """I OFTEN VISITED my AUNT.  She lived in  a  MAGNIFICENT
@@ -149,6 +151,5 @@ REFRESHMENT.  THERE was BLUE JUICE, CAKE and BISCUITS.  When
 I left, my STOMACH was full and I was happy and CONTENTED."""
 print re.findall('[A-Z]+', string)
     
-** TODO Sliding window - ie. use a smaller n-gram instead of the whole phrase or sentence
 * Evaluation
 ** run-test on full script took ~7m

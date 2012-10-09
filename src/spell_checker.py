@@ -11,10 +11,6 @@ from suggestion import Suggestion
 import re
 import utils
 
-MAX_NUM_TERMS = 10
-MAX_NUM_SUGGESTIONS = 7
-ORIGINAL_POSTERIOR_THRESHOLD = 0.1
-
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
     """
@@ -32,13 +28,16 @@ class SpellChecker(object):
 
         self.edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(self.lexicon)
         self.get_posterior_fn = phrase.get_posterior
+        self.MAX_NUM_TERMS = 10
+        self.MAX_NUM_SUGGESTIONS = 7
+        self.ORIGINAL_POSTERIOR_THRESHOLD = 0.1
 
     def get_suggestion_dict(self):
         return self.suggestion_dict
 
     def generate_candidate_terms(self, 
                                  term, 
-                                 num_candidates_terms_per_word = MAX_NUM_TERMS):
+                                 num_candidates_terms_per_word = None):
         """Return list of candidate terms for term.
 
         Return:
@@ -48,6 +47,9 @@ class SpellChecker(object):
           exist.
         - Else (nothing was found), return a list of the term alone.
         """
+        if num_candidates_terms_per_word is None:
+            num_candidates_terms_per_word = self.MAX_NUM_TERMS
+
         if self.lexicon.is_known_word(term):
             return [term]
 
@@ -80,7 +82,8 @@ class SpellChecker(object):
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
 
-        all_queries = [query] + utils.get_corrected_split_queries(query) + utils.get_corrected_run_on_queries(query)
+        all_queries = [query] + utils.get_corrected_split_queries(query, self.lexicon) \
+          + utils.get_corrected_run_on_queries(query, self.lexicon)
         print 'all_queries', all_queries
 
         # List of list of (query, suggestion, likelihood) for each query
@@ -101,21 +104,22 @@ class SpellChecker(object):
         all_suggestions = [key for key, _ in itertools.groupby(all_suggestions)]
 
         # Take only the top few suggestions
-        all_suggestions = all_suggestions[:MAX_NUM_SUGGESTIONS]
+        all_suggestions = all_suggestions[:self.MAX_NUM_SUGGESTIONS]
 
         print 'len(all_suggestions)', len(all_suggestions)
 
         all_posteriors = [get_posterior_fn(suggestion, query)
                           for query, suggestion in all_suggestions]
 
-        all_suggestions = zip(*all_suggestions)[1]
+        all_suggestions = list(zip(*all_suggestions)[1])
 
-        original_query = query
-        original_query_posterior = get_posterior_fn(query, query)
-        print 'original_query', original_query, original_query_posterior
-        if original_query_posterior > ORIGINAL_POSTERIOR_THRESHOLD:
-            all_suggestions += [original_query]
-            all_posteriors += [original_query_posterior]
+        # TODO
+        # original_query = query
+        # original_query_posterior = get_posterior_fn(query, query)
+        # print 'original_query', original_query, original_query_posterior
+        # if original_query_posterior > self.ORIGINAL_POSTERIOR_THRESHOLD:
+        #     all_suggestions += [original_query]
+        #     all_posteriors += [original_query_posterior]
 
         normalized_posteriors = utils.get_normalized_probabilities(all_posteriors)
         return zip(all_suggestions, normalized_posteriors)

@@ -32,13 +32,23 @@ class EditDistanceCalculatorTest(unittest.TestCase):
         # TODO
     def test_known_words_two_edit_away(self): 
         word1 = 'boyz'
+        word_list = [
+            'bola', 'bogs', 'bomb', 'bozo', 'bogy', 'both', 'boozy',
+            'born', 'booze', 'toys', 'soy', 'boas', 'bore', 'bow', 'boat', 'bold',
+            'toy', 'bobs', 'joys', 'boor', 'boos', 'bowl', 'bog', 'bays', 'boom',
+            'boon', 'buys', 'bout', 'bye', 'boar', 'body', 'buy', 'bole', 'cozy',
+            'buoys', 'joy', 'boo', 'boll', 'boss', 'boob', 'boys', 'bosh', 'bolt',
+            'boot', 'bode', 'by', 'box', 'boy', 'bony', 'bop', 'bows', 'bay',
+            'coy', 'boil', 'bops', 'buzz', 'boa', 'bob', 'buoy', 'bong', 'book',
+            'bone', 'bond'
+            ]
 
-        full_lexicon = lexicon.Lexicon()
+        full_lexicon = lexicon.Lexicon(word_list = word_list + ['yo', 'foo'])
         full_edit_distance_calculator = edit_distance_calculator.EditDistanceCalculator(
             full_lexicon)
         self.assertEqual(
             full_edit_distance_calculator.known_words_two_edits_away(word1),
-            test_data.ans_known_two_edits)
+            word_list)
 
     def test_get_top_known_words(self): 
         word1 = 'boyz'
