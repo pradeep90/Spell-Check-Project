@@ -136,7 +136,7 @@ class SpellCheckerTest(unittest.TestCase):
                       'jack in a bark floor']
         query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
-        pprint(self.spell_checker.get_suggestion_dict())
+        # pprint(self.spell_checker.get_suggestion_dict())
         human_dict = {
             query_list[0]: [Suggestion(['yo', 'boyz', 'am', 'am', 'sing', 'song'])],
             query_list[1]: [Suggestion(['fast', 'an', 'fast', 'edit'])],
@@ -154,7 +154,7 @@ class SpellCheckerTest(unittest.TestCase):
                       'jack in a bark floor']
         query_list = [Suggestion(suggestion_str = query) for query in query_list]
         self.spell_checker.run_spell_check(query_list)
-        pprint(self.spell_checker.get_suggestion_dict())
+        # pprint(self.spell_checker.get_suggestion_dict())
 
         # key's dict value is empty
         human_dict = {

@@ -27,7 +27,13 @@ class LexiconTest(unittest.TestCase):
 
     def test_get_words_from_lexicon_file_lowercase(self): 
         test_lexicon = lexicon.Lexicon()
+
         self.assertTrue(all(word.islower() for word in test_lexicon.word_set))
+
+        # There should be one-letter words
+        self.assertFalse(all(len(word) > 1 for word in test_lexicon.word_set))
+        self.assertTrue(test_lexicon.is_known_word('chester'))
+        self.assertTrue(test_lexicon.is_known_word('arthur'))
 
     def test_get_top_words(self): 
         word_list = ['yo', 'boyz']

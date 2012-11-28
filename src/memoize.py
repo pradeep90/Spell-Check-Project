@@ -22,12 +22,13 @@ def memoize(function):
         print 'Creating a new dict in memoize'
         _mem_tbls_ [function.__name__] = {}
     def memoized_function (*args):
-        print 'args: ', args
+        # print 'args: ', args
         func_mem_tbl = _mem_tbls_ [function.__name__]
         if args not in func_mem_tbl:
             func_mem_tbl [args] = function (*args)
         else:
-            print 'Hit in memoize table'
+            # print 'Hit in memoize table'
+            pass
         return func_mem_tbl [args]
     return memoized_function
 

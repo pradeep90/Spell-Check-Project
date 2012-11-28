@@ -136,8 +136,8 @@ def get_likelihood (query, suggestion):
     # TODO: If number of terms is different just remove all spaces in
     # the phrase/sentence and treat it as one string.
 
-    print 'query', query
-    print 'suggestion', suggestion
+    # print 'query', query
+    # print 'suggestion', suggestion
     
     if len(suggestion) == len(query):
         edit_distance = sum(get_edits(correct_word, misspelt_word)[0] 
@@ -157,7 +157,9 @@ def get_likelihood (query, suggestion):
         edit_distance += abs(len(suggestion) - len(query)) * space_edit_cost
 
     query_string_length = len(str(query))
-    return error_penalization * -(edit_distance / query_string_length)
+    likelihood = error_penalization * -(edit_distance / query_string_length)
+    # print 'likelihood', likelihood
+    return likelihood
 
 @memoize
 def get_edits (correct, mistake):
@@ -166,7 +168,7 @@ def get_edits (correct, mistake):
         ix means _ mapped to x
         sxy means x mapped to y
         exy means x and y were swapped """
-    print 'get_edits', correct, mistake
+    # print 'get_edits', correct, mistake
     ans = memtable.get (correct + ":" + mistake)
     if ans : return ans
 
@@ -216,7 +218,7 @@ def get_prior (phrase):
     """
     # if type (phrase) != str : phrase = " ".join (phrase)
     n_gram_service_url = 'http://web-ngram.research.microsoft.com/rest/lookup.svc/bing-body/jun09/3/jp?u=985fcdfc-9d64-4d03-b650-aabc17f1ea1e'
-    print 'get_prior', phrase
+    # print 'get_prior', phrase
     prob = urllib2.urlopen (urllib2.Request (n_gram_service_url,
                                              phrase)).read()
     return float(prob.strip())
@@ -246,10 +248,21 @@ if __name__ == "__main__":
     # print get_edits ("sujeet", "usjeet")
     # pass
 
-    # Test the `accepts` decorator
-    @accepts(list, int, int)
-    @returns(float)
-    def average(x, y, z):
-        return (x[0] + y + z) / 2
-    average([13], 10, 15.0)
-    average([3], 10, 15)
+    # # Test the `accepts` decorator
+    # @accepts(list, int, int)
+    # @returns(float)
+    # def average(x, y, z):
+    #     return (x[0] + y + z) / 2
+    # average([13], 10, 15.0)
+    # average([3], 10, 15)
+
+    s1 = 'The departments of the institute offer horses conducted by highly qualified staff.'
+    s2 = 'The departments of the institute offer courses conducted by highly qualified staff.'
+    print get_prior(s1)
+    print get_prior(s2)
+    sugg1 = Suggestion(suggestion_str = s1, suggestion_type = 'sentence')
+    sugg2 = Suggestion(suggestion_str = s2, suggestion_type = 'sentence')
+    q = Suggestion(suggestion_str = 'The departments of the institute offer corses, conducted by highly qualified staff.', suggestion_type = 'sentence')	
+    print get_posterior(sugg1, q)
+    print get_posterior(sugg2, q)
+

@@ -49,6 +49,14 @@ class SuggestionTest(unittest.TestCase):
         # gen string
         self.assertNotEqual(s1, 'onuthe')
 
+        # Sentence with comma
+        s_comma = 'Keep your friends close, and your enemies closer.'
+        s_normal = 'Keep your friends close and your enemies closer.'
+        s1 = suggestion.Suggestion(suggestion_str = s_comma)
+        s2 = suggestion.Suggestion(suggestion_str = s_normal)
+
+        self.assertEqual(s1, s2)
+
     def test_set_term_list(self): 
         s = suggestion.Suggestion(suggestion_type = 'phrase')
         test_list = ['foo', 'bar']

@@ -41,8 +41,8 @@ class Lexicon(object):
             return
 
         if lexicon_filename == None:
-            # lexicon_filename = 'all-words.txt'
-            lexicon_filename = 'decently-big-words.txt'
+            lexicon_filename = 'all-words.txt'
+            # lexicon_filename = 'decently-big-words.txt'
 
         self._lexicon_filename = lexicon_filename
         self.set_lexicon(self.get_words_from_lexicon_file(open(self._lexicon_filename)))
@@ -50,7 +50,7 @@ class Lexicon(object):
     def get_words_from_lexicon_file(self, lexicon_file):
         """Return list of words from lexicon_file.
         """
-        prog = re.compile('^[a-zA-z][a-z]+$')
+        prog = re.compile('^[a-zA-z][a-z]*$')
         return [prog.match(line.lower().strip()).group(0) for line in lexicon_file 
                 if prog.match(line.strip())]
 

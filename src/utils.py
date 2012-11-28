@@ -3,6 +3,7 @@
 import itertools
 import lexicon
 from suggestion import Suggestion
+from pprint import pprint
 
 # Utility functions for the Spell Check program.
 def get_EP(query_list, suggestion_dict, human_suggestion_dict):
@@ -14,6 +15,14 @@ def get_EP(query_list, suggestion_dict, human_suggestion_dict):
     """
     if not query_list:
         return 0.0
+
+    for query in query_list:
+        print 'query: ', query
+        print 'human_suggestion_dict[query]: ', human_suggestion_dict[query]
+        for (suggestion, posterior) in suggestion_dict[query]:
+            print 'suggestion: ', suggestion, posterior
+            if suggestion in human_suggestion_dict[query]:
+                print 'in'
 
     total = sum(sum(posterior
                     for (suggestion, posterior) in suggestion_dict[query] 
@@ -86,13 +95,14 @@ def get_corrected_run_on_queries(query, lexicon):
     - `lexicon`: lexicon of the spell checker
     """
     max_num_splits = 3
-    print query
+    # print query
+
     # List of list of suggestions for each word
     term_suggestions_list = [
         list(itertools.chain(*[get_splits(word, i, lexicon) 
                                for i in xrange(1, max_num_splits + 1)])) + [[word]] 
                                for word in query]
-    print 'term_suggestions_list', term_suggestions_list
+    # print 'term_suggestions_list', term_suggestions_list
 
     # All term_combos (considering only one word to be a run-on word
     # at a time)
@@ -102,14 +112,14 @@ def get_corrected_run_on_queries(query, lexicon):
                                                    term_suggestions_list[i], 
                                                    [query[i + 1:]])]
     
-    print 'term_combos', term_combos
+    # print 'term_combos', term_combos
     term_combos.sort()
     # Remove duplicates
     # This requires that keys with same value be consecutive (hence sort).
     term_combos = [key for key, _ in itertools.groupby(term_combos)]
-    print 'term_combos', term_combos
+    # print 'term_combos', term_combos
     term_combos.remove(query)
-    print 'term_combos', term_combos
+    # print 'term_combos', term_combos
     return [Suggestion(term_combo, suggestion_type = 
                        'sentence' if query.suggestion_type == 'sentence' else 'phrase') 
                        for term_combo in term_combos]

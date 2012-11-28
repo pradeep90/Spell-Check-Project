@@ -50,7 +50,7 @@ class EditDistanceCalculator(object):
         # TODO: Later make this consider words BOTH from one-edit and
         # two-edit list.
         word_list = self.known_words_one_edit_away (word) or self.known_words_two_edits_away (word)
-        print 'len(word_list)', len(word_list)
+        # print 'len(word_list)', len(word_list)
 
         if not word_list:
             word_list = [word]

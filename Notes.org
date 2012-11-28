@@ -119,7 +119,6 @@
    CLOCK: [2012-10-01 Mon 23:15]--[2012-10-02 Tue 00:46] =>  1:31
    CLOCK: [2012-10-01 Mon 21:50]--[2012-10-01 Mon 23:07] =>  1:17
 ** DONE Use the split and joined pseudo-queries as well
-   CLOCK: [2012-10-02 Tue 02:15]
 ** DONE It was reading sentences with a dot at the end. Hadn't tested it cos I was only looking at phrases so far.
 ** DONE Memoize get-prior
 *** DONE Code
@@ -136,6 +135,8 @@
 ** DONE Fix the get_all_stats bug - why are the stats different only now (after adding a new lexicon)?
 ** TODO Include proper nouns? - chester a arthur, missouri
 ** TODO Include abbreviations? - dept
+** TODO When taking the top suggestions in generate_suggestions, we are filtering based on the likelihood, but the "correct" suggestion could have a low likelihood...
+*** TODO Explain or fix [[file:src/test_phrase.py::def%20test_get_likelihood_splits_special(self):][test_get_likelihood_splits_special]]
 ** TODO Use two-edit words as well
 *** TODO Rank them using the fine edit distance
 ** TODO Sliding window - ie. use a smaller n-gram instead of the whole phrase or sentence
@@ -153,3 +154,26 @@ print re.findall('[A-Z]+', string)
     
 * Evaluation
 ** run-test on full script took ~7m
+* Why is the EF1 so low?
+** Words
+*** ecstacy (them) vs ecstasy (us)
+*** fail vs fails (0.2 + 0.25 vs just 0.25)
+*** respe + ct not being considered. Why?
+*** hellpp not having help as a human suggestion. WTH!
+*** thruout -> throughout is difficult
+*** volly goes to everything else but folly (with volley having very low prob)
+** Phrases
+*** ny city -> we don't know 'ny'
+*** cause ... vs cause/causes ...
+*** dept
+*** motorcycles vs motorcycles/motor cycles
+*** TODO chester a arthur vs 
+*** u s vs us
+** Sentences
+*** discuss the bil -> [bill, bid]
+**** both seem ok to me, but only bill is accepted
+** I think in the TREC dataset, they have correct phrases along with misspelled phrases, whereas in the 15 cases we have, pretty much all are misspelled.
+*** VVIP Noop speller: This speller actually does nothing and return exactly the same one as the input query. This speller achieved 0.91 EF1, 0.94 EP and 0.87 ER. This result implies that recall might be bottleneck.
+http://spellerchallenge.com/Rules.aspx
+*** Bing speller: We tried the bing speller API2 . Although this was expected to achieve high score, its score was actually 0.91 EF1: lower than Noop speller. This re- sult reminded us that the annotation policy of TREC dataset is quite diﬀer from commercial search engine query speller. TREC anotation policy prefers various- ness of spellings, rather than one exact spelling.
+** Problem with the evaluation measure: ER is just Recall. The posteriors are not considered at all... So you can cheat and increase ER by giving suggestions with very low posterior, without hurting EP.

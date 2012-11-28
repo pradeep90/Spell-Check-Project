@@ -34,7 +34,8 @@ class Suggestion(object):
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
+            return self.term_list == other.term_list and self.suggestion_type == other.suggestion_type
+            # return self.__dict__ == other.__dict__
         # TODO: Big problem, the suggestion_types could be sentence,
         # whereas term_list is same for sentence or phrase
         elif isinstance(other, list):

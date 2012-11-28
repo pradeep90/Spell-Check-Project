@@ -10,6 +10,7 @@ import pickle
 from suggestion import Suggestion
 import re
 import utils
+from pprint import pprint
 
 class SpellChecker(object):
     """Suggest corrections for errors in queries.
@@ -82,9 +83,14 @@ class SpellChecker(object):
         if get_posterior_fn == None:
             get_posterior_fn = self.get_posterior_fn
 
-        all_queries = [query] + utils.get_corrected_split_queries(query, self.lexicon) \
-          + utils.get_corrected_run_on_queries(query, self.lexicon)
-        print 'all_queries', all_queries
+        # all_queries = [query] + utils.get_corrected_split_queries(query, self.lexicon) \
+        #   + utils.get_corrected_run_on_queries(query, self.lexicon)
+
+        all_queries = [query] + utils.get_corrected_split_queries(query, self.lexicon)
+        #   + utils.get_corrected_run_on_queries(query, self.lexicon)
+
+        # print 'all_queries'
+        # pprint(all_queries)
 
         # List of list of (query, suggestion, likelihood) for each query
         all_suggestions = [[(query, suggestion) 
@@ -96,17 +102,31 @@ class SpellChecker(object):
         # Flatten the list of list of suggestions
         all_suggestions = list(itertools.chain(*all_suggestions))
 
+        # print 'all_suggestions after flattening'
+        # pprint(all_suggestions)
+
         all_suggestions.sort(key = lambda query_sugg_tuple: 
                              phrase.get_likelihood(*query_sugg_tuple), 
                              reverse = True)
 
+        # print 'suggestions and likelihood'
+        # pprint([(query, suggestion, phrase.get_likelihood(query, suggestion)) 
+        #         for query, suggestion in all_suggestions])
+
         # Remove duplicates (if any)
         all_suggestions = [key for key, _ in itertools.groupby(all_suggestions)]
+
+        # print 'all_suggestions after removing duplicates'
+        # pprint(all_suggestions)
 
         # Take only the top few suggestions
         all_suggestions = all_suggestions[:self.MAX_NUM_SUGGESTIONS]
 
-        print 'len(all_suggestions)', len(all_suggestions)
+        # print 'len(all_suggestions)'
+        # pprint(len(all_suggestions))
+
+        # print 'all_suggestions after taking off the top'
+        # pprint(all_suggestions)
 
         all_posteriors = [get_posterior_fn(suggestion, query)
                           for query, suggestion in all_suggestions]
@@ -116,13 +136,16 @@ class SpellChecker(object):
         # TODO
         # original_query = query
         # original_query_posterior = get_posterior_fn(query, query)
-        # print 'original_query', original_query, original_query_posterior
+        # print 'original_query'
+        # pprint(original_query, original_query_posterior)
         # if original_query_posterior > self.ORIGINAL_POSTERIOR_THRESHOLD:
         #     all_suggestions += [original_query]
         #     all_posteriors += [original_query_posterior]
 
         normalized_posteriors = utils.get_normalized_probabilities(all_posteriors)
-        return zip(all_suggestions, normalized_posteriors)
+        suggestion_posterior_list = list(zip(all_suggestions, normalized_posteriors))
+        suggestion_posterior_list.sort(key = lambda pair: pair[1], reverse = True)
+        return suggestion_posterior_list
 
     def run_spell_check(self, query_list):
         """Run spell check on queries in query_list and store the suggestions.
@@ -170,12 +193,17 @@ class SpellChecker(object):
 
 if __name__ == '__main__':
     spell_checker = SpellChecker()
-    query_list = ['why this kolaveri', 'i am sixg sxng']
-    query_list = [Suggestion(query) for query in query_list]
+    query_list = ['The departments of the institute offer corses, conducted by highly qualified staff.']
+    query_list = [Suggestion(suggestion_str = query, suggestion_type = 'sentence') 
+                  for query in query_list]
     spell_checker.run_spell_check(query_list)
-    human_dict = { query_list[0]: [Suggestion('why this kolaveri'.split())], 
-                   query_list[1]: [Suggestion('i am sing song'.split())] }
-    print 'spell_checker.get_EF1_measure(human_dict)', spell_checker.get_EF1_measure(human_dict)
-    print 'spell_checker.get_all_stats(human_dict)', spell_checker.get_all_stats(human_dict)
+    print 'spell_checker.get_suggestion_dict()'
+    pprint(spell_checker.get_suggestion_dict())
+    # human_dict = { query_list[0]: [Suggestion('why this kolaveri'.split())], 
+    #                query_list[1]: [Suggestion('i am sing song'.split())] }
+    # print 'spell_checker.get_EF1_measure(human_dict)'
+    # pprint(spell_checker.get_EF1_measure(human_dict))
+    # print 'spell_checker.get_all_stats(human_dict)'
+    # pprint(spell_checker.get_all_stats(human_dict))
 
 

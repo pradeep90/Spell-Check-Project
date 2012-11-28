@@ -25,7 +25,6 @@ Absalom
 Abuja
 Abyssinia
 Abyssinian
-Ac
 Acadia
 Acapulco
 Accra
@@ -99,8 +98,6 @@ Afrikaners
 Afro
 Afrocentrism
 Afros
-Ag
-Agamemnon
 Agassi
 Agassiz
 Agatha
@@ -137,7 +134,6 @@ Akihito
 Akita
 Akkad
 Akron
-Al
 Ala
 Alabama
 Alabaman
@@ -282,7 +278,6 @@ Alyce
 Alyson
 Alyssa
 Alzheimer
-Am
 Amadeus
 Amado
 Amalia
@@ -479,7 +474,6 @@ Aquila
 Aquinas
 Aquino
 Aquitaine
-Ar
 Ara
 Arab
 Arabia
@@ -653,7 +647,6 @@ Attila
 Attlee
 Attucks
 Atwood
-Au
 Aubrey
 Auckland
 Auden
@@ -696,7 +689,6 @@ Austrian
 Austrians
 Austronesian
 Autumn
-Av
 Ava
 Avalon
 Ave
@@ -731,9 +723,7 @@ Aztec
 Aztecan
 Aztecs
 Aztlan
-B
 BMW
-Ba
 Baal
 Babar
 Babbage
@@ -1065,7 +1055,6 @@ Beyer
 Bhopal
 Bhutan
 Bhutto
-Bi
 Bialystok
 Bianca
 Bib
@@ -1100,7 +1089,6 @@ Bismark
 Bisquick
 Bissau
 Bizet
-Bk
 Black
 Blackbeard
 Blackburn
@@ -1232,7 +1220,6 @@ Bowman
 Boyd
 Boyer
 Boyle
-Br
 Brad
 Bradbury
 Braddock
@@ -1463,8 +1450,6 @@ Byronic
 Byzantine
 Byzantines
 Byzantium
-C
-Ca
 Cabernet
 Cabinet
 Cabinets
@@ -1710,7 +1695,6 @@ Caxton
 Cayenne
 Cayman
 Cayuga
-Cd
 Ceausescu
 Cebu
 Cebuano
@@ -1747,7 +1731,6 @@ Cessna
 Cetus
 Ceylon
 Cezanne
-Cf
 Chablis
 Chad
 Chadwick
@@ -1927,7 +1910,6 @@ Church
 Churchill
 Churriguera
 Chuvash
-Ci
 Cicero
 Cid
 Cimabue
@@ -1941,7 +1923,6 @@ Cipro
 Circe
 Citibank
 Citroen
-Cl
 Claiborne
 Clair
 Claire
@@ -1997,8 +1978,6 @@ Clovis
 Clyde
 Clydesdale
 Clytemnestra
-Cm
-Co
 Cobain
 Cobb
 Cochabamba
@@ -2191,7 +2170,6 @@ Cowper
 Cox
 Coy
 Cozumel
-Cr
 Crabbe
 Craft
 Craig
@@ -2247,10 +2225,8 @@ Crux
 Cruz
 Cryptozoic
 Crystal
-Cs
 Csonka
 Ctesiphon
-Cu
 Cuba
 Cuban
 Cubans
@@ -2292,7 +2268,6 @@ Czechoslovakian
 Czechoslovakians
 Czechs
 Czerny
-D
 Dacca
 Dachau
 Dacron
@@ -2497,7 +2472,6 @@ Dexedrine
 Dexter
 Dhaka
 Dhaulagiri
-Di
 DiCaprio
 DiMaggio
 Diaghilev
@@ -2636,7 +2610,6 @@ Dow
 Downs
 Downy
 Doyle
-Dr
 Draco
 Draconian
 Dracula
@@ -2707,7 +2680,6 @@ Dylan
 Dyson
 Dzerzhinsky
 Dzungaria
-E
 Eakins
 Earhart
 Earl
@@ -2743,7 +2715,6 @@ Ecuadoran
 Ecuadorans
 Ecuadorian
 Ecuadorians
-Ed
 Edam
 Edams
 Edda
@@ -2907,7 +2878,6 @@ Episcopals
 Epsom
 Epstein
 Equuleus
-Er
 Erasmus
 Erato
 Eratosthenes
@@ -2943,7 +2913,6 @@ Errol
 Erse
 ErvIn
 Erwin
-Es
 Esau
 Escher
 Escherichia
@@ -2985,7 +2954,6 @@ Etruria
 Etruscan
 Etruscans
 Etta
-Eu
 Eucharist
 Eucharistic
 Eucharists
@@ -3044,7 +3012,6 @@ Eyre
 Eysenck
 Ezekiel
 Ezra
-F
 FDR
 FNMA
 Fabian
@@ -3092,7 +3059,6 @@ Faustus
 Fawkes
 Fay
 Faye
-Fe
 Feb
 Februaries
 February
@@ -3187,7 +3153,6 @@ Flossie
 Flowers
 Floyd
 Flynn
-Fm
 Foch
 Fokker
 Foley
@@ -3215,7 +3180,6 @@ Fourier
 Fourneyron
 Fowler
 Fox
-Fr
 Fragonard
 Fran
 France
@@ -3317,10 +3281,7 @@ Fundy
 Fushun
 Fuzhou
 Fuzzbuster
-G
-GE
 GTE
-Ga
 Gable
 Gabon
 Gaborone
@@ -3411,9 +3372,7 @@ Gay
 Gayle
 Gaza
 Gaziantep
-Gd
 Gdansk
-Ge
 Geffen
 Gehenna
 Gehrig
@@ -3738,7 +3697,6 @@ Gwendolyn
 Gwyn
 Gypsies
 Gypsy
-H
 Haas
 Habakkuk
 Haber
@@ -3876,7 +3834,6 @@ Hays
 Haywood
 Hazel
 Hazlitt
-He
 Head
 Hearst
 Heath
@@ -3989,8 +3946,6 @@ Heyerdahl
 Heywood
 Hezbollah
 Hezekiah
-Hf
-Hg
 Hialeah
 Hiawatha
 Hibernia
@@ -4044,7 +3999,6 @@ Hitler
 Hitlers
 Hittite
 Hmong
-Ho
 Hobart
 Hobbes
 Hobbs
@@ -4196,8 +4150,6 @@ Hydra
 Hymen
 Hyperion
 Hyundai
-Hz
-I
 IBM
 Iaccoca
 Iago
@@ -4242,7 +4194,6 @@ Imelda
 Imodium
 Imogene
 Imus
-In
 Ina
 Inc
 Inca
@@ -4288,7 +4239,6 @@ Inuit
 Inuits
 Inuktitut
 Invar
-Io
 Ionesco
 Ionian
 Ionic
@@ -4301,7 +4251,6 @@ Iphigenia
 Iqaluit
 Iqbal
 Iquitos
-Ir
 Ira
 Iran
 Iranian
@@ -4360,7 +4309,6 @@ Issac
 Issachar
 Istanbul
 Isuzu
-It
 Itaipu
 Italian
 Italians
@@ -4383,7 +4331,6 @@ Izhevsk
 Izmir
 Izod
 Izvestia
-J
 JFK
 Jack
 Jackie
@@ -4556,7 +4503,6 @@ Jinan
 Jinnah
 Jinny
 Jivaro
-Jo
 Joan
 Joann
 Joanna
@@ -4680,7 +4626,6 @@ Justine
 Justinian
 Jutland
 Juvenal
-K
 Kaaba
 Kabul
 Kafka
@@ -4952,7 +4897,6 @@ Kossuth
 Kosygin
 Koufax
 Kowloon
-Kr
 Kraft
 Krakatoa
 Krakow
@@ -5014,9 +4958,7 @@ Kyle
 Kyoto
 Kyrgyzstan
 Kyushu
-L
 LBJ
-La
 Laban
 Labrador
 Labradors
@@ -5127,7 +5069,6 @@ Layamon
 Layla
 Lazaro
 Lazarus
-Le
 Lea
 Leach
 Leadbelly
@@ -5238,7 +5179,6 @@ Lexington
 Lexus
 Lhasa
 Lhotse
-Li
 Libby
 Liberace
 Liberia
@@ -5327,7 +5267,6 @@ Lizzy
 Ljubljana
 Llewellyn
 Lloyd
-Ln
 Loafer
 Loafers
 Lobachevsky
@@ -5408,10 +5347,7 @@ Lowery
 Loyang
 Loyd
 Loyola
-Lr
-Lt
 Ltd
-Lu
 Luanda
 Luann
 Lubavitcher
@@ -5488,7 +5424,6 @@ Lyra
 Lysenko
 Lysistrata
 Lysol
-M
 MCI
 MGM
 MHz
@@ -5875,7 +5810,6 @@ Mazatlan
 Mazda
 Mazola
 Mazzini
-Mb
 Mbabane
 Mbini
 McAdam
@@ -5927,7 +5861,6 @@ McNeil
 McPherson
 McQueen
 McVeigh
-Md
 Mead
 Meade
 Meadows
@@ -6058,7 +5991,6 @@ Meyer
 Meyerbeer
 Meyers
 Mfume
-Mg
 MiG
 Mia
 Miami
@@ -6185,9 +6117,7 @@ Mitty
 Mitzi
 Mixtec
 Mizar
-Mn
 Mnemosyne
-Mo
 Mobil
 Mobile
 Mobutu
@@ -6344,7 +6274,6 @@ Mozart
 Mr
 Mrs
 Ms
-Mt
 Muawiya
 Mubarak
 Mueller
@@ -6411,9 +6340,7 @@ Myron
 Myrtle
 Mysore
 Myst
-N
 NORAD
-Na
 Nabisco
 Nabokov
 Nader
@@ -6496,10 +6423,7 @@ Naziisms
 Nazis
 Nazism
 Nazisms
-Nb
-Nd
 Ndjamena
-Ne
 Neal
 Neanderthal
 Neanderthals
@@ -6567,7 +6491,6 @@ Newtonian
 Nexis
 Ngaliema
 Nguyen
-Ni
 Niagara
 Niamey
 Nibelung
@@ -6693,7 +6616,6 @@ Novosibirsk
 Noxzema
 Noyce
 Noyes
-Np
 Nubia
 Nubian
 Nukualofa
@@ -6707,16 +6629,13 @@ NutraSweet
 NyQuil
 Nyasa
 Nyerere
-O
 OHSA
 OK
-OKs
 Oahu
 Oakland
 Oakley
 Oates
 Oaxaca
-Ob
 Obadiah
 Oberlin
 Oberon
@@ -6857,7 +6776,6 @@ Orval
 Orville
 Orwell
 Orwellian
-Os
 Osage
 Osaka
 Osbert
@@ -6898,8 +6816,6 @@ Ozark
 Ozarks
 Ozymandias
 Ozzie
-P
-Pa
 Paar
 Pablo
 Pablum
@@ -7027,8 +6943,6 @@ Pavlova
 Pavlovian
 Pawnee
 Payne
-Pb
-Pd
 Peabody
 Peace
 Peale
@@ -7204,7 +7118,6 @@ Pittsburgh
 Pius
 Pizarro
 Pkwy
-Pl
 Planck
 Plantagenet
 Plasticine
@@ -7228,8 +7141,6 @@ Pliocene
 Plutarch
 Pluto
 Plymouth
-Pm
-Po
 Pocahontas
 Pocono
 Poconos
@@ -7380,12 +7291,10 @@ Psalms
 Psalter
 Psalters
 Psyche
-Pt
 Ptah
 Ptolemaic
 Ptolemies
 Ptolemy
-Pu
 Puccini
 Puck
 Puckett
@@ -7437,7 +7346,6 @@ Pythagoras
 Pythagorean
 Pythias
 Python
-Q
 Qaddafi
 Qantas
 Qatar
@@ -7469,9 +7377,7 @@ Quixote
 Quixotism
 Qumran
 Quonset
-R
 RCA
-Ra
 Rabat
 Rabelais
 Rabelaisian
@@ -7535,9 +7441,6 @@ Rayburn
 Rayleigh
 Raymond
 Raymundo
-Rb
-Rd
-Re
 Reagan
 Reaganomics
 Realtor
@@ -7605,7 +7508,6 @@ Reykjavik
 Reyna
 Reynaldo
 Reynolds
-Rh
 Rhea
 Rhee
 Rheingau
@@ -7668,7 +7570,6 @@ Riviera
 Rivieras
 Riyadh
 Rizal
-Rn
 Roach
 Rob
 Robbie
@@ -7820,7 +7721,6 @@ Royal
 Royce
 Rozelle
 Rte
-Ru
 Rubaiyat
 Rubbermaid
 Ruben
@@ -7866,12 +7766,10 @@ Rwanda
 Rwandan
 Rwandans
 Rwandas
-Rx
 Ryan
 Rydberg
 Ryder
 Ryukyu
-S
 Saab
 Saar
 Saarinen
@@ -8030,8 +7928,6 @@ Saxon
 Saxons
 Saxony
 Sayers
-Sb
-Sc
 Scandinavia
 Scandinavian
 Scandinavians
@@ -8106,7 +8002,6 @@ Sculley
 Scylla
 Scythia
 Scythian
-Se
 Seaborg
 Seagram
 Sean
@@ -8291,7 +8186,6 @@ Shropshire
 Shula
 Shylock
 Shylockian
-Si
 Siam
 Siamese
 Sian
@@ -8373,7 +8267,6 @@ Slovenia
 Slovenian
 Slovenians
 Slurpee
-Sm
 Small
 Smetana
 Smirnoff
@@ -8384,7 +8277,6 @@ Smokey
 Smolensk
 Smollett
 Smuts
-Sn
 Snake
 Snapple
 Snead
@@ -8492,13 +8384,10 @@ Springsteen
 Sprint
 Sprite
 Sputnik
-Sq
 Squanto
 Squibb
-Sr
 Srinagar
 Srivijaya
-St
 Stacey
 Staci
 Stacie
@@ -8700,9 +8589,7 @@ Syrians
 Szechuan
 Szilard
 Szymborska
-T
 TWA
-Ta
 Tabasco
 Tabatha
 Tabitha
@@ -8803,9 +8690,7 @@ Taurus
 Tauruses
 Tawney
 Taylor
-Tb
 Tbilisi
-Tc
 Tchaikovsky
 Teasdale
 Technicolor
@@ -8862,7 +8747,6 @@ Texaco
 Texan
 Texans
 Texas
-Th
 Thackeray
 Thad
 Thaddeus
@@ -8928,7 +8812,6 @@ Thurs
 Thursday
 Thursdays
 Thutmose
-Ti
 Tia
 Tianjin
 Tiber
@@ -8974,10 +8857,8 @@ Titian
 Titicaca
 Tito
 Titus
-Tl
 Tlaloc
 Tlingit
-Tm
 Tobago
 Toby
 Tocantins
@@ -9150,7 +9031,6 @@ Tweedledee
 Tweedledum
 Twila
 Twinkies
-Ty
 Tycho
 Tylenol
 Tyler
@@ -9160,7 +9040,6 @@ Tyre
 Tyree
 Tyrone
 Tyson
-U
 UCLA
 Ubangi
 Ucayali
@@ -9197,7 +9076,6 @@ Upanishads
 Updike
 Upjohn
 Upton
-Ur
 Ural
 Urals
 Urania
@@ -9229,8 +9107,6 @@ Utrillo
 Uzbek
 Uzbekistan
 Uzi
-V
-Va
 Vader
 Vaduz
 Val
@@ -9406,7 +9282,6 @@ Voyager
 Vulcan
 Vulgate
 Vulgates
-W
 Wabash
 Wac
 Waco
@@ -9628,7 +9503,6 @@ Wise
 Witt
 Wittgenstein
 Witwatersrand
-Wm
 Wobegon
 Wodehouse
 Wolf
@@ -9668,7 +9542,6 @@ Wren
 Wright
 Wrigley
 Wroclaw
-Wu
 Wuhan
 Wurlitzer
 Wyatt
@@ -9681,12 +9554,10 @@ Wyo
 Wyoming
 Wyomingite
 Wyomingites
-X
 XEmacs
 Xanadu
 Xanthippe
 Xavier
-Xe
 Xenakis
 Xenia
 Xenophon
@@ -9703,7 +9574,6 @@ Xmas
 Xmases
 Xochipilli
 Xuzhou
-Y
 Yacc
 Yahtzee
 Yahweh
@@ -9729,7 +9599,6 @@ Yaounde
 Yaqui
 Yaroslavl
 Yates
-Yb
 Yeager
 Yeats
 Yekaterinburg
@@ -9781,7 +9650,6 @@ Yuri
 Yves
 Yvette
 Yvonne
-Z
 Zachariah
 Zachary
 Zachery
@@ -9839,7 +9707,6 @@ Zionist
 Zionists
 Zions
 Ziploc
-Zn
 Zoe
 Zola
 Zollverein
@@ -9852,7 +9719,6 @@ Zoroastrianism
 Zoroastrianisms
 Zorro
 Zosma
-Zr
 Zsigmondy
 Zubenelgenubi
 Zubeneschamali
@@ -24701,6 +24567,7 @@ deprograming
 deprogrammed
 deprogramming
 deprograms
+dept
 depth
 depths
 deputation
@@ -27636,6 +27503,7 @@ ecosystem
 ecosystems
 ecru
 ecstasies
+ecstacy
 ecstasy
 ecstatic
 ecstatically
@@ -27797,7 +27665,6 @@ egress
 egresses
 egret
 egrets
-eh
 eider
 eiderdown
 eiderdowns
@@ -29041,7 +28908,6 @@ eruptions
 erupts
 erythrocyte
 erythrocytes
-es
 escalate
 escalated
 escalates
@@ -29341,7 +29207,6 @@ ewe
 ewer
 ewers
 ewes
-ex
 exacerbate
 exacerbated
 exacerbates
@@ -30052,8 +29917,6 @@ eying
 eyrie
 eyries
 eyry
-f
-fa
 fable
 fabled
 fables
@@ -32880,7 +32743,6 @@ fuzzily
 fuzziness
 fuzzing
 fuzzy
-g
 gab
 gabardine
 gabardines
@@ -34708,7 +34570,6 @@ grunt
 grunted
 grunting
 grunts
-gs
 guacamole
 guano
 guarantee
@@ -34961,7 +34822,6 @@ gyro
 gyros
 gyroscope
 gyroscopes
-h
 ha
 haberdasher
 haberdasheries
@@ -36053,7 +35913,6 @@ hexing
 hey
 heyday
 heydays
-hi
 hiatus
 hiatuses
 hibachi
@@ -36258,7 +36117,6 @@ hive
 hived
 hives
 hiving
-ho
 hoagie
 hoagies
 hoagy
@@ -37294,7 +37152,6 @@ iconoclastic
 iconoclasts
 icons
 icy
-id
 idea
 ideal
 idealism
@@ -39925,7 +39782,6 @@ ivies
 ivories
 ivory
 ivy
-j
 jab
 jabbed
 jabber
@@ -40495,9 +40351,7 @@ juxtaposes
 juxtaposing
 juxtaposition
 juxtapositions
-k
 kHz
-kW
 kabob
 kabobs
 kaboom
@@ -40529,7 +40383,6 @@ kayaking
 kayaks
 kazoo
 kazoos
-kc
 kebab
 kebabs
 kebob
@@ -40946,14 +40799,11 @@ krone
 kroner
 kronor
 krypton
-ks
 kudos
 kudzu
 kudzus
 kumquat
 kumquats
-l
-la
 lab
 label
 labeled
@@ -42318,7 +42168,6 @@ llama
 llamas
 llano
 llanos
-lo
 load
 loadable
 loaded
@@ -42722,7 +42571,6 @@ loyalties
 loyalty
 lozenge
 lozenges
-ls
 luau
 luaus
 lubber
@@ -42912,8 +42760,6 @@ lyrically
 lyricist
 lyricists
 lyrics
-m
-ma
 macabre
 macadam
 macaroni

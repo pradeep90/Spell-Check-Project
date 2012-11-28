@@ -115,8 +115,11 @@ def get_human_suggestions(test_label, filename):
     file_input = [line.strip().split('\t') for line in f]
     f.close()
     # print 'file_input', file_input
-    human_suggestion_dict = dict([(line_elements[0], 
-                                   line_elements[1:]) 
+    human_suggestion_dict = dict([(Suggestion(suggestion_str = line_elements[0], 
+                                              suggestion_type = test_label[:-1]), 
+                                   [Suggestion(suggestion_str = phrase, 
+                                               suggestion_type = test_label[:-1])
+                                    for phrase in line_elements[1:]]) 
                                   for line_elements in file_input])
     return human_suggestion_dict
 
@@ -138,7 +141,7 @@ def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
     ER = utils.get_ER(*args) 
     EF1 = utils.get_HM(EP, ER)
     stats = [EP, ER, EF1]
-    print 'stats', stats
+    # print 'stats', stats
 
     f = open(stats_file, 'a')
     stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {3}\tER: {4}\t \
