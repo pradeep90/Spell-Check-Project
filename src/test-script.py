@@ -1,177 +1,40 @@
-#!/usr/bin/python
+ST. PETERSBURG, FL — If you’ve ever been to military basic training, most of us get support from our moms through letters and the prayers they say at night.
 
-# Program to correct spelling errors.
+A 19-year-old St. Petersburg man currently in Marines boot camp is getting extra support from his mom in his final hours of the 54-hour crucible every recruit must endure before they earn the U.S. Marine emblem and title.
 
-from datetime import datetime
-import edit_distance_calculator
-import itertools
-import lexicon
-import math
-from memoize import save_memoize_table
-from suggestion import Suggestion
-import phrase
-import spell_checker
-import sys
-import utils
+The crucible starts on a Thursday morning at 2 a.m., and ends Saturday morning. Marine Recruit Douglas Collins, son of St. Petersburg mom and third-degree black belt Kinney Karate instructor, Sonja Leone, 44, is in the middle of his crucible as this article is being written. The recruits walk more than 45 miles during this challenge and get very few hours of sleep. They also have limited meals.
 
-dummy_posterior = 1 / 3.0
-dummy_prior = 1 / 3.0
-dummy_posterior_fn = lambda suggestion, query: math.exp(math.log(dummy_prior) + phrase.get_likelihood(query, suggestion))
-lexicon = lexicon.Lexicon()
+“He always wanted to challenge himself physically and mentally,” Leone told Patch. “He went back and forth with different ideas but ultimately he wanted the physical and mental challenge, and he felt the Marines offered that.”
 
-def get_inputs(test_label, filename = '../data/words.input'):
-    """Return list of input queries read from filename.
+Sonja Leone stands with her son, Douglas Collins, 19, after his swearing-in-ceremony to the U.S. Marines. (Sonja Leone)
+Leone created “Walk for Douglas Crucible” here in St. Pete to send her son and his fellow recruits strength when their mind and body are in the final hours of finishing. The walk takes place dark and early Saturday at 5:30 a.m. She and supporters of Collins will meet at in the parking lot in between Northshore Aquatic Park and Gazelle Park just before 5:30 a.m. The plan for Leone and the walkers is to walk the last 5 miles of the Crucible with Collins’ company spiritually.
 
-    Lowercase all the words.
-    If a query is a sentence, remove the period at the end.
-    """
-    f = open(filename, 'r')
-    query_list = [Suggestion(suggestion_str = line.strip(), 
-                             suggestion_type = test_label[:-1]) 
-                             for line in f]
-    f.close()
-    
-    print 'query_list', query_list
-    return query_list
+Find out what’s happening in St. Pete with free, real-time updates from Patch.
+Your email address
 
-def write_outputs(test_label, 
-                  query_list,
-                  suggestion_dict,
-                  output_filename = '../data/words.output'):
-    """Write query_list along with suggestion_dict to output_filename.
-    """
-    f = open(output_filename, 'w')
+https://groups.google.com/g/trendsfilm/c/II6WivznFJM
+https://groups.google.com/g/trendsfilm/c/_fgOw671W6U
+https://groups.google.com/g/trendsfilm/c/r41aqot0gcY
+https://groups.google.com/g/trendsfilm/c/SBbelbzDLr4
 
-    for i in xrange(len(query_list)):
-        suggestions_str = '\t'.join(
-            '{0}\t{1}'.format(str(suggestion),
-                # ' '.join(term for term in suggestion), 
-                              posterior)
-            for suggestion, posterior in suggestion_dict[query_list[i]])
-        line = '{0}\t{1}'.format(str(query_list[i]), suggestions_str)
-        print 'line:', line.replace('\t', '\n')
-        f.write(line + '\n')
+https://exchange.smrp.org/network/members/profile?UserKey=b339fc00-cf20-47aa-a823-dc4aec534a5a
+https://exchange.smrp.org/network/members/profile?UserKey=3433ae28-0d79-4ba7-8932-3463bcfdbadb
+https://exchange.smrp.org/network/members/profile?UserKey=050d8443-7a66-472e-9504-1f76463b0887
+https://exchange.smrp.org/network/members/profile?UserKey=0713eb5f-f5ef-431b-9aed-7e864fb0fd5c
+https://exchange.smrp.org/network/members/profile?UserKey=19d3ed24-8cfc-452f-aa99-7a024db32ed9
+https://exchange.smrp.org/network/members/profile?UserKey=f9715bbe-b124-481e-81dd-58253eae4126
+https://exchange.smrp.org/network/members/profile?UserKey=ea367af9-d1ec-4c6a-b7ee-712457ec4e4d
+https://www.nsacct.org/network/members/profile?UserKey=0c043ea2-3673-4b02-8694-10b1c587eba2
+https://connect.informs.org/network/members/profile?UserKey=4b5503d5-7c6b-49bb-ac59-4ac9e71e7ae3
+https://connect.thecannabisindustry.org/network/members/profile?UserKey=dab89c52-c09c-42cf-88b1-962750905e4d
 
-def test_queries(test_label, query_input_file, query_output_file):
-    """Test checker for query inputs (from query_input_file).
+https://www.misssusiecharters.com/groups/%e7%95%b6%e7%94%b7%e4%ba%ba%e6%88%80%e6%84%9b%e6%99%82man-in-love-2021%e8%a7%80%e7%9c%8b%e5%ae%8c%e6%95%b4%e7%89%88-%e7%b7%9a%e4%b8%8a%e7%9c%8b/
+https://lsbc.edu.gh/groups/%e7%95%b6%e7%94%b7%e4%ba%ba%e6%88%80%e6%84%9b%e6%99%82%e3%80%8b-%e2%96%b7%e5%ae%8c%e6%95%b4%e9%9b%bb%e5%bd%b1%e7%89%88hd2021-man-in-love-%e7%b7%9a%e4%b8%8a%e7%9c%8b%e5%ae%8c%e6%95%b4%e7%89%88-15163374/
+https://lsbc.edu.gh/groups/%e7%95%b6%e7%94%b7%e4%ba%ba%e6%88%80%e6%84%9b%e6%99%82%e3%80%8b-%e2%96%b7%e5%ae%8c%e6%95%b4%e9%9b%bb%e5%bd%b1%e7%89%88hd2021-man-in-love-%e7%b7%9a%e4%b8%8a%e7%9c%8b%e5%ae%8c%e6%95%b4%e7%89%88-17121642/
+https://lsbc.edu.gh/groups/%e7%95%b6%e7%94%b7%e4%ba%ba%e6%88%80%e6%84%9b%e6%99%82%e3%80%8b-%e2%96%b7%e5%ae%8c%e6%95%b4%e9%9b%bb%e5%bd%b1%e7%89%88hd2021-man-in-love-%e7%b7%9a%e4%b8%8a%e7%9c%8b%e5%ae%8c%e6%95%b4%e7%89%88/
+https://lsbc.edu.gh/groups/download-f9-fast-and-furious-9-2021-full-english-full-movie/
 
-    Write the output to query_output_file.
-    For sentences, capitalize the first word and add a period at the
-    end to the suggestions.
+et’s go!
+One of the personal challenges Collins first faced at boot camp was the repetitiveness. He wrote in a letter to his mom that he found that boring. Collins is a second-degree black belt so he already went into training with the kind of listening mentality some recruits lack at the beginning. It was hard for him to understand why his fellow recruits pushed back on their drill instructors instead of immediately following commands without question.
 
-    Arguments:
-    - `test_label`:
-    - `query_input_file`:
-    - `query_output_file`:
-    """
-    query_list = get_inputs(test_label, query_input_file)
-    checker = spell_checker.SpellChecker()
-
-    if sys.argv[1] == 'dummy-test':
-        checker.get_posterior_fn = dummy_posterior_fn
-    
-    checker.run_spell_check(query_list)
-    suggestion_dict = checker.get_suggestion_dict()
-
-    # print 'suggestion_dict', suggestion_dict
-    
-    # TODO: Remove this
-    save_memoize_table()
-
-    # Note: The query_list must be sent and not suggestion_dict.keys()
-    # cos the original order of queries must be maintained
-    write_outputs(test_label, query_list, suggestion_dict, 
-                  query_output_file)
-
-def get_output_from_file(test_label, filename):
-    """Return output of spell check from filename.
-
-    The file contains query TAB suggestion1 TAB posterior1 TAB ...
-    Output: [query_list, suggestion_dict]
-    """
-    f = open(filename, 'r')
-    file_input = [line.strip().split('\t') for line in f]
-    f.close()
-    # print 'file_input', file_input
-    suggestion_dict = dict((Suggestion(suggestion_str = line_elements[0], 
-                                       suggestion_type = test_label[:-1]), 
-                            zip ([Suggestion(suggestion_str = suggestion_str, 
-                                             suggestion_type = test_label[:-1]) 
-                                             for suggestion_str in line_elements[1::2]], 
-                                 map(float, line_elements[2::2])))
-                            for line_elements in file_input)
-    query_list = suggestion_dict.keys()
-    # print 'suggestion_dict', suggestion_dict
-    # print 'query_list', query_list
-    return [query_list, suggestion_dict]
-
-def get_human_suggestions(test_label, filename):
-    """Return human_suggestion_dict read from filename.
-
-    Each of the sentences is like 'Yo boyz i am sing song.' with the
-    capitalization and period preserved.
-    """
-    f = open(filename, 'r')
-    file_input = [line.strip().split('\t') for line in f]
-    f.close()
-    # print 'file_input', file_input
-    human_suggestion_dict = dict([(Suggestion(suggestion_str = line_elements[0], 
-                                              suggestion_type = test_label[:-1]), 
-                                   [Suggestion(suggestion_str = phrase, 
-                                               suggestion_type = test_label[:-1])
-                                    for phrase in line_elements[1:]]) 
-                                  for line_elements in file_input])
-    return human_suggestion_dict
-
-
-def calc_stats(test_label, results_file, human_suggestions_file, stats_file):
-    """Calc stats and write to results_file.
-    
-    Arguments:
-    - `query_list`:
-    - `suggestion_dict`:
-    """
-    query_list, suggestion_dict = get_output_from_file(test_label, results_file)
-
-    human_suggestion_dict = get_human_suggestions(test_label, human_suggestions_file)
-    dummy_spell_checker = spell_checker.SpellChecker()
-
-    args = [query_list, suggestion_dict, human_suggestion_dict]
-    EP = utils.get_EP(*args)
-    ER = utils.get_ER(*args) 
-    EF1 = utils.get_HM(EP, ER)
-    stats = [EP, ER, EF1]
-    # print 'stats', stats
-
-    f = open(stats_file, 'a')
-    stats_str = 'Timestamp: {0}\tLabel: {1}\tEP: {3}\tER: {4}\t \
-    EF1: {5}\tNum queries: {2}\n'.format(
-            str(datetime.now()), test_label, len(query_list), *stats)
-    print 'stats_str', stats_str
-    f.write(stats_str)
-    f.close()
-
-if __name__ == '__main__':
-    commandline_args_str = 'Format: ' + sys.argv[0] + ' arg\n' + 'arg = run-test: run all tests and write to results file.\n' + 'arg = calc-stats: calculate stats from results in file.\n'
-
-    # test_labels = ['phrases']
-    test_labels = ['words', 'phrases', 'sentences']
-    if len (sys.argv) != 2:
-        print 'commandline_args_str', commandline_args_str
-        exit (0)
-    elif sys.argv[1] in ['run-test', 'dummy-test']:
-        for test_label in test_labels:
-            test_queries(test_label, 
-                         '../data/' + test_label +  '.input', 
-                         '../data/' + test_label + '.output')
-        save_memoize_table()
-    elif sys.argv[1] == 'calc-stats':
-        for test_label in test_labels:
-            calc_stats(test_label, 
-                       '../data/' + test_label + '.output', 
-                       '../data/' + test_label + '.tsv', 
-                       '../data/' + test_label + '.stats')
-        save_memoize_table()
-    else:
-        print 'commandline_args_str', commandline_args_str
-        exit (0)
+“He started karate when he was nine,” Leone said. “It really took him out of his shell. It brought him into his own focus. He excelled as an athlete and academically after that. He was top of his high school graduation at Gibbs High School Pinellas Performing Arts.”
